@@ -1,7 +1,7 @@
-from app.models.graph import GameNode
+from app.models.graph import EpisodeNode
 
 
 class GameLogic:
-    def resolve_action(self, action_id: str) -> GameNode:
-        # Placeholder method for graph traversal and rule enforcement.
+    def resolve_action(self, action_id: str) -> EpisodeNode:
+        # Placeholder method kept only for compatibility with older imports.
         raise NotImplementedError("Game logic is not implemented yet.")

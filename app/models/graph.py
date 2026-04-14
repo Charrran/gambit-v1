@@ -28,12 +28,18 @@ class PoliticalChoice(AsyncStructuredRel):
     Represents a consequence-heavy choice connecting two story beats.
     Includes metadata for AI generation and game state logic.
     """
+    choice_id = StringProperty(required=True)  # Stable public identifier for clients
     action_intent = StringProperty(required=True)  # Prompt for AI MCQ generation
     required_role = StringProperty(required=True)  # E.g., "Raghava Rao", "Govardhan Naidu", "Saraswathi", "Haribabu"
     alignment_shift = StringProperty(required=True) # Direction of alignment change
     capital_shift = IntegerProperty(default=0)     # Economic/Political capital impact
     sets_flag = StringProperty()                   # Flag to activate in game state
     requires_flag = StringProperty()               # Prerequisite flag for choice availability
+    min_capital = IntegerProperty()
+    max_capital = IntegerProperty()
+    min_players = IntegerProperty()
+    max_players = IntegerProperty()
+    option_group = StringProperty(default="DEFAULT")
 
 class EpisodeNode(AsyncStructuredNode):
     """

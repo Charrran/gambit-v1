@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from typing import Any, Dict, List, Optional
 
 class PlayerProfile(BaseModel):
     """
@@ -11,6 +11,18 @@ class PlayerProfile(BaseModel):
     alignments: List[str] = Field(default_factory=list)
     primary_trait: Optional[str] = None
     flags: List[str] = Field(default_factory=list)
+
+class ChoiceView(BaseModel):
+    """
+    A client-safe representation of a generated or authored choice.
+    """
+    choice_id: str
+    text: str
+    role: Optional[str] = None
+
+class HealthResponse(BaseModel):
+    status: str
+    version: str = "2.1"
 
 class GameState(BaseModel):
     """
@@ -27,3 +39,12 @@ class GameState(BaseModel):
     session_history: List[Dict[str, str]] = Field(default_factory=list) # List of {"node": node_id, "role": role, "choice": choice_text}
     votes: Dict[str, str] = Field(default_factory=dict) # Dict[player_id, choice_id] for polling and interrogations
     active_event: Optional[str] = None # Tracks the node_id of a currently active special event (Confrontation, etc)
+    revision: int = 0
+    current_scene_node: Optional[str] = None
+    current_scene_type: Optional[str] = None
+    current_scene_flavor: Optional[str] = None
+    current_scene_role: Optional[str] = None
+    current_scene_player: Optional[str] = None
+    current_choices: List[ChoiceView] = Field(default_factory=list)
+    final_result: Optional[Dict[str, Any]] = None
+    ended: bool = False

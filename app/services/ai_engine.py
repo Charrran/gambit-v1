@@ -1,12 +1,15 @@
+import asyncio
+from typing import Dict, List
+
 import instructor
-from groq import AsyncGroq
 from google import genai
-from typing import List, Any, Optional
+from groq import AsyncGroq
 from pydantic import BaseModel, Field
+
 from app.core.config import settings
 
 class GeneratedOption(BaseModel):
-    edge_id: str = Field(..., description="The unique ID of the specific narrative choice.")
+    choice_id: str = Field(..., description="The unique ID of the specific narrative choice.")
     text: str = Field(..., description="The dynamically generated, flavorful choice text.")
 
 class TurnNarrative(BaseModel):
@@ -37,7 +40,13 @@ class AIEngine:
             genai.Client(api_key=settings.gemini_api_key)
         )
 
-    async def generate_spotlight_turn(self, premise: str, required_role: str, db_choices: list, player_alignments: List[str] = None) -> TurnNarrative:
+    async def generate_spotlight_turn(
+        self,
+        premise: str,
+        required_role: str,
+        db_choices: list,
+        player_alignments: List[str] = None,
+    ) -> TurnNarrative:
         """
         Generates a tailored narrative turn using Groq.
         Incorporate player traits to influence option flavor.
@@ -45,10 +54,14 @@ class AIEngine:
         traits_context = f"This player has developed the following traits: {', '.join(player_alignments)}." if player_alignments else "This player is currently a blank slate."
         
         choices_context = ""
+        choice_lookup: Dict[str, str] = {}
         for i, choice in enumerate(db_choices):
-            edge_id = choice['edge_id']
-            action_intent = choice['action_intent']
-            choices_context += f"- Option {i+1} | Edge ID: '{edge_id}' | Narrative Directive: {action_intent}\n"
+            choice_id = choice["choice_id"]
+            action_intent = choice["action_intent"]
+            choice_lookup[choice_id] = action_intent
+            choices_context += (
+                f"- Option {i+1} | Choice ID: '{choice_id}' | Narrative Directive: {action_intent}\n"
+            )
 
         system_prompt = f"""You are an elite screenwriter for a gritty political thriller based on the 1995 Viceroy Rebellion.
 Character Context: {required_role}. {traits_context}
@@ -59,25 +72,22 @@ TASK:
 2. Generate immersive MCQ choices. If the player is 'Authoritarian', their options should sound more demanding; if 'Pragmatic', they should sound more calculated.
 
 STRICT ID MAPPING RULES:
-You MUST use the exact Edge IDs provided. Map your generated text to these IDs:
+You MUST use the exact Choice IDs provided. Map your generated text to these IDs:
 {choices_context}"""
 
-        response = await self.groq_client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": "Begin the turn narrative and present the choices."}
-            ],
-            response_model=TurnNarrative,
-            max_retries=2,
-        )
-        
-        # Deterministic Safety Injection
-        for i, option in enumerate(response.options):
-            if i < len(db_choices):
-                option.edge_id = db_choices[i]['edge_id']
-
-        return response
+        try:
+            response = await self.groq_client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": "Begin the turn narrative and present the choices."},
+                ],
+                response_model=TurnNarrative,
+                max_retries=2,
+            )
+            return self._reconcile_options(response, db_choices, premise, required_role)
+        except Exception:
+            return self._build_fallback_turn(premise, required_role, db_choices)
 
     async def generate_canonical_comparison(self, session_history: List[dict], global_capital: int) -> EndingComparison:
         """
@@ -98,10 +108,54 @@ You MUST use the exact Edge IDs provided. Map your generated text to these IDs:
         Return an analysis comparing the player summary vs reality.
         """
         
-        return self.gemini_client.chat.completions.create(
+        return await asyncio.to_thread(
+            self.gemini_client.chat.completions.create,
             model="gemini-2.0-flash",
             messages=[{"role": "user", "content": comparison_prompt}],
             response_model=EndingComparison,
+        )
+
+    def _reconcile_options(
+        self,
+        response: TurnNarrative,
+        db_choices: list,
+        premise: str,
+        required_role: str,
+    ) -> TurnNarrative:
+        choice_lookup = {choice["choice_id"]: choice for choice in db_choices}
+        reconciled: List[GeneratedOption] = []
+
+        for option in response.options:
+            if option.choice_id in choice_lookup:
+                reconciled.append(option)
+
+        used_ids = {option.choice_id for option in reconciled}
+        for choice in db_choices:
+            if choice["choice_id"] not in used_ids:
+                reconciled.append(
+                    GeneratedOption(
+                        choice_id=choice["choice_id"],
+                        text=choice["action_intent"],
+                    )
+                )
+
+        response.options = reconciled[: len(db_choices)]
+        if not response.flavor_text.strip():
+            response.flavor_text = (
+                f"{required_role} faces a pivotal moment. {premise}"
+            )
+        return response
+
+    def _build_fallback_turn(self, premise: str, required_role: str, db_choices: list) -> TurnNarrative:
+        return TurnNarrative(
+            flavor_text=(
+                f"{required_role} stands at the center of the crisis. {premise} "
+                "The room is tense, and every choice will shape how history remembers this moment."
+            ),
+            options=[
+                GeneratedOption(choice_id=choice["choice_id"], text=choice["action_intent"])
+                for choice in db_choices
+            ],
         )
 
 ai_engine = AIEngine()

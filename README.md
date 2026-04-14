@@ -18,6 +18,7 @@ REDIS_URL=redis://your-upstash-url
 
 # AI Director
 GROQ_API_KEY=gsk_your_key
+GEMINI_API_KEY=your_gemini_key
 ```
 
 ### 2. Install Dependencies
@@ -70,14 +71,14 @@ Connect players to the live game loop. You can use a tool like [wscat](https://g
 **Endpoint**: `ws://localhost:8000/ws/play/8866ba4c/player_1`
 
 #### WebSocket Protocol:
-1.  **Signal Readiness**: Send `{"type": "READY"}`.
-2.  **Receive Narrative**: The AI Director will broadcast a `NARRATIVE_BEAT` to all players.
+1.  **Signal Readiness**: Optional. You may send `{"type": "READY"}` after connecting.
+2.  **Receive Narrative**: Each client receives a `NARRATIVE_BEAT` whenever the scene changes.
 3.  **The Spotlight**: If it is your role's turn, you will receive a `SPOTLIGHT_CHOICE` message containing interactive options.
-4.  **Make a Decision**: Send your choice:
+4.  **Make a Decision**: Send the `choice_id` you received in the scene payload:
     ```json
     {
       "type": "DECISION",
-      "choice_id": "regent_02_hotel_lockdown"
+      "choice_id": "regent_02_open_to_press"
     }
     ```
 
@@ -86,7 +87,7 @@ Connect players to the live game loop. You can use a tool like [wscat](https://g
 ## ⚖️ Mechanics Reminder
 - **The Memory Bank**: Decisions append `alignments` and `flags` to your profile in Redis.
 - **Spotlight Turn**: Only the player with the `required_role` can see and send decisions.
-- **Deterministic**: The story follows a strict graph path updated in real-time.
+- **Guided Determinism**: Major incidents follow an authored historical order, while the player-facing choices, flavor, and final route respond to session state in real-time.
 
 > [!TIP]
 > Use the **Neo4j Console** to visualize the `EpisodeNode` and `LEADS_TO` graph while playing to see the story paths in action!
