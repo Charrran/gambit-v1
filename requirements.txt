@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+neomodel
+redis
+instructor
+pydantic
+pydantic-settings
+google-genai
+groq
+python-dotenv
