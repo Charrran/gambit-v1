@@ -55,10 +55,10 @@ async def seed_rebellion_episode():
 
     n4 = await EpisodeNode(
         episode_id="EP_01_REGENT",
-        node_id="regent_04_chaitanya_ratham",
+        node_id="regent_04_vijaya_ratham",
         node_type="STORY",
-        skeleton_premise="Raghava Rao arrives at the hotel gates in his famous 'Chaitanya Ratham' van. He demands entry to speak to his people.",
-        canonical_outcome="NTR personally drove his Chaitanya Ratham to the Viceroy Hotel but was met with silence and closed gates, a visual symbol of his lost influence.",
+        skeleton_premise="Raghava Rao arrives at the hotel gates in his famous 'Vijaya Ratham' van. He demands entry to speak to his people.",
+        canonical_outcome="NTR personally drove his Vijaya Ratham to the Viceroy Hotel but was met with silence and closed gates, a visual symbol of his lost influence.",
     ).save()
 
     n5 = await EpisodeNode(
@@ -161,7 +161,7 @@ async def seed_rebellion_episode():
     await _link(n2, n3, choice_id="regent_02_open_to_press", action_intent="Bring the press inside to show the MLAs' unity.", required_role="Govardhan Naidu", alignment_shift="DEMOCRATIC", capital_shift=15)
 
     await _link(n3, n4, choice_id="regent_03_saraswathi_warns", action_intent="Warn that anyone who leaves will be expelled forever.", required_role="Saraswathi", alignment_shift="HARDLINE", capital_shift=5, min_players=3)
-    await _link(n3, n4, choice_id="regent_03_raghava_rally", action_intent="Prepare the Chaitanya Ratham for a final rally.", required_role="Raghava Rao", alignment_shift="IDEALIST", capital_shift=10)
+    await _link(n3, n4, choice_id="regent_03_raghava_rally", action_intent="Prepare the Vijaya Ratham for a final rally.", required_role="Raghava Rao", alignment_shift="IDEALIST", capital_shift=10)
 
     await _link(n4, n5, choice_id="regent_04_breach_gates", action_intent="Attempt to breach the hotel gates personally.", required_role="Raghava Rao", alignment_shift="BRAVE", capital_shift=20)
     await _link(n4, n5, choice_id="regent_04_counter_mob", action_intent="Wait for Raghava Rao to arrive and block him with a crowd.", required_role="Haribabu", alignment_shift="PROTECTIVE", capital_shift=10, min_players=4)
