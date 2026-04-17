@@ -3,6 +3,14 @@ from neomodel import adb
 from app.models.graph import EpisodeNode
 from app.services.state import state_manager
 
+
+def _fallback_choice_id(node_id: str, props: Dict[str, Any]) -> str:
+    role = str(props.get("required_role") or "choice").lower().replace(" ", "_")
+    action = str(props.get("action_intent") or "option").lower()
+    action = "".join(ch if ch.isalnum() else "_" for ch in action).strip("_")
+    return f"{node_id}_{role}_{action[:24]}"
+
+
 class NarrativeService:
     """
     Bridge service between the Neo4j Narrative Graph and the Redis Memory Bank.
@@ -35,7 +43,7 @@ class NarrativeService:
         player_flags = set(state.active_players[player_id].flags)
 
         valid_choices = []
-        for i, (props, target_id) in enumerate(results):
+        for props, target_id in results:
             # Check if this choice belongs to the player's role
             if props.get('required_role') != player_role:
                 continue
@@ -46,7 +54,7 @@ class NarrativeService:
                 continue
 
             valid_choices.append({
-                "choice_index": i,  # Critical for identifying the choice in subsequent calls
+                "choice_id": props.get("choice_id") or _fallback_choice_id(state.current_node, props),
                 "action_intent": props.get('action_intent'),
                 "alignment_shift": props.get('alignment_shift'),
                 "capital_shift": props.get('capital_shift', 0),
@@ -63,7 +71,7 @@ class NarrativeService:
             "options": valid_choices
         }
 
-    async def process_decision(self, session_id: str, player_id: str, choice_index: int) -> Dict[str, Any]:
+    async def process_decision(self, session_id: str, player_id: str, choice_id: str) -> Dict[str, Any]:
         """
         Applies a player's choice to the global and local state.
         Returns the updated global GameState.
@@ -71,8 +79,7 @@ class NarrativeService:
         # Re-fetch the current beat to validate the choice again (security/consistency)
         beat = await self.get_current_beat(session_id, player_id)
         
-        # Find the choice by index
-        selected_choice = next((c for c in beat["options"] if c["choice_index"] == choice_index), None)
+        selected_choice = next((c for c in beat["options"] if c["choice_id"] == choice_id), None)
         if not selected_choice:
             raise ValueError("Unauthorized or invalid choice selection.")
 
