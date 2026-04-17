@@ -108,12 +108,26 @@ You MUST use the exact Choice IDs provided. Map your generated text to these IDs
         Return an analysis comparing the player summary vs reality.
         """
         
-        return await asyncio.to_thread(
-            self.gemini_client.chat.completions.create,
-            model="gemini-2.0-flash",
-            messages=[{"role": "user", "content": comparison_prompt}],
-            response_model=EndingComparison,
-        )
+        try:
+            return await asyncio.to_thread(
+                self.gemini_client.chat.completions.create,
+                model="gemini-2.0-flash",
+                messages=[{"role": "user", "content": comparison_prompt}],
+                response_model=EndingComparison,
+            )
+        except Exception:
+            return await self.groq_client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a political historian comparing an alternate-history playthrough to the real 1995 Viceroy Rebellion.",
+                    },
+                    {"role": "user", "content": comparison_prompt},
+                ],
+                response_model=EndingComparison,
+                max_retries=1,
+            )
 
     def _reconcile_options(
         self,

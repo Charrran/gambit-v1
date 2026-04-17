@@ -45,6 +45,10 @@ class GameState(BaseModel):
     current_scene_flavor: Optional[str] = None
     current_scene_role: Optional[str] = None
     current_scene_player: Optional[str] = None
+    current_scene_round: int = 0
+    current_scene_total_rounds: int = 0
     current_choices: List[ChoiceView] = Field(default_factory=list)
+    current_choice_payloads: List[Dict[str, Any]] = Field(default_factory=list)
+    current_interrogation_pair: Optional[Dict[str, str]] = None
     final_result: Optional[Dict[str, Any]] = None
     ended: bool = False

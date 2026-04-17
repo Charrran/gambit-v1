@@ -113,7 +113,11 @@ class GameStateManager:
             state.current_scene_flavor = None
             state.current_scene_role = None
             state.current_scene_player = None
+            state.current_scene_round = 0
+            state.current_scene_total_rounds = 0
             state.current_choices = []
+            state.current_choice_payloads = []
+            state.current_interrogation_pair = None
             state.final_result = None
             state.ended = False
 
@@ -125,7 +129,11 @@ class GameStateManager:
         state.current_scene_flavor = None
         state.current_scene_role = None
         state.current_scene_player = None
+        state.current_scene_round = 0
+        state.current_scene_total_rounds = 0
         state.current_choices = []
+        state.current_choice_payloads = []
+        state.current_interrogation_pair = None
         return await self.save_state(state)
 
     async def update_player_state(

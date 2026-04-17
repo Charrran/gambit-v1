@@ -6,6 +6,7 @@ inside the constraints of the current scene. Session state is cached in-process
 to keep Redis usage low.
 """
 import os
+import random
 import uuid
 from collections import Counter
 from typing import Dict, List, Optional, Tuple
@@ -33,7 +34,7 @@ from app.services.ai_engine import ai_engine
 from app.services.state import state_manager
 
 ROLE_PRIORITY = ["Govardhan Naidu", "Raghava Rao", "Saraswathi", "Haribabu"]
-GROUP_NODE_TYPES = {"POLL", "INTERROGATION"}
+GROUP_NODE_TYPES = {"POLL"}
 
 if not settings.neo4j_uri:
     raise ValueError("CRITICAL: NEO4J_URI is not set. Cannot start engine.")
@@ -150,6 +151,111 @@ def _select_spotlight_role(eligible_edges: List[Dict[str, object]], state) -> Tu
     return best[3], best[4]
 
 
+def _stance_variants(round_number: int) -> List[Tuple[str, str, int, Optional[str], Optional[str]]]:
+    if round_number == 1:
+        return [
+            ("press", "Escalate and seize the initiative immediately.", 10, "ASSERTIVE", None),
+            ("maneuver", "Play a calculated middle move and test the room first.", 5, "CALCULATED", None),
+            ("concede", "Soften the tone, buy time, and preserve leverage.", -5, "CONCILIATORY", None),
+        ]
+    return [
+        ("deceive", "Hide your real hand and push a misleading line.", 0, "DECEPTIVE", "double_bluff"),
+        ("deflect", "Redirect pressure onto the rival camp without overcommitting.", 5, "DEFENSIVE", None),
+        ("commit", "Commit publicly and force the next beat to react to you.", 10, "DECISIVE", None),
+    ]
+
+
+def _build_spotlight_payloads(edges: List[Dict[str, object]], round_number: int) -> List[Dict[str, object]]:
+    payloads: List[Dict[str, object]] = []
+
+    for edge in edges:
+        payloads.append(
+            {
+                "choice_id": edge["choice_id"],
+                "action_intent": edge["action_intent"],
+                "required_role": edge.get("required_role"),
+                "target_node_id": edge["target_node_id"],
+                "capital_shift": int(edge.get("capital_shift") or 0),
+                "alignment_shift": edge.get("alignment_shift"),
+                "sets_flag": edge.get("sets_flag"),
+                "advance_node": False,
+            }
+        )
+
+    primary = edges[0]
+    for stance_id, directive, capital_delta, alignment, flag in _stance_variants(round_number):
+        if len(payloads) >= 3:
+            break
+        payloads.append(
+            {
+                "choice_id": f"{primary['choice_id']}__{stance_id}_r{round_number}",
+                "action_intent": f"{primary['action_intent']} Then {directive}",
+                "required_role": primary.get("required_role"),
+                "target_node_id": primary["target_node_id"],
+                "capital_shift": int(primary.get("capital_shift") or 0) + capital_delta,
+                "alignment_shift": alignment,
+                "sets_flag": flag,
+                "advance_node": False,
+            }
+        )
+
+    for payload in payloads:
+        payload["advance_node"] = round_number >= 2
+
+    return payloads[:3]
+
+
+def _choose_interrogation_pair(state) -> Dict[str, str]:
+    players = list(state.active_players.items())
+    rng = random.Random(f"{state.session_id}:{state.current_node}:{state.global_capital}:{len(state.session_history)}")
+    anchor_player_id, anchor_profile = rng.choice(players)
+    opponents = [(pid, profile) for pid, profile in players if pid != anchor_player_id]
+    target_player_id, target_profile = rng.choice(opponents)
+    return {
+        "instigator_player": anchor_player_id,
+        "instigator_role": anchor_profile.role or "Unknown",
+        "target_player": target_player_id,
+        "target_role": target_profile.role or "Unknown",
+    }
+
+
+def _build_interrogation_payloads(pair: Dict[str, str], current_node) -> List[Dict[str, object]]:
+    target_role = pair["target_role"]
+    base_target = "regent_11_the_last_supper"
+    return [
+        {
+            "choice_id": f"{current_node.node_id}__truth",
+            "action_intent": f"{target_role} tells the truth and takes the political hit.",
+            "required_role": target_role,
+            "target_node_id": base_target,
+            "capital_shift": -5,
+            "alignment_shift": "HONEST",
+            "sets_flag": "interrogation_truth",
+            "advance_node": True,
+        },
+        {
+            "choice_id": f"{current_node.node_id}__lie",
+            "action_intent": f"{target_role} lies cleanly and tries to survive the moment.",
+            "required_role": target_role,
+            "target_node_id": base_target,
+            "capital_shift": 5,
+            "alignment_shift": "DECEPTIVE",
+            "sets_flag": "interrogation_lie",
+            "advance_node": True,
+        },
+        {
+            "choice_id": f"{current_node.node_id}__deflect",
+            "action_intent": f"{target_role} goes defensive and turns suspicion back on the accuser.",
+            "required_role": target_role,
+            "target_node_id": base_target,
+            "capital_shift": 0,
+            "alignment_shift": "DEFENSIVE",
+            "sets_flag": "interrogation_deflect",
+            "advance_node": True,
+        },
+    ]
+
+
 async def _ensure_finale(session_id: str):
     async with state_manager.session_lock(session_id):
         state = await state_manager.get_state(session_id)
@@ -208,37 +314,67 @@ async def _prepare_scene(session_id: str):
         state.current_scene_node = state.current_node
         state.current_scene_type = current_node.node_type
         state.current_scene_flavor = current_node.skeleton_premise
-        state.current_scene_role = None
-        state.current_scene_player = None
         state.current_choices = []
+        state.current_choice_payloads = []
         state.active_event = None
 
-        if current_node.node_type in GROUP_NODE_TYPES:
+        if current_node.node_type == "INTERROGATION":
+            pair = state.current_interrogation_pair or _choose_interrogation_pair(state)
+            interrogation_payloads = _build_interrogation_payloads(pair, current_node)
+            state.current_interrogation_pair = pair
+            state.current_scene_role = pair["target_role"]
+            state.current_scene_player = pair["target_player"]
+            state.current_scene_round = 1
+            state.current_scene_total_rounds = 1
+            state.current_scene_flavor = (
+                f"{current_node.skeleton_premise} {pair['instigator_role']} corners {pair['target_role']} in a tense private exchange."
+            )
+            state.current_choice_payloads = interrogation_payloads
+            state.current_choices = [
+                ChoiceView(choice_id=payload["choice_id"], text=payload["action_intent"], role=pair["target_role"])
+                for payload in interrogation_payloads
+            ]
+        elif current_node.node_type in GROUP_NODE_TYPES:
+            state.current_scene_role = "COUNCIL"
+            state.current_scene_player = None
+            state.current_scene_round = 1
+            state.current_scene_total_rounds = 1
+            state.current_choice_payloads = eligible_edges
             state.current_choices = [
                 ChoiceView(choice_id=edge["choice_id"], text=edge["action_intent"], role=edge["required_role"])
                 for edge in eligible_edges
             ]
-            if current_node.node_type == "INTERROGATION":
-                state.current_scene_flavor = (
-                    f"{current_node.skeleton_premise} The confrontation is public, and every faction is forced to react."
-                )
-                state.active_event = current_node.node_id
         else:
-            spotlight_role, spotlight_player = _select_spotlight_role(eligible_edges, state)
+            spotlight_role = state.current_scene_role
+            spotlight_player = state.current_scene_player
+            round_number = state.current_scene_round or 1
+
+            if not spotlight_role or not spotlight_player:
+                spotlight_role, spotlight_player = _select_spotlight_role(eligible_edges, state)
+                round_number = 1
+
             if not spotlight_role or not spotlight_player:
                 raise ValueError(f"No eligible acting role found for node '{state.current_node}'")
 
             spotlight_edges = [edge for edge in eligible_edges if edge["required_role"] == spotlight_role]
+            if not spotlight_edges:
+                spotlight_role, spotlight_player = _select_spotlight_role(eligible_edges, state)
+                spotlight_edges = [edge for edge in eligible_edges if edge["required_role"] == spotlight_role]
+
+            spotlight_payloads = _build_spotlight_payloads(spotlight_edges, round_number)
             player_profile = state.active_players[spotlight_player]
             narrative = await ai_engine.generate_spotlight_turn(
-                premise=current_node.skeleton_premise,
+                premise=f"{current_node.skeleton_premise} This is pressure round {round_number} of 2 for {spotlight_role}.",
                 required_role=spotlight_role,
-                db_choices=spotlight_edges,
+                db_choices=spotlight_payloads,
                 player_alignments=player_profile.alignments,
             )
             state.current_scene_role = spotlight_role
             state.current_scene_player = spotlight_player
+            state.current_scene_round = round_number
+            state.current_scene_total_rounds = 2
             state.current_scene_flavor = narrative.flavor_text
+            state.current_choice_payloads = spotlight_payloads
             state.current_choices = [
                 ChoiceView(choice_id=option.choice_id, text=option.text, role=spotlight_role)
                 for option in narrative.options
@@ -265,8 +401,7 @@ async def _apply_choice(session_id: str, player_id: str, choice_id: str):
             raise ValueError("Scene is out of date. Wait for the next update.")
 
         current_node = await _fetch_node(state.current_node)
-        edges = [edge for edge in await _fetch_edges(state.current_node) if _edge_is_available(edge, state)]
-        edge_map = {edge["choice_id"]: edge for edge in edges}
+        edge_map = {edge["choice_id"]: edge for edge in state.current_choice_payloads}
         chosen_edge = edge_map.get(choice_id)
         if not chosen_edge:
             raise ValueError(f"Choice '{choice_id}' is not valid for this scene.")
@@ -311,15 +446,24 @@ async def _apply_choice(session_id: str, player_id: str, choice_id: str):
                 profile.flags.append(flag)
 
         state.global_capital += int(chosen_edge.get("capital_shift") or 0)
-        state.current_node = chosen_edge["target_node_id"]
         state.votes = {}
         state.active_event = None
         state.current_scene_node = None
-        state.current_scene_type = None
         state.current_scene_flavor = None
+        state.current_choices = []
+        state.current_choice_payloads = []
+
+        if not chosen_edge.get("advance_node") and current_node.node_type not in GROUP_NODE_TYPES:
+            state.current_scene_round += 1
+            return await state_manager.save_state(state)
+
+        state.current_node = chosen_edge["target_node_id"]
+        state.current_scene_type = None
         state.current_scene_role = None
         state.current_scene_player = None
-        state.current_choices = []
+        state.current_scene_round = 0
+        state.current_scene_total_rounds = 0
+        state.current_interrogation_pair = None
 
         return await state_manager.save_state(state)
 
@@ -341,6 +485,7 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
             "phase": state.current_scene_type,
             "spotlight_role": state.current_scene_role,
             "spotlight_player": state.current_scene_player,
+            "interrogation_pair": state.current_interrogation_pair,
         }
     )
 
@@ -363,9 +508,15 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
         return
 
     if player_id == state.current_scene_player:
-        await websocket.send_json({"type": "SPOTLIGHT_CHOICE", "options": [choice.model_dump() for choice in state.current_choices]})
+        message_type = "INTERROGATION_CHOICE" if state.current_scene_type == "INTERROGATION" else "SPOTLIGHT_CHOICE"
+        await websocket.send_json({"type": message_type, "options": [choice.model_dump() for choice in state.current_choices]})
     else:
-        await websocket.send_json({"type": "WAITING", "msg": f"Waiting for {state.current_scene_role} to act..."})
+        if state.current_scene_type == "INTERROGATION" and state.current_interrogation_pair:
+            pair = state.current_interrogation_pair
+            msg = f"Waiting for {pair['target_role']} to answer {pair['instigator_role']}."
+        else:
+            msg = f"Waiting for {state.current_scene_role} to act..."
+        await websocket.send_json({"type": "WAITING", "msg": msg})
 
 
 @app.on_event("startup")
