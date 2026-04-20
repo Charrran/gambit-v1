@@ -1,0 +1,55 @@
+import { useState } from 'react';
+import { Panel, Input, Button } from '../ui';
+
+export const CreateSessionScreen = ({ onSessionCreated }) => {
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState({ text: '', type: '' });
+  const [loading, setLoading] = useState(false);
+
+  const handleCreate = async () => {
+    if (!name.trim()) {
+      setStatus({ text: 'Enter your name to continue.', type: 'error' });
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ text: 'Creating session...', type: '' });
+
+    // Mock API Call
+    setTimeout(() => {
+      const sessionId = Math.random().toString(36).substring(2, 8).toUpperCase();
+      onSessionCreated({ sessionId, playerName: name, isHost: true });
+      setLoading(false);
+    }, 800);
+  };
+
+  return (
+    <div className="flex items-center justify-center p-6">
+      <Panel title="New Session">
+        <div>
+          <p className="font-serif text-[32px] font-light text-text-primary mb-1 tracking-tight">Create a lobby</p>
+          <p className="text-[13px] text-text-dim leading-relaxed">You'll receive a session code to share with up to 3 others.</p>
+        </div>
+
+        <Input
+          label="Your name"
+          id="create-name"
+          placeholder="Enter your name"
+          maxLength={24}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <p className={`font-mono text-[11px] tracking-wider text-center min-h-[16px] ${
+          status.type === 'error' ? 'text-red-primary' : status.type === 'success' ? 'text-gold' : 'text-text-faint'
+        }`}>
+          {status.text}
+        </p>
+
+        <Button onClick={handleCreate} disabled={loading} className="self-start">
+          {loading ? 'Processing...' : 'Create Session'}
+        </Button>
+      </Panel>
+    </div>
+  );
+};
