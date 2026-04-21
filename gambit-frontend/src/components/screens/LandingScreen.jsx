@@ -10,7 +10,7 @@ export const LandingScreen = ({ onNavigate }) => {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="font-mono text-xs tracking-[0.4em] text-gold-dim uppercase mb-5"
       >
-        August 1995 · Viceroy Hotel
+        August 1995 · Empire Bay Hotel
       </motion.p>
       
       <div className="relative">

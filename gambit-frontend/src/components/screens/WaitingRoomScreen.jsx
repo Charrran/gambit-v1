@@ -20,7 +20,7 @@ export const WaitingRoomScreen = ({ session, players, onStartGame }) => {
         <div>
           <p className="font-mono text-[9px] tracking-[0.35em] uppercase text-gold-dim mb-1.5">Waiting Room</p>
           <h2 className="font-serif text-[42px] font-light leading-none tracking-tight">
-            The <span className="text-gold italic">Viceroy</span><br />Hotel
+            The <span className="text-gold italic">Empire Bay</span><br />Hotel
           </h2>
         </div>
         <div 

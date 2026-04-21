@@ -217,7 +217,7 @@ Return one choice object for every provided Choice ID and no extra choices.
         history_text = "\n".join([f"Node: {h['node']} | Role: {h['role']} | Choice Made: {h['choice']}" for h in session_history])
         
         comparison_prompt = f"""
-ACT AS A HISTORIAN ANALYZING THE VICEROY HOTEL CRISIS OF 1995 AS REPRESENTED IN GAMBIT.
+ACT AS A HISTORIAN ANALYZING THE EMPIRE BAY HOTEL CRISIS OF 1995 AS REPRESENTED IN GAMBIT.
 
 Important naming rule:
 Use ONLY the fictional in-game names: Raghava Rao, Govardhan Naidu, Saraswathi, and Venkatadri.
@@ -280,7 +280,7 @@ Return:
         pivotal_decisions: List[dict],
     ) -> str:
         prompt = f"""
-You are a historian writing thirty years after the Viceroy Hotel crisis of 1995. The events you describe are real history: alternate history, treated with full seriousness and specificity.
+You are a historian writing thirty years after the Empire Bay Hotel crisis of 1995. The events you describe are real history: alternate history, treated with full seriousness and specificity.
 
 Ending lane: {resolved_lane}
 Key state values at conclusion: {json.dumps(final_state_snapshot, ensure_ascii=True)}
@@ -324,7 +324,7 @@ Return plain text only. No JSON. No preamble.
         relationship_flags: List[str],
     ) -> str:
         prompt = f"""
-You are writing a moment in a political thriller set during the 1995 Viceroy Hotel crisis in Andhra Pradesh.
+You are writing a moment in a political thriller set during the 1995 Empire Bay Hotel crisis in Andhra Pradesh.
 
 A character has just said something they cannot take back. Write what happens in the room in the 30 seconds after that.
 
