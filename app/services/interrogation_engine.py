@@ -4,13 +4,19 @@ interrogation_engine.py – Interrogation scene logic.
 Responsibilities:
 - Look up a player by role
 - Select instigator / target / answering triple from authored definitions or RNG fallback
+- Evaluate interrogation trigger conditions (skip logic)
 - Build option payloads for an interrogation scene
 - Build flavor text for the scene header
 """
 import random
 from typing import Dict, List, Optional
 
-from app.design.content import INTERROGATIONS, beat_by_id, option_available
+from app.design.content import (
+    INTERROGATIONS,
+    beat_by_id,
+    interrogation_trigger_passes,
+    option_available,
+)
 from app.models.schemas import GameState
 
 
@@ -19,6 +25,25 @@ def player_for_role(state: GameState, role: str) -> Optional[str]:
     return next(
         (pid for pid, profile in state.active_players.items() if profile.role == role),
         None,
+    )
+
+
+def interrogation_should_fire(state: GameState) -> bool:
+    """
+    Check whether the authored interrogation for the current beat has its
+    trigger conditions satisfied.  Returns True if there is no trigger (always
+    fires), True when conditions pass, False when they fail (scene should skip).
+    """
+    beat = beat_by_id(state.current_node)
+    if not beat:
+        return True
+    interrogation_id = beat.get("interrogation")
+    if not interrogation_id:
+        return True
+    return interrogation_trigger_passes(
+        interrogation_id,
+        state.state_axes or {},
+        state.story_flags or [],
     )
 
 
@@ -86,35 +111,46 @@ def build_interrogation_payloads(
     """
     Build the list of choice payloads for an interrogation scene.
 
-    Uses the authored option set when available; otherwise generates a single
-    generic 'answer' payload.
+    Uses the authored option set when available; applies option-level requires
+    via option_available; guarantees at least 2 options by falling back to the
+    first option without conditions if filtering removes too many.
     """
     definition = INTERROGATIONS.get(pair.get("interrogation_id") or "")
     target_node_id = next_node_after(current_node, master_beats)
 
     if definition:
         payloads = []
+        skipped = []
         for option in definition["options"]:
-            if not option_available(option, state.state_axes):
-                continue
             choice_id = f"{current_node.node_id}__{option['id'].lower()}"
             flags = list(option.get("flags", []))
             flags.append(f"interrogation_{pair['interrogation_id']}_{option['id'].lower()}")
-            payloads.append(
-                {
-                    "choice_id": choice_id,
-                    "action_intent": option["text"],
-                    "required_role": definition["player_role"],
-                    "target_node_id": target_node_id,
-                    "capital_shift": 0,
-                    "alignment_shift": "BREAKDOWN" if "breakdown" in flags else "INTERROGATION",
-                    "sets_flag": flags[0] if flags else None,
-                    "story_flags": flags,
-                    "effects": option.get("effects", {}),
-                    "lanes": option.get("lanes", {}),
-                    "advance_node": True,
-                }
-            )
+            payload = {
+                "choice_id": choice_id,
+                "action_intent": option["text"],
+                "required_role": definition["player_role"],
+                "target_node_id": target_node_id,
+                "capital_shift": 0,
+                "alignment_shift": "BREAKDOWN" if "breakdown" in flags else "INTERROGATION",
+                "sets_flag": flags[0] if flags else None,
+                "story_flags": flags,
+                "effects": option.get("effects", {}),
+                "lanes": option.get("lanes", {}),
+                "advance_node": True,
+            }
+            if option_available(option, state.state_axes or {}):
+                payloads.append(payload)
+            else:
+                skipped.append(payload)
+
+        # Ensure minimum of 2 options — backfill from skipped if needed
+        while len(payloads) < 2 and skipped:
+            backfill = skipped.pop(0)
+            # Strip the breakdown flag since we're using it as a fallback
+            backfill["story_flags"] = [f for f in backfill["story_flags"] if f != "breakdown"]
+            backfill["alignment_shift"] = "INTERROGATION"
+            payloads.append(backfill)
+
         return payloads[:4]
 
     # Generic fallback payload

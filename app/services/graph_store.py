@@ -11,7 +11,7 @@ from typing import Dict, List
 
 from neomodel import adb
 
-from app.design.content import MASTER_BEATS
+from app.design.content import MASTER_BEATS, normalize_choice
 from app.models.graph import EpisodeNode
 
 
@@ -31,8 +31,12 @@ def choice_design_payload(choice_id: str) -> Dict[str, object]:
     """Return the authored effects/lanes dict for a given choice_id."""
     for beat in (beat for beat in MASTER_BEATS if beat.get("choices")):
         for raw in beat["choices"]:
-            if raw[0] == choice_id:
-                return {"effects": raw[2], "lanes": raw[3]}
+            choice = normalize_choice(raw)
+            if choice["id"] == choice_id:
+                return {
+                    "effects": choice.get("effects", {}),
+                    "lanes": choice.get("lanes", {}),
+                }
     return {"effects": {}, "lanes": {}}
 
 
