@@ -28,12 +28,26 @@ neomodel.config.DATABASE_URL = f"neo4j://{_user}:{_pass}@{_host}"
 from app.api.sockets import socket_manager
 from app.core.config import settings
 from app.core.database import init_neo4j_async
+from app.design.content import (
+    CHAPTER_ANCHORS,
+    INTERROGATIONS,
+    INTRO_CONTEXT,
+    LANE_WEIGHTS,
+    MASTER_BEATS,
+    ROLES,
+    STATE_AXES,
+    beat_by_id,
+    chapter_for_node,
+    option_available,
+    resolve_lane,
+    terminal_for_lane,
+)
 from app.models.graph import EpisodeNode
 from app.models.schemas import ChoiceView, HealthResponse
 from app.services.ai_engine import ai_engine
 from app.services.state import state_manager
 
-ROLE_PRIORITY = ["Govardhan Naidu", "Raghava Rao", "Saraswathi", "Haribabu"]
+ROLE_PRIORITY = ["Raghava Rao", "Govardhan Naidu", "Saraswathi", "Venkatadri"]
 GROUP_NODE_TYPES = {"POLL"}
 
 if not settings.neo4j_uri:
@@ -59,6 +73,42 @@ def _player_influence(profile) -> int:
 def _derive_primary_trait(profile) -> None:
     if len(profile.alignments) >= 3:
         profile.primary_trait = Counter(profile.alignments).most_common(1)[0][0]
+
+
+def _ensure_design_state(state) -> None:
+    if not state.state_axes:
+        state.state_axes = dict(STATE_AXES)
+    else:
+        for key, value in STATE_AXES.items():
+            state.state_axes.setdefault(key, value)
+    if not state.lane_weights:
+        state.lane_weights = dict(LANE_WEIGHTS)
+    else:
+        for key, value in LANE_WEIGHTS.items():
+            state.lane_weights.setdefault(key, value)
+    if not state.spotlight_counts:
+        state.spotlight_counts = {role: 0 for role in ROLES}
+    else:
+        for role in ROLES:
+            state.spotlight_counts.setdefault(role, 0)
+
+
+def _apply_axis_effects(state, effects: Dict[str, int] | None) -> None:
+    _ensure_design_state(state)
+    for key, delta in (effects or {}).items():
+        state.state_axes[key] = int(state.state_axes.get(key, 0)) + int(delta)
+
+
+def _apply_lane_effects(state, lanes: Dict[str, int] | None) -> None:
+    _ensure_design_state(state)
+    for key, delta in (lanes or {}).items():
+        state.lane_weights[key] = int(state.lane_weights.get(key, 0)) + int(delta)
+
+
+def _add_story_flags(state, flags: List[str] | None) -> None:
+    for flag in flags or []:
+        if flag not in state.story_flags:
+            state.story_flags.append(flag)
 
 
 def _edge_is_available(edge: Dict[str, object], state) -> bool:
@@ -91,6 +141,14 @@ def _fallback_choice_id(node_id: str, props: Dict[str, object]) -> str:
     return f"{node_id}_{role}_{action[:24]}"
 
 
+def _choice_design_payload(choice_id: str) -> Dict[str, object]:
+    for beat in (beat for beat in MASTER_BEATS if beat.get("choices")):
+        for raw in beat["choices"]:
+            if raw[0] == choice_id:
+                return {"effects": raw[2], "lanes": raw[3]}
+    return {"effects": {}, "lanes": {}}
+
+
 async def _fetch_node(node_id: str):
     results, _ = await adb.cypher_query(
         "MATCH (n:EpisodeNode {node_id: $node_id}) RETURN n",
@@ -111,9 +169,11 @@ async def _fetch_edges(node_id: str) -> List[Dict[str, object]]:
     )
     edges: List[Dict[str, object]] = []
     for props, target_node_id in results:
+        choice_id = props.get("choice_id") or _fallback_choice_id(node_id, props)
+        design_payload = _choice_design_payload(choice_id)
         edges.append(
             {
-                "choice_id": props.get("choice_id") or _fallback_choice_id(node_id, props),
+                "choice_id": choice_id,
                 "action_intent": props.get("action_intent", "Make a strategic choice"),
                 "required_role": props.get("required_role"),
                 "alignment_shift": props.get("alignment_shift"),
@@ -126,13 +186,16 @@ async def _fetch_edges(node_id: str) -> List[Dict[str, object]]:
                 "max_players": props.get("max_players"),
                 "option_group": props.get("option_group", "DEFAULT"),
                 "target_node_id": target_node_id,
+                "effects": design_payload["effects"],
+                "lanes": design_payload["lanes"],
             }
         )
     return sorted(edges, key=lambda edge: edge["choice_id"] or "")
 
 
 def _select_spotlight_role(eligible_edges: List[Dict[str, object]], state) -> Tuple[Optional[str], Optional[str]]:
-    best: Optional[Tuple[int, int, int, str, str]] = None
+    _ensure_design_state(state)
+    best: Optional[Tuple[int, int, int, int, str, str]] = None
     for edge_index, edge in enumerate(eligible_edges):
         role = edge["required_role"]
         player_id = next((pid for pid, profile in state.active_players.items() if profile.role == role), None)
@@ -140,15 +203,16 @@ def _select_spotlight_role(eligible_edges: List[Dict[str, object]], state) -> Tu
             continue
 
         influence = _player_influence(state.active_players[player_id])
+        spotlight_debt = -int(state.spotlight_counts.get(role, 0))
         priority = ROLE_PRIORITY.index(role) if role in ROLE_PRIORITY else len(ROLE_PRIORITY)
-        candidate = (influence, -priority, -edge_index, role, player_id)
+        candidate = (spotlight_debt, influence, -priority, -edge_index, role, player_id)
         if best is None or candidate > best:
             best = candidate
 
     if best is None:
         return None, None
 
-    return best[3], best[4]
+    return best[4], best[5]
 
 
 def _stance_variants(round_number: int) -> List[Tuple[str, str, int, Optional[str], Optional[str]]]:
@@ -178,6 +242,8 @@ def _build_spotlight_payloads(edges: List[Dict[str, object]], round_number: int)
                 "capital_shift": int(edge.get("capital_shift") or 0),
                 "alignment_shift": edge.get("alignment_shift"),
                 "sets_flag": edge.get("sets_flag"),
+                "effects": edge.get("effects", {}),
+                "lanes": edge.get("lanes", {}),
                 "advance_node": False,
             }
         )
@@ -195,65 +261,120 @@ def _build_spotlight_payloads(edges: List[Dict[str, object]], round_number: int)
                 "capital_shift": int(primary.get("capital_shift") or 0) + capital_delta,
                 "alignment_shift": alignment,
                 "sets_flag": flag,
+                "effects": primary.get("effects", {}),
+                "lanes": primary.get("lanes", {}),
                 "advance_node": False,
             }
         )
 
     for payload in payloads:
-        payload["advance_node"] = round_number >= 2
+        payload["advance_node"] = True
 
     return payloads[:3]
 
 
-def _choose_interrogation_pair(state) -> Dict[str, str]:
+def _player_for_role(state, role: str) -> Optional[str]:
+    return next((pid for pid, profile in state.active_players.items() if profile.role == role), None)
+
+
+def _choose_interrogation_pair(state, current_node=None) -> Dict[str, str]:
+    beat = beat_by_id(state.current_node)
+    interrogation_id = beat.get("interrogation") if beat else None
+    definition = INTERROGATIONS.get(interrogation_id or "")
+    if definition:
+        instigator_role = definition["participants"]["instigator_role"]
+        target_role = definition["participants"]["target_role"]
+        answering_role = definition["player_role"]
+        return {
+            "interrogation_id": interrogation_id,
+            "instigator_player": _player_for_role(state, instigator_role) or "",
+            "instigator_role": instigator_role,
+            "target_player": _player_for_role(state, target_role) or "",
+            "target_role": target_role,
+            "answering_player": _player_for_role(state, answering_role) or "",
+            "answering_role": answering_role,
+        }
+
     players = list(state.active_players.items())
     rng = random.Random(f"{state.session_id}:{state.current_node}:{state.global_capital}:{len(state.session_history)}")
     anchor_player_id, anchor_profile = rng.choice(players)
     opponents = [(pid, profile) for pid, profile in players if pid != anchor_player_id]
     target_player_id, target_profile = rng.choice(opponents)
     return {
+        "interrogation_id": "",
         "instigator_player": anchor_player_id,
         "instigator_role": anchor_profile.role or "Unknown",
         "target_player": target_player_id,
         "target_role": target_profile.role or "Unknown",
+        "answering_player": target_player_id,
+        "answering_role": target_profile.role or "Unknown",
     }
 
 
-def _build_interrogation_payloads(pair: Dict[str, str], current_node) -> List[Dict[str, object]]:
+def _next_node_after(current_node) -> str:
+    beat_ids = [beat["id"] for beat in MASTER_BEATS]
+    if current_node.node_id in beat_ids:
+        index = beat_ids.index(current_node.node_id)
+        if index + 1 < len(beat_ids):
+            return beat_ids[index + 1]
+    return "ending_broken_house"
+
+
+def _build_interrogation_payloads(pair: Dict[str, str], current_node, state) -> List[Dict[str, object]]:
+    definition = INTERROGATIONS.get(pair.get("interrogation_id") or "")
+    target_node_id = _next_node_after(current_node)
+    if definition:
+        payloads = []
+        for option in definition["options"]:
+            if not option_available(option, state.state_axes):
+                continue
+            choice_id = f"{current_node.node_id}__{option['id'].lower()}"
+            flags = list(option.get("flags", []))
+            flags.append(f"interrogation_{pair['interrogation_id']}_{option['id'].lower()}")
+            payloads.append(
+                {
+                    "choice_id": choice_id,
+                    "action_intent": option["text"],
+                    "required_role": definition["player_role"],
+                    "target_node_id": target_node_id,
+                    "capital_shift": 0,
+                    "alignment_shift": "BREAKDOWN" if "breakdown" in flags else "INTERROGATION",
+                    "sets_flag": flags[0] if flags else None,
+                    "story_flags": flags,
+                    "effects": option.get("effects", {}),
+                    "lanes": option.get("lanes", {}),
+                    "advance_node": True,
+                }
+            )
+        return payloads[:4]
+
     target_role = pair["target_role"]
-    base_target = "regent_11_the_last_supper"
     return [
         {
-            "choice_id": f"{current_node.node_id}__truth",
-            "action_intent": f"{target_role} tells the truth and takes the political hit.",
+            "choice_id": f"{current_node.node_id}__answer",
+            "action_intent": f"{target_role} answers the accusation and accepts the cost.",
             "required_role": target_role,
-            "target_node_id": base_target,
-            "capital_shift": -5,
-            "alignment_shift": "HONEST",
-            "sets_flag": "interrogation_truth",
-            "advance_node": True,
-        },
-        {
-            "choice_id": f"{current_node.node_id}__lie",
-            "action_intent": f"{target_role} lies cleanly and tries to survive the moment.",
-            "required_role": target_role,
-            "target_node_id": base_target,
-            "capital_shift": 5,
-            "alignment_shift": "DECEPTIVE",
-            "sets_flag": "interrogation_lie",
-            "advance_node": True,
-        },
-        {
-            "choice_id": f"{current_node.node_id}__deflect",
-            "action_intent": f"{target_role} goes defensive and turns suspicion back on the accuser.",
-            "required_role": target_role,
-            "target_node_id": base_target,
+            "target_node_id": target_node_id,
             "capital_shift": 0,
-            "alignment_shift": "DEFENSIVE",
-            "sets_flag": "interrogation_deflect",
+            "alignment_shift": "INTERROGATION",
+            "sets_flag": "interrogation_answer",
+            "story_flags": ["interrogation_answer"],
+            "effects": {"betrayal_heat": 1},
+            "lanes": {"broken_house": 1},
             "advance_node": True,
         },
     ]
+
+
+def _interrogation_flavor(pair: Dict[str, str], current_node) -> str:
+    definition = INTERROGATIONS.get(pair.get("interrogation_id") or "")
+    if not definition:
+        return f"{current_node.skeleton_premise} {pair['instigator_role']} corners {pair['target_role']} in a tense private exchange."
+    return (
+        f"{definition['setting']}\n\n"
+        f"{definition['setup']}\n\n"
+        f"{pair['instigator_role']}: \"{definition['opening']}\""
+    )
 
 
 async def _ensure_finale(session_id: str):
@@ -272,14 +393,30 @@ async def _ensure_finale(session_id: str):
             state.session_history.append({"node": current_node.node_id, "role": "SYSTEM", "choice": "THE END"})
 
         try:
+            if not state.resolved_lane:
+                state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
+            historian_text = await ai_engine.generate_historian_ending(
+                resolved_lane=state.resolved_lane,
+                final_state_snapshot=state.state_axes,
+                all_flags=state.story_flags,
+                pivotal_decisions=state.session_history,
+            )
             comparison = await ai_engine.generate_canonical_comparison(
                 session_history=state.session_history,
                 global_capital=state.global_capital,
+                resolved_lane=state.resolved_lane,
+                final_state_snapshot=state.state_axes,
             )
             state.final_result = {
                 "type": "GAME_OVER",
                 "ending_node": current_node.node_id,
+                "resolved_lane": state.resolved_lane,
+                "historian_ending": historian_text,
                 "comparison": comparison.model_dump(),
+                "canonical_ending": comparison.canonical_summary,
+                "divergence_analysis": comparison.divergence_analysis,
+                "state_axes": state.state_axes,
+                "lane_weights": state.lane_weights,
             }
         except Exception as exc:
             print(f"[!] Finale Generation Failed: {exc}")
@@ -299,6 +436,7 @@ async def _prepare_scene(session_id: str):
         state = await state_manager.get_state(session_id)
         if not state or state.status != "ACTIVE" or state.ended:
             return state
+        _ensure_design_state(state)
         if state.current_scene_node == state.current_node and state.current_choices:
             return state
 
@@ -319,29 +457,42 @@ async def _prepare_scene(session_id: str):
         state.active_event = None
 
         if current_node.node_type == "INTERROGATION":
-            pair = state.current_interrogation_pair or _choose_interrogation_pair(state)
-            interrogation_payloads = _build_interrogation_payloads(pair, current_node)
+            pair = state.current_interrogation_pair or _choose_interrogation_pair(state, current_node)
+            interrogation_payloads = _build_interrogation_payloads(pair, current_node, state)
             state.current_interrogation_pair = pair
-            state.current_scene_role = pair["target_role"]
-            state.current_scene_player = pair["target_player"]
+            state.current_scene_role = pair.get("answering_role") or pair["target_role"]
+            state.current_scene_player = pair.get("answering_player") or pair["target_player"]
             state.current_scene_round = 1
             state.current_scene_total_rounds = 1
-            state.current_scene_flavor = (
-                f"{current_node.skeleton_premise} {pair['instigator_role']} corners {pair['target_role']} in a tense private exchange."
-            )
+            state.current_scene_flavor = _interrogation_flavor(pair, current_node)
             state.current_choice_payloads = interrogation_payloads
             state.current_choices = [
-                ChoiceView(choice_id=payload["choice_id"], text=payload["action_intent"], role=pair["target_role"])
+                ChoiceView(choice_id=payload["choice_id"], text=payload["action_intent"], role=state.current_scene_role)
                 for payload in interrogation_payloads
             ]
         elif current_node.node_type in GROUP_NODE_TYPES:
+            anchor = CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {})
+            narrative = await ai_engine.generate_poll_turn(
+                premise=current_node.skeleton_premise,
+                db_choices=eligible_edges,
+                anchor=anchor,
+                state_snapshot=state.state_axes,
+                lane_weights=state.lane_weights,
+            )
+            option_lookup = {option.choice_id: option for option in narrative.options}
             state.current_scene_role = "COUNCIL"
             state.current_scene_player = None
             state.current_scene_round = 1
             state.current_scene_total_rounds = 1
+            state.current_scene_flavor = narrative.flavor_text
             state.current_choice_payloads = eligible_edges
             state.current_choices = [
-                ChoiceView(choice_id=edge["choice_id"], text=edge["action_intent"], role=edge["required_role"])
+                ChoiceView(
+                    choice_id=edge["choice_id"],
+                    text=option_lookup.get(edge["choice_id"]).text if option_lookup.get(edge["choice_id"]) else edge["action_intent"],
+                    role=edge["required_role"],
+                    subtext=option_lookup.get(edge["choice_id"]).subtext if option_lookup.get(edge["choice_id"]) else None,
+                )
                 for edge in eligible_edges
             ]
         else:
@@ -364,20 +515,29 @@ async def _prepare_scene(session_id: str):
             spotlight_payloads = _build_spotlight_payloads(spotlight_edges, round_number)
             player_profile = state.active_players[spotlight_player]
             narrative = await ai_engine.generate_spotlight_turn(
-                premise=f"{current_node.skeleton_premise} This is pressure round {round_number} of 2 for {spotlight_role}.",
+                premise=current_node.skeleton_premise,
                 required_role=spotlight_role,
                 db_choices=spotlight_payloads,
                 player_alignments=player_profile.alignments,
+                anchor=CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {}),
+                state_snapshot=state.state_axes,
+                compressed_history=state.session_history,
             )
+            option_lookup = {option.choice_id: option for option in narrative.options}
             state.current_scene_role = spotlight_role
             state.current_scene_player = spotlight_player
             state.current_scene_round = round_number
-            state.current_scene_total_rounds = 2
+            state.current_scene_total_rounds = 1
             state.current_scene_flavor = narrative.flavor_text
             state.current_choice_payloads = spotlight_payloads
             state.current_choices = [
-                ChoiceView(choice_id=option.choice_id, text=option.text, role=spotlight_role)
-                for option in narrative.options
+                ChoiceView(
+                    choice_id=payload["choice_id"],
+                    text=option_lookup.get(payload["choice_id"]).text if option_lookup.get(payload["choice_id"]) else payload["action_intent"],
+                    role=spotlight_role,
+                    subtext=option_lookup.get(payload["choice_id"]).subtext if option_lookup.get(payload["choice_id"]) else None,
+                )
+                for payload in spotlight_payloads
             ]
 
         return await state_manager.save_state(state)
@@ -433,6 +593,19 @@ async def _apply_choice(session_id: str, player_id: str, choice_id: str):
                 "choice": chosen_edge["action_intent"],
             }
         )
+        _apply_axis_effects(state, chosen_edge.get("effects"))
+        _apply_lane_effects(state, chosen_edge.get("lanes"))
+        _add_story_flags(state, chosen_edge.get("story_flags"))
+        if "breakdown" in (chosen_edge.get("story_flags") or []):
+            state.last_aftermath = await ai_engine.generate_breakdown_aftermath(
+                character_name=state.current_scene_role or chosen_edge.get("required_role") or "Unknown",
+                breakdown_option_text=chosen_edge["action_intent"],
+                relevant_state_flags=state.state_axes,
+                scene_participants=state.current_interrogation_pair or {},
+                relationship_flags=state.story_flags,
+            )
+        else:
+            state.last_aftermath = None
 
         if acting_player_id in state.active_players:
             profile = state.active_players[acting_player_id]
@@ -444,8 +617,12 @@ async def _apply_choice(session_id: str, player_id: str, choice_id: str):
             flag = chosen_edge.get("sets_flag")
             if flag and flag not in profile.flags:
                 profile.flags.append(flag)
+            if flag:
+                _add_story_flags(state, [flag])
 
         state.global_capital += int(chosen_edge.get("capital_shift") or 0)
+        if state.current_scene_role in ROLES and state.current_scene_type not in GROUP_NODE_TYPES:
+            state.spotlight_counts[state.current_scene_role] = int(state.spotlight_counts.get(state.current_scene_role, 0)) + 1
         state.votes = {}
         state.active_event = None
         state.current_scene_node = None
@@ -457,7 +634,11 @@ async def _apply_choice(session_id: str, player_id: str, choice_id: str):
             state.current_scene_round += 1
             return await state_manager.save_state(state)
 
-        state.current_node = chosen_edge["target_node_id"]
+        if state.current_node == MASTER_BEATS[-1]["id"]:
+            state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
+            state.current_node = terminal_for_lane(state.resolved_lane)
+        else:
+            state.current_node = chosen_edge["target_node_id"]
         state.current_scene_type = None
         state.current_scene_role = None
         state.current_scene_player = None
@@ -482,10 +663,16 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
             "type": "NARRATIVE_BEAT",
             "node_id": state.current_scene_node,
             "flavor": state.current_scene_flavor,
+            "intro_context": INTRO_CONTEXT if state.current_scene_node == MASTER_BEATS[0]["id"] else None,
             "phase": state.current_scene_type,
             "spotlight_role": state.current_scene_role,
             "spotlight_player": state.current_scene_player,
             "interrogation_pair": state.current_interrogation_pair,
+            "chapter": chapter_for_node(state.current_scene_node or state.current_node),
+            "chapter_title": CHAPTER_ANCHORS.get(chapter_for_node(state.current_scene_node or state.current_node), {}).get("title"),
+            "state_axes": state.state_axes,
+            "lane_weights": state.lane_weights,
+            "aftermath": state.last_aftermath,
         }
     )
 
@@ -513,7 +700,11 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
     else:
         if state.current_scene_type == "INTERROGATION" and state.current_interrogation_pair:
             pair = state.current_interrogation_pair
-            msg = f"Waiting for {pair['target_role']} to answer {pair['instigator_role']}."
+            answering_role = pair.get("answering_role") or pair["target_role"]
+            if answering_role == pair["instigator_role"]:
+                msg = f"Waiting for {answering_role} to press {pair['target_role']}."
+            else:
+                msg = f"Waiting for {answering_role} to answer {pair['instigator_role']}."
         else:
             msg = f"Waiting for {state.current_scene_role} to act..."
         await websocket.send_json({"type": "WAITING", "msg": msg})

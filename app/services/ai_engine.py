@@ -1,5 +1,6 @@
 import asyncio
-from typing import Dict, List
+import json
+from typing import Any, Dict, List
 
 import instructor
 from google import genai
@@ -11,10 +12,15 @@ from app.core.config import settings
 class GeneratedOption(BaseModel):
     choice_id: str = Field(..., description="The unique ID of the specific narrative choice.")
     text: str = Field(..., description="The dynamically generated, flavorful choice text.")
+    subtext: str = Field(default="", description="Short note about what this reveals.")
 
 class TurnNarrative(BaseModel):
     flavor_text: str = Field(..., description="A tense, 2-paragraph narrative description of the situation.")
     options: List[GeneratedOption] = Field(..., description="A list of MCQ options for the player.")
+
+class AnchoredTurn(BaseModel):
+    scene_framing: str = Field(..., description="Short cinematic scene framing.")
+    choices: List[GeneratedOption] = Field(..., description="Exactly mapped player-facing choices.")
 
 class EndingComparison(BaseModel):
     player_summary: str = Field(..., description="A summary of the player's unique story path.")
@@ -36,9 +42,8 @@ class AIEngine:
         )
         
         # Gemini Client (Dedicated to Deep Context Canonical Analysis via new google-genai SDK)
-        self.gemini_client = instructor.from_genai(
-            genai.Client(api_key=settings.gemini_api_key)
-        )
+        self.raw_gemini_client = genai.Client(api_key=settings.gemini_api_key)
+        self.gemini_client = instructor.from_genai(self.raw_gemini_client)
 
     async def generate_spotlight_turn(
         self,
@@ -46,6 +51,9 @@ class AIEngine:
         required_role: str,
         db_choices: list,
         player_alignments: List[str] = None,
+        anchor: Dict[str, str] | None = None,
+        state_snapshot: Dict[str, Any] | None = None,
+        compressed_history: List[dict] | None = None,
     ) -> TurnNarrative:
         """
         Generates a tailored narrative turn using Groq.
@@ -63,50 +71,151 @@ class AIEngine:
                 f"- Option {i+1} | Choice ID: '{choice_id}' | Narrative Directive: {action_intent}\n"
             )
 
-        system_prompt = f"""You are an elite screenwriter for a gritty political thriller based on the 1995 Viceroy Rebellion.
-Character Context: {required_role}. {traits_context}
-Current Scenario: {premise}
+        anchor = anchor or {}
+        system_prompt = self._groq_system_prompt()
+        user_prompt = f"""
+Chapter anchor:
+Register: {anchor.get("register", "Cinematic political thriller.")}
+Power map: {anchor.get("power_map", "Power is contested.")}
+Undercurrent: {anchor.get("undercurrent", "Nobody is saying the whole truth.")}
+Constraint: {anchor.get("constraint", "Keep choices specific and consequential.")}
 
-TASK:
-1. Write a 2-paragraph narrative beat. The first paragraph is descriptive; the second is introspective for {required_role}, strongly colored by their TRAITS.
-2. Generate immersive MCQ choices. If the player is 'Authoritarian', their options should sound more demanding; if 'Pragmatic', they should sound more calculated.
+Spotlight role: {required_role}
+Character context: {traits_context}
+Situation: {premise}
 
-STRICT ID MAPPING RULES:
-You MUST use the exact Choice IDs provided. Map your generated text to these IDs:
-{choices_context}"""
+Authored choice intents. Preserve these exact IDs and dramatize the intent only:
+{choices_context}
+
+State snapshot: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
+Previous decisions: {json.dumps((compressed_history or [])[-6:], ensure_ascii=True)}
+
+Return this exact JSON structure:
+{{
+  "scene_framing": "2-3 sentence scene setup, maximum 60 words",
+  "choices": [
+    {{"choice_id": "exact provided id", "text": "choice text, maximum 25 words", "subtext": "what this reveals, maximum 20 words"}}
+  ]
+}}
+Return one choice object for every provided Choice ID and no extra choices.
+"""
 
         try:
             response = await self.groq_client.chat.completions.create(
                 model="llama-3.1-8b-instant",
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": "Begin the turn narrative and present the choices."},
+                    {"role": "user", "content": user_prompt},
                 ],
-                response_model=TurnNarrative,
+                response_model=AnchoredTurn,
                 max_retries=2,
             )
-            return self._reconcile_options(response, db_choices, premise, required_role)
+            return self._reconcile_options(
+                TurnNarrative(flavor_text=response.scene_framing, options=response.choices),
+                db_choices,
+                premise,
+                required_role,
+            )
         except Exception:
             return self._build_fallback_turn(premise, required_role, db_choices)
 
-    async def generate_canonical_comparison(self, session_history: List[dict], global_capital: int) -> EndingComparison:
+    async def generate_poll_turn(
+        self,
+        premise: str,
+        db_choices: list,
+        anchor: Dict[str, str] | None = None,
+        state_snapshot: Dict[str, Any] | None = None,
+        lane_weights: Dict[str, int] | None = None,
+    ) -> TurnNarrative:
+        choices_context = ""
+        for i, choice in enumerate(db_choices):
+            choices_context += (
+                f"- Option {i+1} | Choice ID: '{choice['choice_id']}' | Strategic posture: {choice['action_intent']}\n"
+            )
+
+        anchor = anchor or {}
+        user_prompt = f"""
+Chapter poll. Faction decision.
+
+Register: {anchor.get("register", "Controlled political urgency.")}
+Power map: {anchor.get("power_map", "The faction must commit.")}
+Undercurrent: {anchor.get("undercurrent", "The room knows more than it says.")}
+Constraint: {anchor.get("constraint", "No filler options.")}
+
+Poll situation: {premise}
+
+Authored poll options. Preserve these exact IDs and dramatize the intent only:
+{choices_context}
+
+Current state: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
+Lane weights: {json.dumps(lane_weights or {}, ensure_ascii=True)}
+
+Return this exact JSON structure:
+{{
+  "scene_framing": "2-3 sentence faction setup, maximum 60 words",
+  "choices": [
+    {{"choice_id": "exact provided id", "text": "choice text, maximum 25 words", "subtext": "downstream meaning, maximum 20 words"}}
+  ]
+}}
+Return one choice object for every provided Choice ID and no extra choices.
+"""
+        try:
+            response = await self.groq_client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": self._groq_system_prompt()},
+                    {"role": "user", "content": user_prompt},
+                ],
+                response_model=AnchoredTurn,
+                max_retries=2,
+            )
+            return self._reconcile_options(
+                TurnNarrative(flavor_text=response.scene_framing, options=response.choices),
+                db_choices,
+                premise,
+                "COUNCIL",
+            )
+        except Exception:
+            return self._build_fallback_turn(premise, "COUNCIL", db_choices)
+
+    async def generate_canonical_comparison(
+        self,
+        session_history: List[dict],
+        global_capital: int,
+        resolved_lane: str = "",
+        final_state_snapshot: Dict[str, Any] | None = None,
+    ) -> EndingComparison:
         """
         Uses Gemini 2.0 (New SDK) via Instructor to compare the player's path with history.
         """
         history_text = "\n".join([f"Node: {h['node']} | Role: {h['role']} | Choice Made: {h['choice']}" for h in session_history])
         
         comparison_prompt = f"""
-        ACT AS A HISTORIAN ANALYZING THE 'VICEROY REBELLION' OF 1995.
-        
-        SESSION HISTORY LOGS:
-        {history_text}
-        FINAL POLITICAL CAPITAL: {global_capital}
-        
-        TASK:
-        Compare the events above (Player Choices) against the actual history of NTR, Chandrababu Naidu, and Lakshmi Parvathi.
-        
-        Return an analysis comparing the player summary vs reality.
-        """
+ACT AS A HISTORIAN ANALYZING THE VICEROY HOTEL CRISIS OF 1995 AS REPRESENTED IN GAMBIT.
+
+Important naming rule:
+Use ONLY the fictional in-game names: Raghava Rao, Govardhan Naidu, Saraswathi, and Venkatadri.
+Do not use real-life names. Do not mention that names have been changed.
+
+SESSION HISTORY LOGS:
+{history_text}
+
+FINAL POLITICAL CAPITAL: {global_capital}
+RESOLVED ALTERNATE-HISTORY LANE: {resolved_lane}
+FINAL STATE SNAPSHOT: {json.dumps(final_state_snapshot or {}, ensure_ascii=True)}
+
+CANONICAL BASELINE:
+In the canonical course, Govardhan Naidu consolidates the hotel camp, proves majority through procedure, and takes power. Raghava Rao's emotional legitimacy survives as a wound rather than as authority. Saraswathi remains central to the meaning of the crisis but does not openly inherit the state. Venkatadri and the family become part of the moral cost of the transfer.
+
+TASK:
+Compare the player's resolved alternate-history outcome against that canonical baseline.
+
+Return:
+- player_summary: what happened in this run
+- canonical_summary: what the canonical baseline would have looked like, using only fictional names
+- divergence_analysis: the specific political and emotional divergence
+- final_score: a short ending title
+"""
         
         try:
             return await asyncio.to_thread(
@@ -116,18 +225,106 @@ You MUST use the exact Choice IDs provided. Map your generated text to these IDs
                 response_model=EndingComparison,
             )
         except Exception:
-            return await self.groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a political historian comparing an alternate-history playthrough to the real 1995 Viceroy Rebellion.",
-                    },
-                    {"role": "user", "content": comparison_prompt},
-                ],
-                response_model=EndingComparison,
-                max_retries=1,
+            try:
+                return await self.groq_client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a political historian comparing an alternate-history playthrough to the canonical Gambit baseline. Use only fictional in-game names.",
+                        },
+                        {"role": "user", "content": comparison_prompt},
+                    ],
+                    response_model=EndingComparison,
+                    max_retries=1,
+                )
+            except Exception:
+                return EndingComparison(
+                    player_summary=f"The run resolved into {resolved_lane.replace('_', ' ')}.",
+                    canonical_summary="In the canonical baseline, Govardhan Naidu consolidates the hotel camp, proves majority through procedure, and takes power while Raghava Rao's symbolic authority survives as a wound.",
+                    divergence_analysis="This run diverged in how legitimacy, family fracture, and institutional control were distributed before the final transfer of authority.",
+                    final_score=resolved_lane.replace("_", " ").title() or "Altered Verdict",
+                )
+
+    async def generate_historian_ending(
+        self,
+        resolved_lane: str,
+        final_state_snapshot: Dict[str, Any],
+        all_flags: List[str],
+        pivotal_decisions: List[dict],
+    ) -> str:
+        prompt = f"""
+You are a historian writing thirty years after the Viceroy Hotel crisis of 1995. The events you describe are real history: alternate history, treated with full seriousness and specificity.
+
+Ending lane: {resolved_lane}
+Key state values at conclusion: {json.dumps(final_state_snapshot, ensure_ascii=True)}
+Relationship flags set: {json.dumps(all_flags, ensure_ascii=True)}
+Critical choices that shaped this outcome: {json.dumps(pivotal_decisions[-8:], ensure_ascii=True)}
+
+Write a historical summary of 4-6 sentences.
+
+Tone: measured, slightly melancholy, specific. This is not a game recap. This is a historian describing something that happened to real people and changed a real place.
+
+Name the specific divergence from what might have been. Describe the human cost alongside the political result. End on something that could not have been predicted from the beginning.
+
+Do not use game language. Do not reference choices or players. Write as if this happened.
+Banned phrases: "in the end", "ultimately", "would go on to", "the rest is history", "legacy of".
+Return plain text only. No JSON. No preamble.
+"""
+        try:
+            response = await asyncio.to_thread(
+                self.raw_gemini_client.models.generate_content,
+                model="gemini-2.0-flash",
+                contents=prompt,
             )
+            if getattr(response, "text", None):
+                return str(response.text)
+        except Exception:
+            pass
+
+        return (
+            f"The {resolved_lane.replace('_', ' ')} was remembered less as a clean verdict than as a settlement forced by exhaustion. "
+            "What diverged from the expected course was not simply who held authority, but which relationships survived the transfer of it. "
+            "The political result hardened quickly; the human cost remained harder to name. "
+            "Only later did observers understand that the crisis had changed the grammar of power inside the party itself."
+        )
+
+    async def generate_breakdown_aftermath(
+        self,
+        character_name: str,
+        breakdown_option_text: str,
+        relevant_state_flags: Dict[str, Any],
+        scene_participants: Dict[str, str],
+        relationship_flags: List[str],
+    ) -> str:
+        prompt = f"""
+You are writing a moment in a political thriller set during the 1995 Viceroy Hotel crisis in Andhra Pradesh.
+
+A character has just said something they cannot take back. Write what happens in the room in the 30 seconds after that.
+
+Character: {character_name}
+What they said: {breakdown_option_text}
+Their emotional state: {json.dumps(relevant_state_flags, ensure_ascii=True)}
+Who else is in the room: {json.dumps(scene_participants, ensure_ascii=True)}
+What this moment costs them: {json.dumps(relationship_flags, ensure_ascii=True)}
+
+Write 4-6 sentences of prose. No dialogue. Pure interiority and physical detail.
+
+Do not summarize what just happened. Start from the moment after.
+Do not use the words: tension, silence, heavy, palpable, weight.
+Write as a novelist, not a narrator.
+"""
+        try:
+            response = await asyncio.to_thread(
+                self.raw_gemini_client.models.generate_content,
+                model="gemini-2.0-flash",
+                contents=prompt,
+            )
+            if getattr(response, "text", None):
+                return str(response.text)
+        except Exception:
+            pass
+        return "For a few seconds the room seems to rearrange itself around what was said. No one moves quickly. The cost is already visible, not in speeches, but in where each person chooses to look next."
 
     def _reconcile_options(
         self,
@@ -150,6 +347,7 @@ You MUST use the exact Choice IDs provided. Map your generated text to these IDs
                     GeneratedOption(
                         choice_id=choice["choice_id"],
                         text=choice["action_intent"],
+                        subtext=choice.get("subtext") or "",
                     )
                 )
 
@@ -170,6 +368,13 @@ You MUST use the exact Choice IDs provided. Map your generated text to these IDs
                 GeneratedOption(choice_id=choice["choice_id"], text=choice["action_intent"])
                 for choice in db_choices
             ],
+        )
+
+    def _groq_system_prompt(self) -> str:
+        return (
+            "You are a cinematic political thriller narrator for a game set in 1990s Telugu politics. "
+            "Return ONLY valid JSON. No markdown fences. No preamble. No commentary. "
+            'If you cannot generate valid JSON, return {"error": "generation_failed"}.'
         )
 
 ai_engine = AIEngine()
