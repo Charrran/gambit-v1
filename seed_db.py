@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from neomodel import adb
 
-from app.design.content import CHAPTER_ANCHORS, MASTER_BEATS, TERMINAL_NODES, terminal_for_lane
+from app.design.content import CHAPTER_ANCHORS, MASTER_BEATS, TERMINAL_NODES, normalize_choice, terminal_for_lane
 from app.models.graph import EpisodeNode
 
 load_dotenv()
@@ -59,7 +59,11 @@ async def seed_rebellion_episode():
     print("[*] Linking authored beats...")
     for index, beat in enumerate(MASTER_BEATS):
         source = nodes[beat["id"]]
-        next_id = MASTER_BEATS[index + 1]["id"] if index + 1 < len(MASTER_BEATS) else terminal_for_lane("broken_house")
+        next_id = (
+            MASTER_BEATS[index + 1]["id"]
+            if index + 1 < len(MASTER_BEATS)
+            else terminal_for_lane("broken_house")
+        )
         target = nodes[next_id]
 
         if beat["type"] == "INTERROGATION":
@@ -74,13 +78,14 @@ async def seed_rebellion_episode():
             )
             continue
 
-        for choice_id, action_intent, _effects, _lanes in beat.get("choices", []):
+        for raw_choice in beat.get("choices", []):
+            choice = normalize_choice(raw_choice)
             await _link(
                 source,
                 target,
-                choice_id=choice_id,
-                action_intent=action_intent,
-                required_role=_choice_required_role(beat, choice_id),
+                choice_id=choice["id"],
+                action_intent=choice["text"],
+                required_role=_choice_required_role(beat, choice["id"]),
                 alignment_shift="DECISIVE",
                 capital_shift=0,
             )

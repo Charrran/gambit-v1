@@ -35,11 +35,11 @@ class GameState(BaseModel):
     global_capital: int = 100
     active_players: Dict[str, PlayerProfile] = Field(default_factory=dict)
     status: str = "LOBBY"  # Valid statuses: "LOBBY", "ACTIVE"
-    
-    # NEW: Advanced Mechanics Tracking
-    session_history: List[Dict[str, str]] = Field(default_factory=list) # List of {"node": node_id, "role": role, "choice": choice_text}
-    votes: Dict[str, str] = Field(default_factory=dict) # Dict[player_id, choice_id] for polling and interrogations
-    active_event: Optional[str] = None # Tracks the node_id of a currently active special event (Confrontation, etc)
+
+    # Advanced Mechanics Tracking
+    session_history: List[Dict[str, str]] = Field(default_factory=list)
+    votes: Dict[str, str] = Field(default_factory=dict)
+    active_event: Optional[str] = None
     revision: int = 0
     current_scene_node: Optional[str] = None
     current_scene_type: Optional[str] = None
@@ -59,3 +59,6 @@ class GameState(BaseModel):
     story_flags: List[str] = Field(default_factory=list)
     spotlight_counts: Dict[str, int] = Field(default_factory=dict)
     resolved_lane: Optional[str] = None
+
+    # State-reactive: chapter transition context sent with NARRATIVE_BEAT
+    last_transition: Optional[Dict[str, Any]] = None

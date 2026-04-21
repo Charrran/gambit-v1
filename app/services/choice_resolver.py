@@ -5,16 +5,26 @@ Responsibilities:
 - Apply a player's choice (spotlight or poll) to the game state
 - Resolve poll votes and elect the winner
 - Mutate state axes, lane weights, story flags, spotlight counts
+- Build and store chapter transition summaries
 - Advance to the next node or terminal node
 """
 from collections import Counter
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
-from app.design.content import MASTER_BEATS, ROLES, resolve_lane, terminal_for_lane
+from app.design.content import (
+    CHAPTER_ANCHORS,
+    MASTER_BEATS,
+    ROLES,
+    beat_by_id,
+    chapter_for_node,
+    resolve_lane,
+    terminal_for_lane,
+)
 from app.models.schemas import GameState
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
 from app.services.state import state_manager
+from app.services.transition_engine import build_transition_summary
 
 GROUP_NODE_TYPES = {"POLL"}
 
@@ -41,14 +51,24 @@ def _ensure_design_state(state: GameState, state_axes_defaults, lane_weights_def
             state.spotlight_counts.setdefault(role, 0)
 
 
-def apply_axis_effects(state: GameState, effects: Optional[Dict[str, int]]) -> None:
-    for key, delta in (effects or {}).items():
-        state.state_axes[key] = int(state.state_axes.get(key, 0)) + int(delta)
+def apply_axis_effects(state: GameState, effects: Optional[Dict[str, int]]) -> Dict[str, int]:
+    """Apply effects to state_axes and return the delta dict."""
+    delta: Dict[str, int] = {}
+    for key, val in (effects or {}).items():
+        before = int(state.state_axes.get(key, 0))
+        state.state_axes[key] = before + int(val)
+        delta[key] = int(val)
+    return delta
 
 
-def apply_lane_effects(state: GameState, lanes: Optional[Dict[str, int]]) -> None:
-    for key, delta in (lanes or {}).items():
-        state.lane_weights[key] = int(state.lane_weights.get(key, 0)) + int(delta)
+def apply_lane_effects(state: GameState, lanes: Optional[Dict[str, int]]) -> Dict[str, int]:
+    """Apply lane weight changes and return the delta dict."""
+    delta: Dict[str, int] = {}
+    for key, val in (lanes or {}).items():
+        before = int(state.lane_weights.get(key, 0))
+        state.lane_weights[key] = before + int(val)
+        delta[key] = int(val)
+    return delta
 
 
 def add_story_flags(state: GameState, flags: Optional[List[str]]) -> None:
@@ -129,18 +149,24 @@ async def apply_choice(
         elif state.current_scene_player != player_id:
             raise ValueError("Only the spotlight player can submit this choice.")
 
+        # ── Snapshot chapter/state before mutation ────────────────────────────
+        previous_node_id = state.current_node
+        from_chapter = chapter_for_node(state.current_node)
+        axis_snapshot_before = dict(state.state_axes)
+        lane_snapshot_before = dict(state.lane_weights)
+
         # Record history
         state.session_history.append(
             {
                 "node": state.current_node,
-                "role": state.current_scene_role or chosen_edge["required_role"] or "COUNCIL",
+                "role": state.current_scene_role or chosen_edge.get("required_role") or "COUNCIL",
                 "choice": chosen_edge["action_intent"],
             }
         )
 
-        # Apply effects
-        apply_axis_effects(state, chosen_edge.get("effects"))
-        apply_lane_effects(state, chosen_edge.get("lanes"))
+        # Apply effects — capture deltas
+        axis_delta = apply_axis_effects(state, chosen_edge.get("effects"))
+        lane_delta = apply_lane_effects(state, chosen_edge.get("lanes"))
         add_story_flags(state, chosen_edge.get("story_flags"))
 
         # Breakdown aftermath
@@ -190,12 +216,32 @@ async def apply_choice(
             state.current_scene_round += 1
             return await state_manager.save_state(state)
 
-        # Advance to next node
+        # ── Advance to next node ─────────────────────────────────────────────
         if state.current_node == MASTER_BEATS[-1]["id"]:
             state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
             state.current_node = terminal_for_lane(state.resolved_lane)
         else:
             state.current_node = chosen_edge["target_node_id"]
+
+        to_chapter = chapter_for_node(state.current_node)
+
+        # ── Build transition summary when chapter changes ─────────────────────
+        # Also build when a major state shift occurs even within chapter
+        major_shift = sum(abs(v) for v in axis_delta.values()) >= 4 or sum(abs(v) for v in lane_delta.values()) >= 3
+        if to_chapter != from_chapter or major_shift:
+            state.last_transition = build_transition_summary(
+                previous_node_id=previous_node_id,
+                next_node_id=state.current_node,
+                chosen_edge=chosen_edge,
+                state_changes=axis_delta,
+                lane_changes=lane_delta,
+                chapter_anchors=CHAPTER_ANCHORS,
+                current_lane_weights=state.lane_weights,
+                from_chapter=from_chapter,
+                to_chapter=to_chapter,
+            )
+        else:
+            state.last_transition = None
 
         state.current_scene_type = None
         state.current_scene_role = None

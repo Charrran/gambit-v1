@@ -155,6 +155,7 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
             "state_axes": state.state_axes,
             "lane_weights": state.lane_weights,
             "aftermath": state.last_aftermath,
+            "transition": state.last_transition,
         }
     )
 

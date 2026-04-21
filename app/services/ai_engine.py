@@ -54,10 +54,13 @@ class AIEngine:
         anchor: Dict[str, str] | None = None,
         state_snapshot: Dict[str, Any] | None = None,
         compressed_history: List[dict] | None = None,
+        pressure_tags: List[str] | None = None,
+        transition_summary: str | None = None,
     ) -> TurnNarrative:
         """
         Generates a tailored narrative turn using Groq.
-        Incorporate player traits to influence option flavor.
+        Incorporate player traits, pressure tags, and transition context for state-reactive framing.
+        LLMs only control narrative words — effects and mechanics are always authored.
         """
         traits_context = f"This player has developed the following traits: {', '.join(player_alignments)}." if player_alignments else "This player is currently a blank slate."
         
@@ -72,6 +75,13 @@ class AIEngine:
             )
 
         anchor = anchor or {}
+        pressure_line = ""
+        if pressure_tags:
+            pressure_line = f"\nActive pressure: {', '.join(pressure_tags)}. Use this to colour the framing and choice wording. Do NOT invent new mechanics from it."
+        transition_line = ""
+        if transition_summary:
+            transition_line = f"\nContext from preceding events: {transition_summary}"
+
         system_prompt = self._groq_system_prompt()
         user_prompt = f"""
 Chapter anchor:
@@ -79,6 +89,7 @@ Register: {anchor.get("register", "Cinematic political thriller.")}
 Power map: {anchor.get("power_map", "Power is contested.")}
 Undercurrent: {anchor.get("undercurrent", "Nobody is saying the whole truth.")}
 Constraint: {anchor.get("constraint", "Keep choices specific and consequential.")}
+{pressure_line}{transition_line}
 
 Spotlight role: {required_role}
 Character context: {traits_context}
@@ -126,6 +137,8 @@ Return one choice object for every provided Choice ID and no extra choices.
         anchor: Dict[str, str] | None = None,
         state_snapshot: Dict[str, Any] | None = None,
         lane_weights: Dict[str, int] | None = None,
+        pressure_tags: List[str] | None = None,
+        transition_summary: str | None = None,
     ) -> TurnNarrative:
         choices_context = ""
         for i, choice in enumerate(db_choices):
@@ -134,6 +147,17 @@ Return one choice object for every provided Choice ID and no extra choices.
             )
 
         anchor = anchor or {}
+        pressure_line = ""
+        if pressure_tags:
+            pressure_line = f"\nActive pressure: {', '.join(pressure_tags)}. Use this to colour poll framing and option wording only. Do NOT invent new mechanics."
+        transition_line = ""
+        if transition_summary:
+            transition_line = f"\nContext from preceding events: {transition_summary}"
+
+        # Derive leading lane for framing hint
+        leading_lanes = sorted((lane_weights or {}).items(), key=lambda kv: kv[1], reverse=True)
+        lane_hint = f"Leading lane: {leading_lanes[0][0].replace('_', ' ')}" if leading_lanes and leading_lanes[0][1] > 0 else ""
+
         user_prompt = f"""
 Chapter poll. Faction decision.
 
@@ -141,6 +165,8 @@ Register: {anchor.get("register", "Controlled political urgency.")}
 Power map: {anchor.get("power_map", "The faction must commit.")}
 Undercurrent: {anchor.get("undercurrent", "The room knows more than it says.")}
 Constraint: {anchor.get("constraint", "No filler options.")}
+{pressure_line}{transition_line}
+{lane_hint}
 
 Poll situation: {premise}
 
