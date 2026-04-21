@@ -5,6 +5,7 @@ from typing import Dict, Optional
 import redis.asyncio as redis
 
 from app.core.config import settings
+from app.design.content import LANE_WEIGHTS, ROLES, STATE_AXES
 from app.models.schemas import GameState, PlayerProfile
 
 
@@ -66,6 +67,9 @@ class GameStateManager:
 
     async def create_lobby(self, session_id: str) -> GameState:
         state = GameState(session_id=session_id)
+        state.state_axes = dict(STATE_AXES)
+        state.lane_weights = dict(LANE_WEIGHTS)
+        state.spotlight_counts = {role: 0 for role in ROLES}
         await self._persist(state)
         return state
 
@@ -91,23 +95,30 @@ class GameStateManager:
                 raise ValueError("Session not found")
 
             num_players = len(state.active_players)
-            if num_players < 2:
-                raise ValueError("Need at least 2 players to start")
+            if num_players < 4:
+                raise ValueError("Need all 4 roles to start this version of Gambit")
 
             roles = ["Raghava Rao", "Govardhan Naidu"]
             if num_players >= 3:
                 roles.append("Saraswathi")
             if num_players == 4:
-                roles.append("Haribabu")
+                roles.append("Venkatadri")
 
             random.shuffle(roles)
             for pid, role in zip(state.active_players.keys(), roles):
                 state.active_players[pid].role = role
 
             state.status = "ACTIVE"
-            state.current_node = "regent_01_fractured_peace"
+            state.current_node = "gambit_ch01_raghava"
             state.votes = {}
             state.active_event = None
+            state.global_capital = 100
+            state.session_history = []
+            state.state_axes = dict(STATE_AXES)
+            state.lane_weights = dict(LANE_WEIGHTS)
+            state.story_flags = []
+            state.spotlight_counts = {role: 0 for role in ROLES}
+            state.resolved_lane = None
             state.current_scene_node = None
             state.current_scene_type = None
             state.current_scene_flavor = None
@@ -120,6 +131,7 @@ class GameStateManager:
             state.current_interrogation_pair = None
             state.final_result = None
             state.ended = False
+            state.last_aftermath = None
 
             return await self.save_state(state)
 
@@ -134,6 +146,7 @@ class GameStateManager:
         state.current_choices = []
         state.current_choice_payloads = []
         state.current_interrogation_pair = None
+        state.last_aftermath = None
         return await self.save_state(state)
 
     async def update_player_state(

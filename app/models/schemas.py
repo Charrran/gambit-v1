@@ -19,6 +19,7 @@ class ChoiceView(BaseModel):
     choice_id: str
     text: str
     role: Optional[str] = None
+    subtext: Optional[str] = None
 
 class HealthResponse(BaseModel):
     status: str
@@ -52,3 +53,9 @@ class GameState(BaseModel):
     current_interrogation_pair: Optional[Dict[str, str]] = None
     final_result: Optional[Dict[str, Any]] = None
     ended: bool = False
+    last_aftermath: Optional[str] = None
+    state_axes: Dict[str, int] = Field(default_factory=dict)
+    lane_weights: Dict[str, int] = Field(default_factory=dict)
+    story_flags: List[str] = Field(default_factory=list)
+    spotlight_counts: Dict[str, int] = Field(default_factory=dict)
+    resolved_lane: Optional[str] = None
