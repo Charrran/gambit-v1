@@ -4,7 +4,9 @@ import { ChevronLeft } from 'lucide-react';
 import { LandingScreen } from './components/screens/LandingScreen';
 import { CreateSessionScreen } from './components/screens/CreateSessionScreen';
 import { JoinSessionScreen } from './components/screens/JoinSessionScreen';
+import { EpisodeSelectScreen } from './components/screens/EpisodeSelectScreen';
 import { WaitingRoomScreen } from './components/screens/WaitingRoomScreen';
+import { PrologueScreen } from './components/screens/PrologueScreen';
 import { RoleRevealScreen } from './components/screens/RoleRevealScreen';
 import { ROLES } from './data/roles';
 
@@ -12,8 +14,10 @@ function App() {
   // --- STATE ---
   const [currentScreen, setCurrentScreen] = useState('landing');
   const [history, setHistory] = useState(['landing']);
-  const [session, setSession] = useState(null); // { sessionId, playerName, isHost }
+  const [session, setSession] = useState(null); // { sessionId, playerName, isHost, episodeId }
   const [players, setPlayers] = useState([]);
+  const [hostName, setHostName] = useState('');
+  const [readyCount, setReadyCount] = useState(0);
   const [assignedRole, setAssignedRole] = useState(null);
 
   // --- NAVIGATION ---
@@ -35,7 +39,12 @@ function App() {
   }, [history]);
 
   // --- ACTIONS ---
-  const handleSessionCreated = (sessionData) => {
+  const handleSessionStarted = (sessionData) => {
+    setHostName(sessionData.playerName);
+    navigate('episode-select');
+  };
+
+  const handleEpisodeConfirmed = (sessionData) => {
     setSession(sessionData);
     setPlayers([{ id: 'p1', name: sessionData.playerName, isHost: true }]);
     navigate('waiting');
@@ -59,6 +68,17 @@ function App() {
   };
 
   const handleStartGame = () => {
+    navigate('prologue');
+  };
+
+  const handlePlayerReady = () => {
+    // Send WebSocket message { type: "PLAYER_READY", player_id }
+    // For now, mock the increment
+    setReadyCount(prev => Math.min(prev + 1, players.length));
+  };
+
+  const handleBeginCrisis = () => {
+    // Send WebSocket message { type: "BEGIN_CRISIS" }
     const roleKeys = Object.keys(ROLES);
     const randomRole = roleKeys[Math.floor(Math.random() * roleKeys.length)];
     setAssignedRole(randomRole);
@@ -96,10 +116,10 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentScreen}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="w-full flex flex-col items-center"
           >
             {currentScreen === 'landing' && (
@@ -107,7 +127,14 @@ function App() {
             )}
             
             {currentScreen === 'create' && (
-              <CreateSessionScreen onSessionCreated={handleSessionCreated} />
+              <CreateSessionScreen onSessionCreated={handleSessionStarted} />
+            )}
+            
+            {currentScreen === 'episode-select' && (
+              <EpisodeSelectScreen 
+                hostName={hostName} 
+                onEpisodeConfirmed={handleEpisodeConfirmed} 
+              />
             )}
             
             {currentScreen === 'join' && (
@@ -119,6 +146,16 @@ function App() {
                 session={session} 
                 players={players} 
                 onStartGame={handleStartGame} 
+              />
+            )}
+
+            {currentScreen === 'prologue' && (
+              <PrologueScreen
+                session={session}
+                players={players}
+                readyCount={readyCount}
+                onReady={handlePlayerReady}
+                onBegin={handleBeginCrisis}
               />
             )}
             

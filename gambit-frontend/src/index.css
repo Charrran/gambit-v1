@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   --color-black: #080705;
   --color-deep: #0f0d0a;
   --color-surface: #161310;
@@ -20,25 +20,27 @@
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "DM Mono", monospace;
 
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes line-reveal {
-    from { opacity: 0; transform: scaleX(0); }
-    to { opacity: 1; transform: scaleX(1); }
-  }
-
-  @keyframes pulse-soft {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-
   --animate-fade-up: fade-up 0.8s ease forwards;
   --animate-line-reveal: line-reveal 1s ease forwards;
   --animate-pulse-soft: pulse-soft 2s ease infinite;
 }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes line-reveal {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+
 
 @layer base {
   html, body, #root {
