@@ -9,10 +9,16 @@ import { WaitingRoomScreen } from './components/screens/WaitingRoomScreen';
 import { PrologueScreen } from './components/screens/PrologueScreen';
 import { RoleRevealScreen } from './components/screens/RoleRevealScreen';
 import { GameScreen } from './components/screens/GameScreen';
-import { ROLES } from './data/roles';
+import { EpilogueScreen } from './components/screens/EpilogueScreen';
 import { useGameRoom } from './hooks/useGameRoom';
 
 const API_BASE_URL = 'http://localhost:8000';
+
+// Convert backend role names like "Raghava Rao" to "raghava_rao".
+function normalizeRoleKey(roleName) {
+  if (!roleName) return 'saraswathi';
+  return roleName.toLowerCase().replace(/\s+/g, '_');
+}
 
 function App() {
   // --- STATE ---
@@ -26,11 +32,12 @@ function App() {
   const [hostName, setHostName] = useState('');
 
   const [assignedRole, setAssignedRole] = useState(null);
+  const [finalResult, setFinalResult] = useState(null);
 
   // --- GAME SERVICE ---
   // Only create the WS connection once we have a real session (post episode-select)
   const gameRoom = useGameRoom(session?.sessionId, session?.playerName);
-  const { gameState, connect, sendChoice, sendMessage } = gameRoom;
+  const { gameState, connect, sendMessage } = gameRoom;
 
   // Derived state from gameState
   const activePlayers = Object.values(gameState?.active_players || {});
@@ -87,6 +94,15 @@ function App() {
     if (gameState?.story_flags?.includes('role_reveal_started') && currentScreen === 'prologue') {
       console.log("Role reveal started! Navigating to role screen.");
       navigate('role');
+    }
+  }, [gameState, currentScreen, navigate]);
+
+  useEffect(() => {
+    if (gameState?.type === 'GAME_OVER') {
+      setFinalResult(gameState);
+      if (currentScreen !== 'epilogue') {
+        navigate('epilogue');
+      }
     }
   }, [gameState, currentScreen, navigate]);
 
@@ -152,21 +168,18 @@ function App() {
     navigate('game');
   };
 
+  const handleGameEnd = () => navigate('epilogue');
 
-  // --- HELPERS ---
-  // Convert backend role names like "Raghava Rao" → "raghava_rao"
-  function normalizeRoleKey(roleName) {
-    if (!roleName) return 'saraswathi';
-    return roleName.toLowerCase().replace(/\s+/g, '_');
-  }
 
   // Determine if back button should be visible
-  const noBackScreens = ['landing', 'waiting', 'role', 'game'];
+  const noBackScreens = ['landing', 'waiting', 'role', 'game', 'epilogue'];
   const showBackButton = !noBackScreens.includes(currentScreen) && history.length > 1;
 
   return (
     <div className={`relative w-full h-full overflow-hidden ${
-      currentScreen === 'game' ? '' : 'flex flex-col items-center justify-center'
+      currentScreen === 'game' || currentScreen === 'epilogue'
+        ? ''
+        : 'flex flex-col items-center justify-center'
     }`}>
       {/* Back Button */}
       <AnimatePresence>
@@ -250,6 +263,16 @@ function App() {
                 roleKey={assignedRole ?? 'saraswathi'}
                 gameRoom={gameRoom}
                 session={session}
+                onGameEnd={handleGameEnd}
+              />
+            )}
+
+            {currentScreen === 'epilogue' && (
+              <EpilogueScreen
+                result={finalResult || gameState}
+                currentPlayerName={session?.playerName}
+                onPlayAgain={() => navigate('landing')}
+                onReturnToLobby={() => navigate('waiting')}
               />
             )}
           </motion.div>

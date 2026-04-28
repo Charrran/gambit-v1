@@ -8,6 +8,7 @@ from groq import AsyncGroq
 from pydantic import BaseModel, Field
 
 from app.core.config import settings
+from app.models.schemas import NewsHeadline
 
 class GeneratedOption(BaseModel):
     choice_id: str = Field(..., description="The unique ID of the specific narrative choice.")
@@ -27,6 +28,11 @@ class EndingComparison(BaseModel):
     canonical_summary: str = Field(..., description="A summary of what happened historically in 1995.")
     divergence_analysis: str = Field(..., description="An analysis of how the player's choices changed the course of history.")
     final_score: str = Field(..., description="A creative title for the ending based on the player's performance.")
+
+
+
+class NewsDispatch(BaseModel):
+    headlines: List[NewsHeadline] = Field(..., description="Exactly three in-world headlines.")
 
 class AIEngine:
     """
@@ -98,6 +104,10 @@ Situation: {premise}
 Authored choice intents. Preserve these exact IDs and dramatize the intent only:
 {choices_context}
 
+Important display rule:
+Do not copy the authored directive wording into the player-facing text.
+Rewrite each option as a fresh, character-specific tactical line that implies the same intent.
+
 State snapshot: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
 Previous decisions: {json.dumps((compressed_history or [])[-6:], ensure_ascii=True)}
 
@@ -127,7 +137,8 @@ Return one choice object for every provided Choice ID and no extra choices.
                 premise,
                 required_role,
             )
-        except Exception:
+        except Exception as exc:
+            print(f"[WARN] Spotlight AI generation failed for {required_role}: {exc}")
             return self._build_fallback_turn(premise, required_role, db_choices)
 
     async def generate_poll_turn(
@@ -173,6 +184,10 @@ Poll situation: {premise}
 Authored poll options. Preserve these exact IDs and dramatize the intent only:
 {choices_context}
 
+Important display rule:
+Do not copy the authored posture wording into the player-facing text.
+Rewrite each option as a fresh public resolution or political posture that implies the same intent.
+
 Current state: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
 Lane weights: {json.dumps(lane_weights or {}, ensure_ascii=True)}
 
@@ -201,7 +216,8 @@ Return one choice object for every provided Choice ID and no extra choices.
                 premise,
                 "COUNCIL",
             )
-        except Exception:
+        except Exception as exc:
+            print(f"[WARN] Poll AI generation failed: {exc}")
             return self._build_fallback_turn(premise, "COUNCIL", db_choices)
 
     async def generate_canonical_comparison(
@@ -315,6 +331,54 @@ Return plain text only. No JSON. No preamble.
             "Only later did observers understand that the crisis had changed the grammar of power inside the party itself."
         )
 
+    async def generate_news_headlines(
+        self,
+        current_node: str,
+        chapter_title: str,
+        in_world_date: str,
+        state_axes: Dict[str, Any],
+        lane_weights: Dict[str, int],
+        story_flags: List[str],
+        recent_history: List[dict],
+    ) -> List[Dict[str, str]]:
+        prompt = f"""
+You are the editor of fictional newspapers covering the Empire Bay Hotel crisis as it unfolds.
+
+Use ONLY fictional in-game names: Raghava Rao, Govardhan Naidu, Saraswathi, Venkatadri.
+Do not mention game mechanics, players, AI, choices, or real-life names.
+
+Current node: {current_node}
+Chapter: {chapter_title}
+Required in-world date: {in_world_date}
+State axes: {json.dumps(state_axes or {}, ensure_ascii=True)}
+Lane pressure: {json.dumps(lane_weights or {}, ensure_ascii=True)}
+Story flags: {json.dumps(story_flags or [], ensure_ascii=True)}
+Recent private decisions: {json.dumps(recent_history or [], ensure_ascii=True)}
+
+Return exactly three in-world news items. Each body must be one short sentence.
+Make them react to the current political direction without revealing private facts the press could not know.
+Use the required in-world date only. Do not use today's date or any modern year.
+"""
+        try:
+            dispatch = await asyncio.to_thread(
+                self.gemini_client.chat.completions.create,
+                model="gemini-2.0-flash",
+                messages=[{"role": "user", "content": prompt}],
+                response_model=NewsDispatch,
+            )
+            return dispatch.headlines[:3]
+        except Exception:
+            dispatch = await self.groq_client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": "Return only valid JSON for fictional political news headlines."},
+                    {"role": "user", "content": prompt},
+                ],
+                response_model=NewsDispatch,
+                max_retries=1,
+            )
+            return dispatch.headlines[:3]
+
     async def generate_breakdown_aftermath(
         self,
         character_name: str,
@@ -369,6 +433,7 @@ Write as a novelist, not a narrator.
         used_ids = {option.choice_id for option in reconciled}
         for choice in db_choices:
             if choice["choice_id"] not in used_ids:
+                print(f"[WARN] AI omitted choice_id {choice['choice_id']}; using authored fallback text.")
                 reconciled.append(
                     GeneratedOption(
                         choice_id=choice["choice_id"],

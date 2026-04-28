@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 const API_BASE_URL = 'http://localhost:8000';
 const WS_BASE_URL = 'ws://localhost:8000';
@@ -30,6 +30,15 @@ export function useGameRoom(sessionId, playerId) {
         
         if (data.type === 'ERROR' || data.type === 'FATAL_ERROR') {
           setError(data.error);
+        } else if (data.type === 'GAME_OVER') {
+          setGameState(data);
+        } else if (data.type === 'NARRATIVE_BEAT') {
+          setGameState((prev) => ({
+            ...(prev || {}),
+            ...data,
+            options: data.options || [],
+            msg: null,
+          }));
         } else {
           // Some backend WS messages are partial updates (choice prompts,
           // waiting notices). Preserve the last full scene/lobby snapshot.

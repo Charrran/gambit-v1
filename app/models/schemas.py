@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Any, Dict, List, Optional
 
 class PlayerProfile(BaseModel):
@@ -24,6 +24,17 @@ class ChoiceView(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     version: str = "2.1"
+
+class NewsHeadline(BaseModel):
+    id: str = Field(..., description="Stable short id.")
+    dateline: str = Field(..., description="Fictional publication and edition.")
+    headline: str = Field(..., description="In-world headline.")
+    body: str = Field(..., description="One sentence description.")
+
+    @field_validator("id", mode="before")
+    @classmethod
+    def coerce_id(cls, value):
+        return str(value)
 
 class GameState(BaseModel):
     """
@@ -62,3 +73,5 @@ class GameState(BaseModel):
 
     # State-reactive: chapter transition context sent with NARRATIVE_BEAT
     last_transition: Optional[Dict[str, Any]] = None
+    trust_matrix: Dict[str, int] = Field(default_factory=dict)
+    news_headlines: List[NewsHeadline] = Field(default_factory=list)

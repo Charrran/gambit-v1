@@ -7,6 +7,7 @@ import redis.asyncio as redis
 from app.core.config import settings
 from app.design.content import LANE_WEIGHTS, ROLES, STATE_AXES
 from app.models.schemas import GameState, PlayerProfile
+from app.services.live_intel import build_trust_matrix, fallback_headlines
 
 
 class GameStateManager:
@@ -69,6 +70,8 @@ class GameStateManager:
         state = GameState(session_id=session_id)
         state.state_axes = dict(STATE_AXES)
         state.lane_weights = dict(LANE_WEIGHTS)
+        state.trust_matrix = build_trust_matrix(state.state_axes)
+        state.news_headlines = fallback_headlines(state)
         state.spotlight_counts = {role: 0 for role in ROLES}
         await self._persist(state)
         return state
@@ -132,6 +135,9 @@ class GameStateManager:
             state.final_result = None
             state.ended = False
             state.last_aftermath = None
+            state.last_transition = None
+            state.trust_matrix = build_trust_matrix(state.state_axes)
+            state.news_headlines = fallback_headlines(state)
 
             return await self.save_state(state)
 

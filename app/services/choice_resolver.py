@@ -23,6 +23,7 @@ from app.design.content import (
 from app.models.schemas import GameState
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
+from app.services.live_intel import refresh_live_intel
 from app.services.state import state_manager
 from app.services.transition_engine import build_transition_summary
 
@@ -249,5 +250,6 @@ async def apply_choice(
         state.current_scene_round = 0
         state.current_scene_total_rounds = 0
         state.current_interrogation_pair = None
+        await refresh_live_intel(state)
 
         return await state_manager.save_state(state)

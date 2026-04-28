@@ -75,6 +75,11 @@ const MOCK_HEADLINES = [
 // END MOCK DATA BLOCK
 // ─────────────────────────────────────────────────────────────────────────────
 
+const roleNameToKey = (roleName) => {
+  if (!roleName) return 'saraswathi';
+  if (ROLES[roleName]) return roleName;
+  return roleName.toLowerCase().replace(/\s+/g, '_');
+};
 
 // ── Sub-component: Human Silhouette ───────────────────────────
 const Silhouette = ({ active, decided }) => {
@@ -100,7 +105,7 @@ const Silhouette = ({ active, decided }) => {
 
 
 // ── Sub-component: Trust Matrix (SVG diamond) ─────────────────
-const TrustMatrix = ({ myRoleKey }) => {
+const TrustMatrix = ({ myRoleKey, trustMatrix = {} }) => {
   const keys = Object.keys(ROLES);
 
   // Diamond positions in a 200×200 viewBox
@@ -112,11 +117,9 @@ const TrustMatrix = ({ myRoleKey }) => {
   };
 
   const getTrust = (a, b) => {
-    if (!gameState?.state_axes) return 50;
-    // Map backend axes (e.g. 'raghava_restoration') to pairwise visual trust
-    // For now, a simple average of relevant axes or default to 50
-    const axisKey = `${a}-${b}`;
-    return gameState.state_axes[axisKey] ?? 50;
+    const directKey = `${a}-${b}`;
+    const reverseKey = `${b}-${a}`;
+    return trustMatrix[directKey] ?? trustMatrix[reverseKey] ?? MOCK_TRUST[directKey] ?? MOCK_TRUST[reverseKey] ?? 50;
   };
 
 
@@ -283,7 +286,7 @@ const TimerBar = ({ seconds }) => {
 // Props:
 //   roleKey  – one of the ROLES keys, e.g. 'saraswathi'
 //              (passed from App after role assignment)
-export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {} }) => {
+export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}, onGameEnd }) => {
   const { gameState, sendChoice } = gameRoom;
   
   const [timeLeft, setTimeLeft] = useState(TOTAL_SECONDS);
@@ -292,7 +295,6 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
   
   // Map backend state
   const isInterrogation = gameState?.phase === 'INTERROGATION';
-  const isPoll = gameState?.phase === 'POLL';
   const currentPhase = gameState?.phase || 'INITIALIZING';
   const currentChapterTitle = gameState?.chapter_title || "Loading Story...";
   
@@ -300,6 +302,10 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
   const narrationSpeaker = gameState?.spotlight_role || "Narrator";
   
   const options = gameState?.options || [];
+  const visibleOptions = options.length > 0 ? options : [];
+  const isMyTurn = !!gameState?.is_my_turn || visibleOptions.length > 0;
+  const headlines = gameState?.news_headlines?.length ? gameState.news_headlines : MOCK_HEADLINES;
+  const trustMatrix = gameState?.trust_matrix || MOCK_TRUST;
 
   // Derive counterparts from active players
   const counterparts = Object.keys(gameState?.active_players || {})
@@ -307,7 +313,7 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
     .map(pid => {
       const p = gameState.active_players[pid];
       return {
-        roleKey: p.role,
+        roleKey: roleNameToKey(p.role),
         name: p.player_id,
         decided: !!gameState.votes?.[pid],
         isActive: gameState.current_scene_player === pid || gameState.spotlight_player === pid,
@@ -321,12 +327,25 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
 
   const role = ROLES[roleKey] || ROLES['saraswathi'];
 
+  useEffect(() => {
+    setSelected(null);
+    setCommitted(false);
+    setTimeLeft(TOTAL_SECONDS);
+  }, [gameState?.revision, gameState?.node_id]);
+
   // Countdown tick
   useEffect(() => {
     if (committed || timeLeft <= 0) return;
     const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearInterval(id);
   }, [committed, timeLeft]);
+
+  // Handle game end
+  useEffect(() => {
+    if ((gameState?.phase === 'EPILOGUE' || gameState?.type === 'GAME_OVER') && onGameEnd) {
+      onGameEnd();
+    }
+  }, [gameState?.phase, gameState?.type, onGameEnd]);
 
   return (
     // Uses w-screen to break out of App's centering container
@@ -523,34 +542,46 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
                 className="flex flex-col gap-2 mb-6"
               >
                 <p className="font-mono text-[10px] tracking-[0.4em] uppercase text-text-faint mb-1">
-                  Your Move
+                  {isMyTurn ? 'Your Move' : 'Observation'}
                 </p>
 
-                {options.map((opt) => (
-                  <motion.button key={opt.id}
+                {visibleOptions.map((opt, index) => {
+                  const optionId = opt.id || opt.choice_id;
+                  return (
+                  <motion.button key={optionId}
                     whileTap={{ scale: 0.995 }}
-                    onClick={() => setSelected(opt.id || opt.choice_id)}
+                    onClick={() => setSelected(optionId)}
                     className={`w-full text-left px-4 py-3.5 border transition-all duration-200 ${
-                      selected === (opt.id || opt.choice_id)
+                      selected === optionId
                         ? (isInterrogation ? 'border-red-primary bg-red-primary/5 shadow-[0_0_18px_rgba(139,38,53,0.1)]' : 'border-gold bg-gold/5 shadow-[0_0_18px_rgba(201,168,76,0.07)]')
                         : 'border-border-primary bg-deep/30 hover:border-border-secondary'
                     }`}
                   >
                     <div className="flex items-start gap-3">
                       <span className={`font-mono text-[12px] shrink-0 mt-0.5 ${
-                        selected === opt.id ? 'text-gold' : 'text-text-faint'
+                        selected === optionId ? 'text-gold' : 'text-text-faint'
                       }`}>
-                        {opt.id}.
+                        {String.fromCharCode(65 + index)}.
                       </span>
                       <span className={`text-[15px] leading-relaxed ${
-                        selected === opt.id ? 'text-text-primary' : 'text-text-dim'
+                        selected === optionId ? 'text-text-primary' : 'text-text-dim'
                       }`}>
                         {opt.text}
                       </span>
                     </div>
                   </motion.button>
-                ))}
+                  );
+                })}
 
+                {visibleOptions.length === 0 && (
+                  <div className="border border-border-primary bg-deep/30 px-4 py-4">
+                    <p className="text-[14px] text-text-faint">
+                      {gameState?.msg || 'Another player is making a private move. Watch the room for consequences.'}
+                    </p>
+                  </div>
+                )}
+
+                {isMyTurn && (
                 <div className="flex justify-end mt-3">
                   <motion.button
                     whileTap={{ scale: 0.98 }}
@@ -569,6 +600,7 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
                     Commit Decision
                   </motion.button>
                 </div>
+                )}
               </motion.div>
             ) : (
               <motion.div key="sealed"
@@ -641,7 +673,7 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
           </div>
 
           <div className="px-3 pt-2 pb-3">
-            <TrustMatrix myRoleKey={roleKey} />
+            <TrustMatrix myRoleKey={roleKey} trustMatrix={trustMatrix} />
 
             {/* Legend */}
             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 px-1">
@@ -690,8 +722,8 @@ export const GameScreen = ({ roleKey = 'saraswathi', gameRoom = {}, session = {}
 
           {/* Headlines */}
           <div className="px-4 py-2">
-            {MOCK_HEADLINES.map((item, i) => (
-              <motion.div key={item.id}
+            {headlines.map((item, i) => (
+              <motion.div key={item.id || item.headline}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.12 }}

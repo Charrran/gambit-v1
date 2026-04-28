@@ -172,6 +172,25 @@ async def start_game(session_id: str):
 # WebSocket payload helper
 # ---------------------------------------------------------------------------
 
+def _observer_flavor(state) -> str:
+    if state.current_scene_type == "POLL":
+        return "The council is being asked to take a position. Every player may vote on how the crisis moves next."
+    if state.current_scene_type == "INTERROGATION" and state.current_interrogation_pair:
+        pair = state.current_interrogation_pair
+        answering_role = pair.get("answering_role") or pair.get("target_role") or "someone"
+        instigator_role = pair.get("instigator_role") or "the room"
+        return (
+            f"A closed exchange is unfolding between {instigator_role} and {answering_role}. "
+            "The exact words are private, but the consequences will be visible soon."
+        )
+    if state.current_scene_role:
+        return (
+            f"{state.current_scene_role} has the room's attention. "
+            "The move is private for now; watch the trust matrix and dispatches for the public shape of it."
+        )
+    return "The room is between moves. Everyone is reading the consequences of the last decision."
+
+
 async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> None:
     if state.status != "ACTIVE":
         await websocket.send_json(
@@ -193,11 +212,20 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
         )
         return
 
+    is_group_scene = state.current_scene_type in GROUP_NODE_TYPES
+    is_actor = player_id == state.current_scene_player
+    can_choose = (is_group_scene and player_id not in state.votes) or is_actor
+    visible_choices = [choice.model_dump() for choice in state.current_choices] if can_choose else []
+    flavor = state.current_scene_flavor if can_choose else _observer_flavor(state)
+
     await websocket.send_json(
         {
             "type": "NARRATIVE_BEAT",
             "node_id": state.current_scene_node,
-            "flavor": state.current_scene_flavor,
+            "flavor": flavor,
+            "private_flavor": can_choose,
+            "is_my_turn": can_choose,
+            "options": visible_choices,
             "intro_context": INTRO_CONTEXT if state.current_scene_node == MASTER_BEATS[0]["id"] else None,
             "phase": state.current_scene_type,
             "spotlight_role": state.current_scene_role,
@@ -210,6 +238,8 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
             ).get("title"),
             "state_axes": state.state_axes,
             "lane_weights": state.lane_weights,
+            "trust_matrix": state.trust_matrix,
+            "news_headlines": [item.model_dump() if hasattr(item, "model_dump") else item for item in state.news_headlines],
             "story_flags": state.story_flags,
             "revision": state.revision,
             "active_players": {
@@ -340,6 +370,7 @@ async def game_loop_websocket(websocket: WebSocket, session_id: str, player_id: 
                         # Only call prepare_scene if node changed or not prepared
                         if state.current_scene_node != state.current_node:
                             state = await prepare_scene(session_id, STATE_AXES, LANE_WEIGHTS, MASTER_BEATS)
+                            state = await ensure_finale(session_id) or state
 
                     if state.revision != last_revision:
                         await _send_scene_payload(websocket, state, player_id)
