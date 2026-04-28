@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 
 export const Button = ({ children, onClick, variant = 'primary', disabled, className = '', ...props }) => {
   const variants = {
-    primary: 'bg-gold text-black hover:bg-gold-bright transform hover:-translate-y-0.5',
-    secondary: 'bg-transparent text-text-dim border border-border-secondary hover:border-gold-dim hover:text-gold',
+    primary: 'bg-gold text-black hover:bg-gold-bright shadow-lg shadow-gold/20',
+    secondary: 'bg-transparent text-text-primary border border-gold hover:bg-gold/5 hover:border-gold-bright shadow-sm',
     ghost: 'bg-transparent text-text-faint border border-border-primary text-[10px] px-5 py-2.5 hover:text-text-dim hover:border-border-secondary',
   };
 
@@ -23,6 +23,9 @@ export const Button = ({ children, onClick, variant = 'primary', disabled, class
     </motion.button>
   );
 };
+
+
+
 
 export const Input = ({ label, id, ...props }) => (
   <div className="flex flex-col gap-2 w-full">

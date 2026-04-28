@@ -118,6 +118,36 @@ def build_interrogation_payloads(
     definition = INTERROGATIONS.get(pair.get("interrogation_id") or "")
     target_node_id = next_node_after(current_node, master_beats)
 
+    def generic_payloads(target_role: str) -> List[Dict[str, object]]:
+        return [
+            {
+                "choice_id": f"{current_node.node_id}__answer_hold",
+                "action_intent": f"{target_role} answers carefully, preserving room to move.",
+                "required_role": target_role,
+                "target_node_id": target_node_id,
+                "capital_shift": 0,
+                "alignment_shift": "INTERROGATION",
+                "sets_flag": "interrogation_answer_hold",
+                "story_flags": ["interrogation_answer_hold"],
+                "effects": {"betrayal_heat": 0},
+                "lanes": {"venkatadri_compromise": 1},
+                "advance_node": True,
+            },
+            {
+                "choice_id": f"{current_node.node_id}__answer_press",
+                "action_intent": f"{target_role} answers directly and forces the accusation into the open.",
+                "required_role": target_role,
+                "target_node_id": target_node_id,
+                "capital_shift": 0,
+                "alignment_shift": "INTERROGATION",
+                "sets_flag": "interrogation_answer_press",
+                "story_flags": ["interrogation_answer_press"],
+                "effects": {"betrayal_heat": 1},
+                "lanes": {"broken_house": 1},
+                "advance_node": True,
+            },
+        ]
+
     if definition:
         payloads = []
         skipped = []
@@ -151,25 +181,12 @@ def build_interrogation_payloads(
             backfill["alignment_shift"] = "INTERROGATION"
             payloads.append(backfill)
 
+        if not payloads:
+            return generic_payloads(definition["player_role"])
         return payloads[:4]
 
     # Generic fallback payload
-    target_role = pair["target_role"]
-    return [
-        {
-            "choice_id": f"{current_node.node_id}__answer",
-            "action_intent": f"{target_role} answers the accusation and accepts the cost.",
-            "required_role": target_role,
-            "target_node_id": target_node_id,
-            "capital_shift": 0,
-            "alignment_shift": "INTERROGATION",
-            "sets_flag": "interrogation_answer",
-            "story_flags": ["interrogation_answer"],
-            "effects": {"betrayal_heat": 1},
-            "lanes": {"broken_house": 1},
-            "advance_node": True,
-        },
-    ]
+    return generic_payloads(pair["target_role"])
 
 
 def build_interrogation_flavor(pair: Dict[str, str], current_node) -> str:

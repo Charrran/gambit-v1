@@ -4,16 +4,8 @@ import { Button } from '../ui';
 export const LandingScreen = ({ onNavigate }) => {
   return (
     <div className="flex flex-col items-center justify-center p-6 gap-0">
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-        className="font-mono text-xs tracking-[0.4em] text-gold-dim uppercase mb-5"
-      >
-        August 1995 · Viceroy Hotel
-      </motion.p>
-      
       <div className="relative">
+
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,7 +26,7 @@ export const LandingScreen = ({ onNavigate }) => {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
-        className="font-serif text-[clamp(13px,2vw,16px)] italic text-text-dim mt-4 tracking-wide"
+        className="font-serif text-[clamp(15px,2vw,18px)] italic text-text-dim mt-4 tracking-wide"
       >
         A multiplayer political thriller. History is fixed. Consequences are not.
       </motion.p>

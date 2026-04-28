@@ -7,6 +7,7 @@ import redis.asyncio as redis
 from app.core.config import settings
 from app.design.content import LANE_WEIGHTS, ROLES, STATE_AXES
 from app.models.schemas import GameState, PlayerProfile
+from app.services.live_intel import build_trust_matrix, fallback_headlines
 
 
 class GameStateManager:
@@ -33,6 +34,8 @@ class GameStateManager:
         await self.client.set(f"game:{state.session_id}", state.model_dump_json())
         event = self._event_for(state.session_id)
         event.set()
+        event.clear()
+
 
     async def save_state(self, state: GameState) -> GameState:
         state.revision += 1
@@ -60,15 +63,15 @@ class GameStateManager:
         try:
             await asyncio.wait_for(event.wait(), timeout=timeout)
         except asyncio.TimeoutError:
-            return await self.get_state(session_id)
-
-        event.clear()
+            return None
         return await self.get_state(session_id)
 
     async def create_lobby(self, session_id: str) -> GameState:
         state = GameState(session_id=session_id)
         state.state_axes = dict(STATE_AXES)
         state.lane_weights = dict(LANE_WEIGHTS)
+        state.trust_matrix = build_trust_matrix(state.state_axes)
+        state.news_headlines = fallback_headlines(state)
         state.spotlight_counts = {role: 0 for role in ROLES}
         await self._persist(state)
         return state
@@ -132,6 +135,9 @@ class GameStateManager:
             state.final_result = None
             state.ended = False
             state.last_aftermath = None
+            state.last_transition = None
+            state.trust_matrix = build_trust_matrix(state.state_axes)
+            state.news_headlines = fallback_headlines(state)
 
             return await self.save_state(state)
 

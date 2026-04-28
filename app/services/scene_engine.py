@@ -306,6 +306,46 @@ def build_spotlight_payloads(
     return payloads[:3]
 
 
+def ensure_choice_payloads(
+    payloads: List[Dict[str, object]],
+    fallback_edges: List[Dict[str, object]],
+    role: Optional[str],
+    current_node_id: str,
+) -> List[Dict[str, object]]:
+    """Guarantee the client never receives an active turn with zero choices."""
+    if payloads:
+        return payloads
+
+    target = fallback_edges[0]["target_node_id"] if fallback_edges else "ending_broken_house"
+    base_role = role or (fallback_edges[0].get("required_role") if fallback_edges else "COUNCIL")
+    return [
+        {
+            "choice_id": f"{current_node_id}__steady",
+            "action_intent": "Hold the line and keep the room from committing too soon.",
+            "required_role": base_role,
+            "target_node_id": target,
+            "capital_shift": 0,
+            "alignment_shift": "CALCULATED",
+            "sets_flag": "fallback_steady",
+            "effects": {"leader_stability": 1},
+            "lanes": {"venkatadri_compromise": 1},
+            "advance_node": True,
+        },
+        {
+            "choice_id": f"{current_node_id}__force",
+            "action_intent": "Force a clear position before hesitation becomes the decision.",
+            "required_role": base_role,
+            "target_node_id": target,
+            "capital_shift": 0,
+            "alignment_shift": "DECISIVE",
+            "sets_flag": "fallback_force",
+            "effects": {"betrayal_heat": 1},
+            "lanes": {"broken_house": 1},
+            "advance_node": True,
+        },
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Design-state initialisation (guard for missing defaults)
 # ---------------------------------------------------------------------------
@@ -402,6 +442,12 @@ async def prepare_scene(
             interrogation_payloads = build_interrogation_payloads(
                 pair, current_node, state, master_beats
             )
+            interrogation_payloads = ensure_choice_payloads(
+                interrogation_payloads,
+                eligible_edges,
+                pair.get("answering_role") or pair.get("target_role"),
+                current_node.node_id,
+            )
             state.current_interrogation_pair = pair
             state.current_scene_role = pair.get("answering_role") or pair["target_role"]
             state.current_scene_player = pair.get("answering_player") or pair["target_player"]
@@ -421,6 +467,12 @@ async def prepare_scene(
         elif current_node.node_type in GROUP_NODE_TYPES:
             # Apply state-reactive filtering for poll choices
             reactive_payloads = _reactive_payloads_for_beat(beat, eligible_edges, state)
+            reactive_payloads = ensure_choice_payloads(
+                reactive_payloads,
+                eligible_edges,
+                "COUNCIL",
+                current_node.node_id,
+            )
             anchor = CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {})
             narrative = await ai_engine.generate_poll_turn(
                 premise=current_node.skeleton_premise,
@@ -479,6 +531,12 @@ async def prepare_scene(
             reactive_payloads = _reactive_payloads_for_beat(beat, spotlight_edges, state)
             if not reactive_payloads:
                 reactive_payloads = build_spotlight_payloads(spotlight_edges, round_number)
+            reactive_payloads = ensure_choice_payloads(
+                reactive_payloads,
+                spotlight_edges,
+                spotlight_role,
+                current_node.node_id,
+            )
 
             player_profile = state.active_players[spotlight_player]
             anchor = CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {})

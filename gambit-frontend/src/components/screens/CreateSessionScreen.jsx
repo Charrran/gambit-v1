@@ -15,12 +15,22 @@ export const CreateSessionScreen = ({ onSessionCreated }) => {
     setLoading(true);
     setStatus({ text: 'Creating session...', type: '' });
 
-    // Mock API Call
-    setTimeout(() => {
-      const sessionId = Math.random().toString(36).substring(2, 8).toUpperCase();
-      onSessionCreated({ sessionId, playerName: name, isHost: true });
+    try {
+      const response = await fetch('http://localhost:8000/lobby/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ player_id: name }),
+      });
+
+      if (!response.ok) throw new Error('Failed to create session');
+      
+      const data = await response.json();
+      onSessionCreated({ sessionId: data.session_id, playerName: name, isHost: true });
+    } catch (err) {
+      setStatus({ text: 'Error connecting to server. Is the backend running?', type: 'error' });
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (

@@ -332,7 +332,7 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch01_govardhan_wait", "Hold back and watch who repeats the rumor unprompted.", {"court_politics": 1, "govardhan_ruthlessness": -1}, {"venkatadri_compromise": 1}),
         ("ch01_govardhan_camp", "Begin listing reliable MLAs before anyone knows there is a list.", {"institutional_control": 2, "betrayal_heat": 1, "govardhan_ruthlessness": 1}, {"govardhan_consolidation": 2}),
         {"id": "ch01_govardhan_family_channel", "text": "Reach Venkatadri first and read the family's real position before moving.", "effects": {"venkatadri_loyalty": 1, "court_politics": 1}, "lanes": {"venkatadri_compromise": 1}, "requires": [{"axis": "venkatadri_loyalty", "op": ">=", "value": 0}], "tags": ["family", "calculation"]},
-        {"id": "ch01_govardhan_accelerate", "text": "Accelerate the count and build numbers before the situation becomes visible.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 2, "betrayal_heat": 2}, "lanes": {"govardhan_consolidation": 3, "pyrrhic_govardhan": 1}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 1}], "priority": 8, "tags": ["escalation", "institutional"]},
+        {"id": "ch01_govardhan_accelerate", "text": "Accelerate the count and build numbers before the situation becomes visible.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 2, "betrayal_heat": 2}, "lanes": {"govardhan_consolidation": 2, "pyrrhic_govardhan": 1}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 1}], "priority": 8, "tags": ["escalation", "institutional"]},
     ]},
     {"id": "gambit_ch01_venkatadri", "chapter": 1, "type": "CHARACTERIZATION", "role": "Venkatadri",
      "premise": "Family discomfort has not become public, but Venkatadri can feel people changing their tone around Raghava.",
@@ -350,7 +350,7 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch02_govardhan_threaten", "Make clear that the numbers are already moving.", {"institutional_control": 2, "govardhan_ruthlessness": 1, "betrayal_heat": 1}, {"govardhan_consolidation": 2}),
         ("ch02_govardhan_quiet", "Consolidate quietly while others believe mediation is still possible.", {"institutional_control": 1, "court_politics": 1}, {"pyrrhic_govardhan": 1}),
         {"id": "ch02_govardhan_go_public", "text": "Break cover and make the warning public before Raghava can dismiss it.", "effects": {"betrayal_heat": 3, "media_spin": 2, "elite_loyalty": -1}, "lanes": {"govardhan_consolidation": 2, "broken_house": 1}, "requires": [{"axis": "betrayal_heat", "op": ">=", "value": 3}], "priority": 8, "tags": ["escalation", "public", "media"]},
-        {"id": "ch02_govardhan_procedural_lock", "text": "Lock in documentary proof of majority before any response can arrive.", "effects": {"institutional_control": 3, "governor_patience": 1}, "lanes": {"govardhan_consolidation": 3}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 3}], "priority": 9, "tags": ["institutional", "procedure"]},
+        {"id": "ch02_govardhan_procedural_lock", "text": "Lock in documentary proof of majority before any response can arrive.", "effects": {"institutional_control": 3, "governor_patience": 1}, "lanes": {"govardhan_consolidation": 2}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 3}], "priority": 9, "tags": ["institutional", "procedure"]},
     ]},
     {"id": "gambit_ch02_raghava", "chapter": 2, "type": "CHARACTERIZATION", "role": "Raghava Rao",
      "premise": "Senior leaders carry a warning into the residence. It arrives dressed as respect.",
@@ -448,7 +448,7 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch04_govardhan_use_family", "Make Venkatadri's distance from Raghava politically visible.", {"institutional_control": 2, "family_cohesion": -2}, {"govardhan_consolidation": 2}),
         ("ch04_govardhan_soften", "Avoid using family wounds and keep the argument institutional.", {"elite_loyalty": 1, "betrayal_heat": -1}, {"pyrrhic_govardhan": 1}),
         ("ch04_govardhan_compromise", "Offer Venkatadri a role in the transition he cannot easily refuse.", {"venkatadri_loyalty": -1, "court_politics": 1}, {"venkatadri_compromise": 1}),
-        {"id": "ch04_govardhan_lock_numbers", "text": "Treat the majority as already achieved and start acting like the successor.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 1, "elite_loyalty": 1}, "lanes": {"govardhan_consolidation": 3}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 5}], "priority": 9, "tags": ["institutional", "procedure"]},
+        {"id": "ch04_govardhan_lock_numbers", "text": "Treat the majority as already achieved and start acting like the successor.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 1, "elite_loyalty": 1}, "lanes": {"govardhan_consolidation": 2}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 5}], "priority": 9, "tags": ["institutional", "procedure"]},
         {"id": "ch04_govardhan_expose_saraswathi", "text": "Let the camp know Saraswathi has been running her own channel. A controlled leak.", "effects": {"saraswathi_influence": -2, "court_politics": 2, "betrayal_heat": 2}, "lanes": {"saraswathi_betrayal": 2, "govardhan_consolidation": 1}, "requires": [{"axis": "saraswathi_influence", "op": ">=", "value": 4}], "priority": 8, "tags": ["betrayal", "saraswathi", "manipulation"]},
     ]},
     {"id": "gambit_ch05_govardhan", "chapter": 5, "type": "CHARACTERIZATION", "role": "Govardhan Naidu",
@@ -457,7 +457,7 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch05_govardhan_clean", "Make the transition procedurally immaculate.", {"institutional_control": 2, "elite_loyalty": 1}, {"govardhan_consolidation": 2}),
         ("ch05_govardhan_aggressive", "Remove Raghava immediately and absorb the moral blast.", {"institutional_control": 2, "betrayal_heat": 2}, {"pyrrhic_govardhan": 2}),
         ("ch05_govardhan_reconcile", "Leave one formal path for Raghava to step down with dignity.", {"family_cohesion": 1, "betrayal_heat": -1}, {"venkatadri_compromise": 1}),
-        {"id": "ch05_govardhan_total_control", "text": "Treat the resolution as a unilateral fact and remove all options for negotiation.", "effects": {"institutional_control": 4, "govardhan_ruthlessness": 2, "betrayal_heat": 3}, "lanes": {"govardhan_consolidation": 3, "pyrrhic_govardhan": 2}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 3}, {"axis": "institutional_control", "op": ">=", "value": 5}], "priority": 10, "tags": ["escalation", "institutional", "relentless"]},
+        {"id": "ch05_govardhan_total_control", "text": "Treat the resolution as a unilateral fact and remove all options for negotiation.", "effects": {"institutional_control": 4, "govardhan_ruthlessness": 2, "betrayal_heat": 3}, "lanes": {"govardhan_consolidation": 2, "pyrrhic_govardhan": 2}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 3}, {"axis": "institutional_control", "op": ">=", "value": 5}], "priority": 10, "tags": ["escalation", "institutional", "relentless"]},
         {"id": "ch05_govardhan_venkatadri_endorsement", "text": "Delay finalization until Venkatadri publicly endorses. The optics matter more than the hours.", "effects": {"elite_loyalty": 2, "betrayal_heat": -1, "venkatadri_loyalty": -2}, "lanes": {"govardhan_consolidation": 2, "venkatadri_compromise": 1}, "requires": [{"flag": "venkatadri_endorses_govardhan", "present": True}], "priority": 8, "tags": ["procedure", "endorsement"]},
     ]},
     {"id": "gambit_ch05_interrogation_venkatadri_govardhan", "chapter": 5, "type": "INTERROGATION",
@@ -520,7 +520,7 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch08_govardhan_force", "Force immediate headcount before fatigue creates sympathy.", {"institutional_control": 2, "governor_patience": -1}, {"govardhan_consolidation": 2}),
         ("ch08_govardhan_manage", "Manage numbers quietly and let procedure look inevitable.", {"elite_loyalty": 1, "institutional_control": 1}, {"pyrrhic_govardhan": 1}),
         ("ch08_govardhan_bargain", "Reopen one private bargain to prevent a public fracture.", {"family_cohesion": 1, "betrayal_heat": -1}, {"venkatadri_compromise": 1}),
-        {"id": "ch08_govardhan_exhaustion_move", "text": "Use the exhaustion in the room to push a procedurally unobjectionable final vote.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 1, "elite_loyalty": 2}, "lanes": {"govardhan_consolidation": 3}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 6}], "priority": 9, "tags": ["procedure", "institutional"]},
+        {"id": "ch08_govardhan_exhaustion_move", "text": "Use the exhaustion in the room to push a procedurally unobjectionable final vote.", "effects": {"institutional_control": 3, "govardhan_ruthlessness": 1, "elite_loyalty": 2}, "lanes": {"govardhan_consolidation": 2}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 6}], "priority": 9, "tags": ["procedure", "institutional"]},
         {"id": "ch08_govardhan_isolate_last_holdouts", "text": "Name the two or three holdouts in the room and apply targeted private pressure.", "effects": {"govardhan_ruthlessness": 2, "betrayal_heat": 1, "institutional_control": 1}, "lanes": {"govardhan_consolidation": 2, "pyrrhic_govardhan": 1}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 4}], "priority": 8, "tags": ["intimidation", "relentless"]},
     ]},
     {"id": "gambit_ch08_raghava", "chapter": 8, "type": "CHARACTERIZATION", "role": "Raghava Rao",
@@ -556,23 +556,34 @@ MASTER_BEATS: List[Dict[str, Any]] = [
         ("ch08_poll_compromise", "Reopen private compromise.", {"family_cohesion": 2, "betrayal_heat": -1}, {"venkatadri_compromise": 2}),
         {"id": "ch08_poll_final_rupture", "text": "Demand formal dissolution of any rival faction before tomorrow's deadline.", "effects": {"betrayal_heat": 3, "institutional_control": 2, "family_cohesion": -3}, "lanes": {"govardhan_consolidation": 2, "broken_house": 3}, "requires": [{"axis": "betrayal_heat", "op": ">=", "value": 6}], "priority": 9, "tags": ["rupture", "ultimatum"]},
     ]},
-    {"id": "gambit_ch09_raghava", "chapter": 9, "type": "CHARACTERIZATION", "role": "Raghava Rao",
-     "premise": "Raghava receives the final shape of the crisis: chair, loss, restoration, fracture, or something stranger.",
+    {"id": "gambit_ch09_raghava_test", "chapter": 9, "type": "CHARACTERIZATION", "role": "Raghava Rao",
+     "premise": "The crisis reaches its final hour. Raghava's ability to act depends entirely on the public mandate he has built.",
      "choices": [
-        ("ch09_raghava_claim", "Claim the mandate one final time.", {"public_mandate": 1, "leader_stability": 1}, {"raghava_restoration": 2}),
-        ("ch09_raghava_release", "Release the chair without releasing the story.", {"family_cohesion": 1, "betrayal_heat": -1}, {"patriarchs_last_roar": 1}),
-        ("ch09_raghava_burn", "Refuse legitimacy to any successor born from this week.", {"betrayal_heat": 2, "family_cohesion": -2}, {"broken_house": 2}),
-        {"id": "ch09_raghava_forgive_record", "text": "Issue a public statement of forgiveness that makes every opponent look small.", "effects": {"public_mandate": 3, "leader_stability": 2, "betrayal_heat": -2}, "lanes": {"raghava_restoration": 3, "patriarchs_last_roar": 1}, "requires": [{"axis": "public_mandate", "op": ">=", "value": 7}], "priority": 10, "tags": ["legacy", "mass_appeal", "symbol"]},
-        {"id": "ch09_raghava_saraswathi_successor", "text": "Name Saraswathi explicitly as the person who must carry what he built.", "effects": {"saraswathi_influence": 3, "family_cohesion": 1, "leader_stability": 1}, "lanes": {"the_inheritance": 3, "saraswathi_ascendancy": 1}, "requires": [{"flag": "inheritance_unlocked", "present": True}], "priority": 9, "tags": ["inheritance", "succession"]},
+        {"id": "ch09_raghava_true_restoration", "text": "Leverage overwhelming public support to force the party to back down.", "effects": {"leader_stability": 2, "betrayal_heat": -2}, "lanes": {"raghava_restoration": 2}, "requires": [{"axis": "public_mandate", "op": ">=", "value": 6}], "priority": 10, "tags": ["restoration", "mandate"]},
+        {"id": "ch09_raghava_burn_house", "text": "Turn the betrayal into a permanent fracture. Refuse any reconciliation.", "effects": {"betrayal_heat": 3, "family_cohesion": -3}, "lanes": {"patriarchs_last_roar": 2, "broken_house": 1}, "requires": [{"axis": "betrayal_heat", "op": ">=", "value": 5}], "priority": 9, "tags": ["fracture", "legacy"]},
+        {"id": "ch09_raghava_yield", "text": "Accept the end quietly to save the family name.", "effects": {"family_cohesion": 2, "leader_stability": -2}, "lanes": {"venkatadri_compromise": 1}, "priority": 5, "tags": ["surrender", "family"]},
     ]},
-    {"id": "gambit_ch09_govardhan", "chapter": 9, "type": "CHARACTERIZATION", "role": "Govardhan Naidu",
-     "premise": "Govardhan can stabilize power, inherit a wound, or discover that procedure won less than he thought.",
+    {"id": "gambit_ch09_govardhan_test", "chapter": 9, "type": "CHARACTERIZATION", "role": "Govardhan Naidu",
+     "premise": "The procedure is ready. Govardhan's final move depends on the strength of the institution he commands.",
      "choices": [
-        ("ch09_govardhan_stabilize", "Accept power and immediately stabilize the institution.", {"institutional_control": 2, "elite_loyalty": 1}, {"govardhan_consolidation": 2}),
-        ("ch09_govardhan_acknowledge", "Acknowledge Raghava's place while taking the chair.", {"public_mandate": 1, "betrayal_heat": -1}, {"pyrrhic_govardhan": 1}),
-        ("ch09_govardhan_share", "Offer a compromise structure before victory curdles.", {"family_cohesion": 1, "elite_loyalty": -1}, {"venkatadri_compromise": 2}),
-        {"id": "ch09_govardhan_total_victory", "text": "Accept power without ceremony and begin governance immediately.", "effects": {"institutional_control": 3, "elite_loyalty": 2, "govardhan_ruthlessness": 1}, "lanes": {"govardhan_consolidation": 4}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 8}], "priority": 10, "tags": ["procedure", "total_control"]},
-        {"id": "ch09_govardhan_pyrrhic_speech", "text": "Acknowledge the cost publicly. Let the victory look like what it was.", "effects": {"public_mandate": 2, "betrayal_heat": -1, "govardhan_ruthlessness": -1}, "lanes": {"pyrrhic_govardhan": 3}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 4}], "priority": 8, "tags": ["acknowledgement", "media"]},
+        {"id": "ch09_govardhan_true_consolidation", "text": "Execute the final procedural lock. The succession is undeniable.", "effects": {"institutional_control": 2, "elite_loyalty": 1}, "lanes": {"govardhan_consolidation": 2}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 6}], "priority": 10, "tags": ["procedure", "consolidation"]},
+        {"id": "ch09_govardhan_ruthless_purge", "text": "Purge all remaining loyalists. Victory, no matter the cost.", "effects": {"govardhan_ruthlessness": 2, "betrayal_heat": 2}, "lanes": {"pyrrhic_govardhan": 2}, "requires": [{"axis": "govardhan_ruthlessness", "op": ">=", "value": 4}], "priority": 9, "tags": ["purge", "relentless"]},
+        {"id": "ch09_govardhan_halt", "text": "Halt the machine before it breaks the party entirely.", "effects": {"elite_loyalty": -1, "institutional_control": -1}, "lanes": {"venkatadri_compromise": 1}, "priority": 5, "tags": ["halt", "compromise"]},
+    ]},
+    {"id": "gambit_ch09_saraswathi_test", "chapter": 9, "type": "CHARACTERIZATION", "role": "Saraswathi",
+     "premise": "The dust begins to settle. Saraswathi must choose what she inherits from the wreckage.",
+     "choices": [
+        {"id": "ch09_saraswathi_true_ascendancy", "text": "Step into the vacuum and claim the center of power.", "effects": {"saraswathi_influence": 2, "court_politics": 2}, "lanes": {"saraswathi_ascendancy": 2}, "requires": [{"axis": "saraswathi_influence", "op": ">=", "value": 6}], "priority": 10, "tags": ["ascendancy", "power"]},
+        {"id": "ch09_saraswathi_family_inheritance", "text": "Secure the family's future, even if it means stepping back.", "effects": {"family_cohesion": 2, "betrayal_heat": -1}, "lanes": {"the_inheritance": 2}, "requires": [{"axis": "family_cohesion", "op": ">=", "value": -2}], "priority": 9, "tags": ["family", "inheritance"]},
+        {"id": "ch09_saraswathi_pure_betrayal", "text": "Finalize back-channel deals and abandon the sinking ship.", "effects": {"betrayal_heat": 2, "saraswathi_influence": -1}, "lanes": {"saraswathi_betrayal": 2}, "priority": 5, "tags": ["betrayal", "survival"]},
+    ]},
+    {"id": "gambit_ch09_verdict", "chapter": 9, "type": "POLL",
+     "premise": "The crisis reaches its absolute end. The group must finalize the posture. The available options reflect the inescapable reality you have collectively built.",
+     "choices": [
+        {"id": "ch09_poll_institutional_transfer", "text": "Formalize the transfer of power. The machine won.", "effects": {"institutional_control": 2}, "lanes": {"govardhan_consolidation": 2}, "requires": [{"axis": "institutional_control", "op": ">=", "value": 8}], "priority": 10, "tags": ["verdict", "institution"]},
+        {"id": "ch09_poll_popular_reversal", "text": "Bow to the public mandate. The founder remains.", "effects": {"public_mandate": 2}, "lanes": {"raghava_restoration": 2}, "requires": [{"axis": "public_mandate", "op": ">=", "value": 8}], "priority": 10, "tags": ["verdict", "mandate"]},
+        {"id": "ch09_poll_complete_fracture", "text": "Acknowledge the permanent split. The party is dead.", "effects": {"betrayal_heat": 2}, "lanes": {"broken_house": 2}, "requires": [{"axis": "betrayal_heat", "op": ">=", "value": 8}], "priority": 9, "tags": ["verdict", "fracture"]},
+        {"id": "ch09_poll_family_compromise", "text": "Agree to a quiet, bitter compromise to save appearances.", "effects": {"family_cohesion": 1}, "lanes": {"venkatadri_compromise": 2}, "priority": 5, "tags": ["verdict", "compromise"]},
     ]},
 ]
 
@@ -799,6 +810,8 @@ def resolve_lane(lane_weights: Dict[str, int], state_axes: Dict[str, int]) -> st
         weights["broken_house"] += 3
     if state_axes.get("public_mandate", 0) >= 8 and state_axes.get("leader_stability", 0) <= -2:
         weights["patriarchs_last_roar"] += 3
+    if state_axes.get("public_mandate", 0) >= 8 and state_axes.get("family_cohesion", 0) >= -2:
+        weights["raghava_restoration"] += 3
     if state_axes.get("saraswathi_influence", 0) >= 7 and state_axes.get("court_politics", 0) >= 5:
         weights["saraswathi_ascendancy"] += 3
     if state_axes.get("institutional_control", 0) >= 8 and state_axes.get("elite_loyalty", 0) >= 4:

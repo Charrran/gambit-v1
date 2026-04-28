@@ -4,17 +4,65 @@ import { ChevronLeft } from 'lucide-react';
 import { LandingScreen } from './components/screens/LandingScreen';
 import { CreateSessionScreen } from './components/screens/CreateSessionScreen';
 import { JoinSessionScreen } from './components/screens/JoinSessionScreen';
+import { EpisodeSelectScreen } from './components/screens/EpisodeSelectScreen';
 import { WaitingRoomScreen } from './components/screens/WaitingRoomScreen';
+import { PrologueScreen } from './components/screens/PrologueScreen';
 import { RoleRevealScreen } from './components/screens/RoleRevealScreen';
-import { ROLES } from './data/roles';
+import { GameScreen } from './components/screens/GameScreen';
+import { EpilogueScreen } from './components/screens/EpilogueScreen';
+import { useGameRoom } from './hooks/useGameRoom';
+
+const API_BASE_URL = 'http://localhost:8000';
+
+// Convert backend role names like "Raghava Rao" to "raghava_rao".
+function normalizeRoleKey(roleName) {
+  if (!roleName) return 'saraswathi';
+  return roleName.toLowerCase().replace(/\s+/g, '_');
+}
 
 function App() {
   // --- STATE ---
   const [currentScreen, setCurrentScreen] = useState('landing');
   const [history, setHistory] = useState(['landing']);
-  const [session, setSession] = useState(null); // { sessionId, playerName, isHost }
-  const [players, setPlayers] = useState([]);
+
+  // session = { sessionId, playerName, isHost }
+  // hostSessionId = sessionId returned by /lobby/create before episode select
+  const [session, setSession] = useState(null);
+  const [hostSessionId, setHostSessionId] = useState(null);
+  const [hostName, setHostName] = useState('');
+
   const [assignedRole, setAssignedRole] = useState(null);
+  const [finalResult, setFinalResult] = useState(null);
+
+  // --- GAME SERVICE ---
+  // Only create the WS connection once we have a real session (post episode-select)
+  const gameRoom = useGameRoom(session?.sessionId, session?.playerName);
+  const { gameState, connect, sendMessage } = gameRoom;
+
+  // Derived state from gameState
+  const activePlayers = Object.values(gameState?.active_players || {});
+  const readyPlayersCount = activePlayers.filter(p => p.flags?.includes('ready')).length;
+
+
+
+  useEffect(() => {
+    if (session?.sessionId && session?.playerName) {
+      connect();
+    }
+  }, [session, connect]);
+
+  // Global role assignment sync
+  useEffect(() => {
+    const myProfile = gameState?.active_players?.[session?.playerName];
+    if (myProfile?.role) {
+      const roleKey = normalizeRoleKey(myProfile.role);
+      if (assignedRole !== roleKey) {
+        console.log("Syncing role:", roleKey);
+        setAssignedRole(roleKey);
+      }
+    }
+  }, [gameState, session, assignedRole]);
+
 
   // --- NAVIGATION ---
   const navigate = useCallback((screen, addToHistory = true) => {
@@ -34,48 +82,106 @@ function App() {
     }
   }, [history]);
 
+  useEffect(() => {
+    if (gameState?.type === 'NARRATIVE_BEAT' && currentScreen === 'waiting') {
+      console.log("Game started! Navigating to prologue.");
+      navigate('prologue');
+    }
+  }, [gameState, currentScreen, navigate]); 
+
+  // Transition from Prologue to Role Reveal (Synchronized)
+  useEffect(() => {
+    if (gameState?.story_flags?.includes('role_reveal_started') && currentScreen === 'prologue') {
+      console.log("Role reveal started! Navigating to role screen.");
+      navigate('role');
+    }
+  }, [gameState, currentScreen, navigate]);
+
+  useEffect(() => {
+    if (gameState?.type === 'GAME_OVER') {
+      setFinalResult(gameState);
+      if (currentScreen !== 'epilogue') {
+        navigate('epilogue');
+      }
+    }
+  }, [gameState, currentScreen, navigate]);
+
+
+
   // --- ACTIONS ---
-  const handleSessionCreated = (sessionData) => {
-    setSession(sessionData);
-    setPlayers([{ id: 'p1', name: sessionData.playerName, isHost: true }]);
-    navigate('waiting');
-    
-    // Mock simulation of players joining
-    setTimeout(() => {
-      setPlayers(prev => [...prev, { id: 'p2', name: 'Arjun Reddy', isHost: false }]);
-    }, 2000);
-    setTimeout(() => {
-      setPlayers(prev => [...prev, { id: 'p3', name: 'Kavitha Rao', isHost: false }]);
-    }, 4500);
+
+  // Step 1: Host creates session → backend returns real session_id
+  const handleSessionCreated = (data) => {
+    // data = { sessionId, playerName, isHost: true }
+    setHostSessionId(data.sessionId);
+    setHostName(data.playerName);
+    navigate('episode-select');
   };
 
+  // Step 2: Host confirms episode → set session state (triggers WS connect)
+  const handleEpisodeConfirmed = (sessionData) => {
+    // sessionData = { sessionId (real), playerName, isHost, episodeId }
+    setSession(sessionData);
+    navigate('waiting');
+  };
+
+  // Step 3: Guest joins → backend call already done in JoinSessionScreen
   const handleJoined = (sessionData) => {
+    // sessionData = { sessionId, playerName, isHost: false }
     setSession(sessionData);
-    setPlayers([
-      { id: 'p0', name: 'The Host', isHost: true },
-      { id: 'p1', name: sessionData.playerName, isHost: false }
-    ]);
     navigate('waiting');
   };
 
-  const handleStartGame = () => {
-    const roleKeys = Object.keys(ROLES);
-    const randomRole = roleKeys[Math.floor(Math.random() * roleKeys.length)];
-    setAssignedRole(randomRole);
-    navigate('role');
+  // Step 4: Host clicks Begin
+  const handleStartGame = async () => {
+    if (!session?.sessionId) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/lobby/${session.sessionId}/start`, {
+        method: 'POST',
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        console.error('Start game failed:', err.detail);
+        if (err.detail?.includes('4')) {
+          alert(`The backend requires all 4 players before starting. Currently: ${err.detail}`);
+          return;
+        }
+      }
+      // Backend will push a NARRATIVE_BEAT via WebSocket when ready
+      // The useEffect above will navigate to 'role'
+    } catch (e) {
+      console.error('Could not reach backend:', e);
+    }
   };
+
+  const handlePlayerReady = () => {
+    sendMessage({ type: 'READY' });
+  };
+
+
+  const handleBeginCrisis = () => {
+    sendMessage({ type: 'START_ROLE_REVEAL' });
+  };
+
 
   const handleAcceptRole = () => {
-    alert('→ Proceeding to main game. UI migration complete!');
+    navigate('game');
   };
 
+  const handleGameEnd = () => navigate('epilogue');
+
+
   // Determine if back button should be visible
-  const noBackScreens = ['landing', 'waiting', 'role'];
+  const noBackScreens = ['landing', 'waiting', 'role', 'game', 'epilogue'];
   const showBackButton = !noBackScreens.includes(currentScreen) && history.length > 1;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
-      {/* Navigation Overlay */}
+    <div className={`relative w-full h-full overflow-hidden ${
+      currentScreen === 'game' || currentScreen === 'epilogue'
+        ? ''
+        : 'flex flex-col items-center justify-center'
+    }`}>
+      {/* Back Button */}
       <AnimatePresence>
         {showBackButton && (
           <motion.button
@@ -96,36 +202,77 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentScreen}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             className="w-full flex flex-col items-center"
           >
             {currentScreen === 'landing' && (
               <LandingScreen onNavigate={navigate} />
             )}
-            
+
             {currentScreen === 'create' && (
               <CreateSessionScreen onSessionCreated={handleSessionCreated} />
             )}
-            
+
+            {/* Episode Select receives the REAL sessionId from backend */}
+            {currentScreen === 'episode-select' && (
+              <EpisodeSelectScreen
+                hostName={hostName}
+                sessionId={hostSessionId}
+                onEpisodeConfirmed={handleEpisodeConfirmed}
+              />
+            )}
+
             {currentScreen === 'join' && (
               <JoinSessionScreen onJoined={handleJoined} />
             )}
-            
+
+            {/* WaitingRoom polls + listens to WS for live player list */}
             {currentScreen === 'waiting' && (
-              <WaitingRoomScreen 
-                session={session} 
-                players={players} 
-                onStartGame={handleStartGame} 
+              <WaitingRoomScreen
+                session={session}
+                gameState={gameState}
+                onStartGame={handleStartGame}
               />
             )}
-            
+
+            {currentScreen === 'prologue' && (
+              <PrologueScreen
+                session={session}
+                players={activePlayers}
+                readyCount={readyPlayersCount}
+                onReady={handlePlayerReady}
+                onBegin={handleBeginCrisis}
+              />
+            )}
+
+
+
+
             {currentScreen === 'role' && (
-              <RoleRevealScreen 
-                roleKey={assignedRole} 
-                onAccept={handleAcceptRole} 
+              <RoleRevealScreen
+                roleKey={assignedRole}
+                onAccept={handleAcceptRole}
+              />
+            )}
+
+            {currentScreen === 'game' && (
+              <GameScreen
+                roleKey={assignedRole ?? 'saraswathi'}
+                gameRoom={gameRoom}
+                session={session}
+                onGameEnd={handleGameEnd}
+              />
+            )}
+
+            {currentScreen === 'epilogue' && (
+              <EpilogueScreen
+                result={finalResult || gameState}
+                currentPlayerName={session?.playerName}
+                onPlayAgain={() => navigate('landing')}
+                onReturnToLobby={() => navigate('waiting')}
               />
             )}
           </motion.div>

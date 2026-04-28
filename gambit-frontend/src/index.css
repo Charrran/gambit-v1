@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   --color-black: #080705;
   --color-deep: #0f0d0a;
   --color-surface: #161310;
@@ -8,37 +8,39 @@
   --color-border-primary: #2a241c;
   --color-border-secondary: #3a3228;
   --color-gold: #c9a84c;
-  --color-gold-dim: #7a6430;
+  --color-gold-dim: #b49a5a;
   --color-gold-bright: #e8c96a;
   --color-red-primary: #8b2635;
   --color-red-dim: #5a1822;
   --color-text-primary: #e8e0d0;
-  --color-text-dim: #8a8070;
-  --color-text-faint: #4a4438;
+  --color-text-dim: #c8bcac;
+  --color-text-faint: #908878;
 
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "DM Mono", monospace;
 
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes line-reveal {
-    from { opacity: 0; transform: scaleX(0); }
-    to { opacity: 1; transform: scaleX(1); }
-  }
-
-  @keyframes pulse-soft {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-
   --animate-fade-up: fade-up 0.8s ease forwards;
   --animate-line-reveal: line-reveal 1s ease forwards;
   --animate-pulse-soft: pulse-soft 2s ease infinite;
 }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes line-reveal {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+
 
 @layer base {
   html, body, #root {
