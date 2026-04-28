@@ -70,6 +70,9 @@ export const PrologueScreen = ({ session, players, readyCount = 0, onReady, onBe
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
 
+  const myPlayer = players.find(p => p.player_id === session?.playerName);
+  const isReady = hasClickReady || myPlayer?.flags?.includes('ready');
+
   const handleReady = () => {
     setHasClickReady(true);
     onReady();
@@ -119,16 +122,30 @@ export const PrologueScreen = ({ session, players, readyCount = 0, onReady, onBe
             <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-text-faint">
               {readyCount} / {players.length || 4} players ready
             </p>
+            <div className="w-full flex flex-wrap justify-center gap-6 mt-2">
+              {players.map((p) => {
+                const isPlayerReady = p.flags?.includes('ready');
+                return (
+                  <div key={p.player_id} className="flex items-center gap-2">
+                    <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${isPlayerReady ? 'bg-gold shadow-[0_0_8px_rgba(212,175,55,0.6)]' : 'bg-white/10'}`} />
+                    <span className={`font-mono text-[10px] tracking-widest uppercase transition-colors duration-500 ${isPlayerReady ? 'text-gold' : 'text-text-faint'}`}>
+                      {p.player_id}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="flex flex-col items-center gap-4">
             <Button
-              variant={hasClickReady ? 'ghost' : 'primary'}
+              variant={isReady ? 'ghost' : 'primary'}
               onClick={handleReady}
-              disabled={hasClickReady}
+              disabled={isReady}
             >
-              {hasClickReady ? 'Waiting for others...' : "I'm Ready"}
+              {isReady ? 'Waiting for others...' : "I'm Ready"}
             </Button>
+
 
             {isHost && readyCount >= (players.length || 1) && (
               <motion.div

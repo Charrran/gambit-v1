@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { Button } from '../ui';
 
 const EPISODES = [
@@ -11,44 +11,43 @@ const EPISODES = [
     description: 'A patriarch. A strategist. A woman nobody can name. A family about to fracture. Four roles. One crisis. Fifteen minutes of alternate history.',
     status: 'AVAILABLE'
   },
-  { id: 'EP_02_LOCKED', status: 'LOCKED' },
-  { id: 'EP_03_LOCKED', status: 'LOCKED' },
-  { id: 'EP_04_LOCKED', status: 'LOCKED' }
 ];
 
-export const EpisodeSelectScreen = ({ hostName, onEpisodeConfirmed }) => {
+/**
+ * EpisodeSelectScreen
+ * Props:
+ *   hostName       – the name the host entered
+ *   sessionId      – the REAL session ID already created by the backend
+ *   onEpisodeConfirmed(sessionData) – called with { sessionId, playerName, isHost, episodeId }
+ */
+export const EpisodeSelectScreen = ({ hostName, sessionId, onEpisodeConfirmed }) => {
   const [selectedId, setSelectedId] = useState('EP_01_REGENT');
   const [loading, setLoading] = useState(false);
 
-  const handleConfirm = async () => {
-    if (!selectedId) return;
+  const handleConfirm = () => {
+    if (!selectedId || !sessionId) return;
     setLoading(true);
 
-    // Mock Lobby Creation
-    setTimeout(() => {
-      const mockSessionCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-      onEpisodeConfirmed({
-        sessionId: mockSessionCode,
-        playerName: hostName,
-        isHost: true,
-        episodeId: selectedId
-      });
-      setLoading(false);
-    }, 1200);
+    // Session is already created in the backend — just forward the confirmed episode
+    onEpisodeConfirmed({
+      sessionId,          // ← real backend session ID, NOT a mock
+      playerName: hostName,
+      isHost: true,
+      episodeId: selectedId,
+    });
   };
-
 
   return (
     <div className="w-full max-w-[900px] flex flex-col items-center">
       <div className="text-center mb-12">
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-mono text-xs tracking-[0.4em] text-gold uppercase mb-3"
         >
           Select Episode
         </motion.p>
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -85,7 +84,7 @@ export const EpisodeSelectScreen = ({ hostName, onEpisodeConfirmed }) => {
           </p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
@@ -103,11 +102,9 @@ export const EpisodeSelectScreen = ({ hostName, onEpisodeConfirmed }) => {
         </motion.div>
       </div>
 
-
-
-      <Button 
-        onClick={handleConfirm} 
-        disabled={!selectedId || loading}
+      <Button
+        onClick={handleConfirm}
+        disabled={!selectedId || loading || !sessionId}
         className="min-w-[240px]"
       >
         {loading ? 'Securing History...' : 'Confirm Episode'}

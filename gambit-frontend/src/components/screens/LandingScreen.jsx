@@ -26,7 +26,7 @@ export const LandingScreen = ({ onNavigate }) => {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.8 }}
-        className="font-serif text-[clamp(13px,2vw,16px)] italic text-text-dim mt-4 tracking-wide"
+        className="font-serif text-[clamp(15px,2vw,18px)] italic text-text-dim mt-4 tracking-wide"
       >
         A multiplayer political thriller. History is fixed. Consequences are not.
       </motion.p>

@@ -11,8 +11,10 @@ import uuid
 import neomodel
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 from neomodel.async_.node import NodeMeta
 from pydantic import BaseModel
+
 
 load_dotenv()
 _uri = os.getenv("NEO4J_URI", "")
@@ -52,6 +54,16 @@ if not settings.gemini_api_key:
     raise ValueError("CRITICAL: GEMINI_API_KEY is missing. Canonical Summary will fail.")
 
 app = FastAPI(title="Gambit: The Regent Rebellion Engine")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 class JoinRequest(BaseModel):
@@ -99,18 +111,53 @@ async def check_database():
 
 
 @app.post("/lobby/create")
-async def create_lobby():
-    session_id = str(uuid.uuid4())[:8]
+async def create_lobby(request: JoinRequest):
+    session_id = str(uuid.uuid4())[:8].upper()
     state = await state_manager.create_lobby(session_id)
+    # Automatically join the host
+    state = await state_manager.join_lobby(session_id, request.player_id)
     return {"session_id": session_id, "state": state}
+
+
+@app.get("/lobby/{session_id}/state")
+async def get_lobby_state(session_id: str):
+    """Polling endpoint for WaitingRoom to get current player list."""
+    state = await state_manager.get_state(session_id)
+    if not state:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {
+        "session_id": session_id,
+        "status": state.status,
+        "active_players": {
+            pid: profile.model_dump()
+            for pid, profile in state.active_players.items()
+        },
+        "player_count": len(state.active_players),
+    }
+
+
 
 
 @app.post("/lobby/{session_id}/join")
 async def join_lobby(session_id: str, request: JoinRequest):
     try:
-        return await state_manager.join_lobby(session_id, request.player_id)
+        state = await state_manager.join_lobby(session_id, request.player_id)
+        # Broadcast lobby update to all currently connected WebSocket players
+        await socket_manager.broadcast_to_session(
+            session_id,
+            {
+                "type": "LOBBY_UPDATE",
+                "active_players": {
+                    pid: profile.model_dump()
+                    for pid, profile in state.active_players.items()
+                },
+                "player_count": len(state.active_players),
+            }
+        )
+        return {"session_id": session_id, "state": state}
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+
 
 
 @app.post("/lobby/{session_id}/start")
@@ -128,7 +175,15 @@ async def start_game(session_id: str):
 async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> None:
     if state.status != "ACTIVE":
         await websocket.send_json(
-            {"type": "WAITING", "msg": "Waiting for all players to join and the host to start..."}
+            {
+                "type": "LOBBY_UPDATE",
+                "active_players": {
+                    pid: profile.model_dump()
+                    for pid, profile in state.active_players.items()
+                },
+                "player_count": len(state.active_players),
+                "msg": "Waiting for all players to join and the host to start...",
+            }
         )
         return
 
@@ -148,16 +203,24 @@ async def _send_scene_payload(websocket: WebSocket, state, player_id: str) -> No
             "spotlight_role": state.current_scene_role,
             "spotlight_player": state.current_scene_player,
             "interrogation_pair": state.current_interrogation_pair,
+            "current_interrogation_pair": state.current_interrogation_pair,
             "chapter": chapter_for_node(state.current_scene_node or state.current_node),
             "chapter_title": CHAPTER_ANCHORS.get(
                 chapter_for_node(state.current_scene_node or state.current_node), {}
             ).get("title"),
             "state_axes": state.state_axes,
             "lane_weights": state.lane_weights,
+            "story_flags": state.story_flags,
+            "revision": state.revision,
+            "active_players": {
+                pid: profile.model_dump()
+                for pid, profile in state.active_players.items()
+            },
             "aftermath": state.last_aftermath,
             "transition": state.last_transition,
         }
     )
+
 
     if state.current_scene_type in GROUP_NODE_TYPES:
         if player_id not in state.votes:
@@ -219,70 +282,90 @@ async def game_loop_websocket(websocket: WebSocket, session_id: str, player_id: 
             await websocket.close()
             return
 
-        while True:
-            state = await state_manager.get_state(session_id)
-            if not state:
-                await websocket.send_json({"type": "ERROR", "error": "Session not found."})
-                break
-
-            if state.status == "ACTIVE" and not state.ended:
-                state = await prepare_scene(session_id, STATE_AXES, LANE_WEIGHTS, MASTER_BEATS)
-                state = await state_manager.get_state(session_id)
-                if state and state.current_node:
-                    from app.services.graph_store import fetch_node  # local import avoids top-level
-                    current_node = await fetch_node(state.current_node)
-                    if current_node.is_terminal:
-                        state = await ensure_finale(session_id)
-
-            state = await state_manager.get_state(session_id)
-            if not state:
-                break
-
-            if state.revision != last_revision:
-                await _send_scene_payload(websocket, state, player_id)
-                last_revision = state.revision
-
-            if state.ended:
-                break
-
-            if state.status != "ACTIVE":
-                state = await state_manager.wait_for_change(session_id, last_revision)
-                if state:
-                    last_revision = state.revision - 1
-                continue
-
-            if state.current_scene_type in GROUP_NODE_TYPES:
-                if player_id in state.votes:
-                    state = await state_manager.wait_for_change(session_id, last_revision)
-                    if state:
-                        last_revision = state.revision - 1
-                    continue
-                client_msg = await websocket.receive_json()
-                choice_id = str(client_msg.get("choice_id") or client_msg.get("edge_id") or "")
-            elif player_id == state.current_scene_player:
-                client_msg = await websocket.receive_json()
-                choice_id = str(client_msg.get("choice_id") or client_msg.get("edge_id") or "")
-            else:
-                state = await state_manager.wait_for_change(session_id, last_revision)
-                if state:
-                    last_revision = state.revision - 1
-                continue
-
-            if client_msg.get("type") == "READY":
-                continue
-            if not choice_id:
-                await websocket.send_json({"type": "ERROR", "error": "No choice_id was provided."})
-                continue
-
+        async def receiver_task():
+            """Constantly listen for player input."""
             try:
-                await apply_choice(session_id, player_id, choice_id, STATE_AXES, LANE_WEIGHTS)
-            except ValueError as exc:
-                await websocket.send_json({"type": "ERROR", "error": str(exc)})
+                while True:
+                    data = await websocket.receive_json()
+                    msg_type = data.get("type")
+                    
+                    if msg_type == "READY":
+                        async with state_manager.session_lock(session_id):
+                            st = await state_manager.get_state(session_id)
+                            if st and player_id in st.active_players:
+                                if "ready" not in st.active_players[player_id].flags:
+                                    st.active_players[player_id].flags.append("ready")
+                                    await state_manager.save_state(st)
+                        continue
 
-    except WebSocketDisconnect:
-        print(f"[WS] Player '{player_id}' disconnected from session '{session_id}'")
+                    if msg_type == "START_ROLE_REVEAL":
+                        async with state_manager.session_lock(session_id):
+                            st = await state_manager.get_state(session_id)
+                            if st and "role_reveal_started" not in st.story_flags:
+                                st.story_flags.append("role_reveal_started")
+                                await state_manager.save_state(st)
+                        continue
+
+                    choice_id = data.get("choice_id") or data.get("edge_id")
+                    if choice_id:
+                        # Check turn eligibility
+                        st = await state_manager.get_state(session_id)
+                        is_group = st.current_scene_type in GROUP_NODE_TYPES
+                        is_my_turn = st.current_scene_player == player_id
+                        
+                        if is_group or is_my_turn:
+                            try:
+                                await apply_choice(session_id, player_id, str(choice_id), STATE_AXES, LANE_WEIGHTS)
+                            except ValueError as exc:
+                                await websocket.send_json({"type": "ERROR", "error": str(exc)})
+                        else:
+                            await websocket.send_json({"type": "ERROR", "error": "Not your turn."})
+
+            except WebSocketDisconnect:
+                pass
+            except Exception as exc:
+                print(f"[X] Receiver error for {player_id}: {exc}")
+
+        async def sender_task():
+            """Watch for state changes and push updates to client."""
+            nonlocal last_revision
+            try:
+                while True:
+                    state = await state_manager.get_state(session_id)
+                    if not state:
+                        break
+
+                    # Scene preparation (idempotent, locked inside prepare_scene)
+                    if state.status == "ACTIVE" and not state.ended:
+                        # Only call prepare_scene if node changed or not prepared
+                        if state.current_scene_node != state.current_node:
+                            state = await prepare_scene(session_id, STATE_AXES, LANE_WEIGHTS, MASTER_BEATS)
+
+                    if state.revision != last_revision:
+                        await _send_scene_payload(websocket, state, player_id)
+                        last_revision = state.revision
+
+                    if state.ended:
+                        break
+
+                    # Wait for next change or timeout
+                    await state_manager.wait_for_change(session_id, last_revision)
+
+            except Exception as exc:
+                print(f"[X] Sender error for {player_id}: {exc}")
+
+        # Run tasks concurrently
+        import asyncio
+        receiver = asyncio.create_task(receiver_task())
+        sender = asyncio.create_task(sender_task())
+        done, pending = await asyncio.wait(
+            [receiver, sender],
+            return_when=asyncio.FIRST_COMPLETED
+        )
+        for task in pending:
+            task.cancel()
+
     except Exception as exc:
-        print(f"[X] Unhandled error in game loop for '{player_id}': {type(exc).__name__}: {exc}")
-        await websocket.send_json({"type": "FATAL_ERROR", "error": str(exc)})
+        print(f"[X] Fatal WebSocket error: {exc}")
     finally:
         socket_manager.disconnect(session_id, player_id)

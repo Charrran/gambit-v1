@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { Panel, Input, Button } from '../ui';
 
+const API_BASE_URL = 'http://localhost:8000';
+
+/**
+ * JoinSessionScreen
+ * Props:
+ *   onJoined({ sessionId, playerName, isHost }) – called after successful backend join
+ */
 export const JoinSessionScreen = ({ onJoined }) => {
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
@@ -20,11 +27,25 @@ export const JoinSessionScreen = ({ onJoined }) => {
     setLoading(true);
     setStatus({ text: 'Joining session...', type: '' });
 
-    // Mock API Call
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/lobby/${code.toUpperCase()}/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ player_id: name }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.detail || 'Failed to join session');
+      }
+
+      // Backend returns the GameState directly
       onJoined({ sessionId: code.toUpperCase(), playerName: name, isHost: false });
+    } catch (err) {
+      setStatus({ text: err.message || 'Error connecting to server.', type: 'error' });
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (

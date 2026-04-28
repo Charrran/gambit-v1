@@ -33,6 +33,8 @@ class GameStateManager:
         await self.client.set(f"game:{state.session_id}", state.model_dump_json())
         event = self._event_for(state.session_id)
         event.set()
+        event.clear()
+
 
     async def save_state(self, state: GameState) -> GameState:
         state.revision += 1
@@ -60,9 +62,7 @@ class GameStateManager:
         try:
             await asyncio.wait_for(event.wait(), timeout=timeout)
         except asyncio.TimeoutError:
-            return await self.get_state(session_id)
-
-        event.clear()
+            return None
         return await self.get_state(session_id)
 
     async def create_lobby(self, session_id: str) -> GameState:
