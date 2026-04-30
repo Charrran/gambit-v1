@@ -28,7 +28,8 @@ export const CreateSessionScreen = ({ onSessionCreated }) => {
       const data = await response.json();
       onSessionCreated({ sessionId: data.session_id, playerName: name, isHost: true });
     } catch (err) {
-      setStatus({ text: 'Error connecting to server. Is the backend running?', type: 'error' });
+      console.error('Connection failed to:', API_BASE_URL, err);
+      setStatus({ text: `Error connecting to ${API_BASE_URL}. Is the backend running?`, type: 'error' });
     } finally {
       setLoading(false);
     }
