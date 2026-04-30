@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 
-const API_BASE_URL = 'http://localhost:8000';
-const WS_BASE_URL = 'ws://localhost:8000';
+import { API_BASE_URL, WS_BASE_URL } from '../config';
 
 export function useGameRoom(sessionId, playerId) {
   const [gameState, setGameState] = useState(null);
