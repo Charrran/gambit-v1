@@ -10,7 +10,7 @@ import uuid
 
 import neomodel
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Response
 from fastapi.middleware.cors import CORSMiddleware
 from neomodel.async_.node import NodeMeta
 from pydantic import BaseModel
@@ -55,24 +55,32 @@ if not settings.gemini_api_key:
 
 app = FastAPI(title="Gambit: The Regent Rebellion Engine")
 
-# 1. Add Logging Middleware
+# Manual CORS + Logging Middleware
 @app.middleware("http")
-async def log_requests(request, call_next):
-    # Log incoming request
+async def manual_cors_and_logging(request, call_next):
+    # 1. Handle Preflight (OPTIONS) requests immediately
+    if request.method == "OPTIONS":
+        response = Response()
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+        return response
+
+    # 2. Process real requests
     print(f"[DEBUG] {request.method} {request.url} - Origin: {request.headers.get('origin')}")
     response = await call_next(request)
+    
+    # 3. Inject CORS headers into the response
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    
     print(f"[DEBUG] Response: {response.status_code}")
     return response
 
-# 2. Add CORS middleware (Added last = runs first for requests)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Nuclear option: Allow everything
-    allow_credentials=False, # Must be False if origins is *
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
-)
+@app.get("/ping")
+async def ping():
+    return {"status": "pong"}
 
 
 
