@@ -56,7 +56,7 @@ if not settings.gemini_api_key:
 app = FastAPI(title="Gambit: The Regent Rebellion Engine")
 
 # CORS Configuration
-origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173,https://gambit-v1.vercel.app").split(",")
 allow_all = "*" in origins
 
 app.add_middleware(
