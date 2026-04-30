@@ -55,14 +55,24 @@ if not settings.gemini_api_key:
 
 app = FastAPI(title="Gambit: The Regent Rebellion Engine")
 
-# Add CORS middleware
+# CORS Configuration
+origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+allow_all = "*" in origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(","),
-    allow_credentials=True,
+    allow_origins=["*"] if allow_all else origins,
+    allow_credentials=not allow_all, # Credentials cannot be True if origin is *
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"[DEBUG] {request.method} {request.url}")
+    response = await call_next(request)
+    print(f"[DEBUG] Response: {response.status_code}")
+    return response
 
 
 
