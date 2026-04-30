@@ -12,7 +12,7 @@ import { GameScreen } from './components/screens/GameScreen';
 import { EpilogueScreen } from './components/screens/EpilogueScreen';
 import { useGameRoom } from './hooks/useGameRoom';
 
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from './config';
 
 // Convert backend role names like "Raghava Rao" to "raghava_rao".
 function normalizeRoleKey(roleName) {

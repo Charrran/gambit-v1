@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Panel, Input, Button } from '../ui';
+import { API_BASE_URL } from '../../config';
 
 export const CreateSessionScreen = ({ onSessionCreated }) => {
   const [name, setName] = useState('');
@@ -16,7 +17,7 @@ export const CreateSessionScreen = ({ onSessionCreated }) => {
     setStatus({ text: 'Creating session...', type: '' });
 
     try {
-      const response = await fetch('http://localhost:8000/lobby/create', {
+      const response = await fetch(`${API_BASE_URL}/lobby/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ player_id: name }),

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '../ui';
 import { User, Copy, Check } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from '../../config';
 
 /**
  * WaitingRoomScreen
