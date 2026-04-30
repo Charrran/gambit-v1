@@ -13,18 +13,19 @@ class Settings(BaseSettings):
     Application settings for Gambit Engine.
     Features robust environment variable fallback and validation.
     """
-    neo4j_uri: str = Field(..., env="NEO4J_URI")
-    neo4j_username: str = Field(..., env="NEO4J_USERNAME")
-    neo4j_password: str = Field(..., env="NEO4J_PASSWORD")
-    redis_url: str = Field(..., env="REDIS_URL")
-    groq_api_key: str = Field(..., env="GROQ_API_KEY")
-    gemini_api_key: str = Field(..., env="GEMINI_API_KEY")
+    neo4j_uri: str
+    neo4j_username: str
+    neo4j_password: str
+    redis_url: str
+    groq_api_key: str
+    gemini_api_key: str
 
     # Pydantic-settings configuration
     model_config = SettingsConfigDict(
-        env_file=DOTENV_PATH,
+        env_file=DOTENV_PATH if DOTENV_PATH.exists() else None,
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
+        case_sensitive=False  # Allows matching NEO4J_URI to neo4j_uri
     )
 
     @field_validator("redis_url", mode="before")
