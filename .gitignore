@@ -1,38 +1,77 @@
-# Byte-compiled / optimized / DLL files
+# ─────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
+*.egg-info/
+.eggs/
 dist/
 build/
-.eggs/
-*.egg-info/
-
-# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Virtual environments
+# Virtual environment
 venv/
+.venv/
+env/
+
+# ─────────────────────────────────────────────
+# Secrets & environment
+# ─────────────────────────────────────────────
 .env
 .env.*
+!.env.example
 
-# Pytest
-.cache/
+# ─────────────────────────────────────────────
+# Frontend (gambit-frontend)
+# ─────────────────────────────────────────────
+gambit-frontend/node_modules/
+gambit-frontend/dist/
+gambit-frontend/dist-ssr/
+gambit-frontend/*.local
+gambit-frontend/vite.out.log
+gambit-frontend/vite.err.log
 
-# mypy
-.mypy_cache/
+# ─────────────────────────────────────────────
+# Generated / build output
+# ─────────────────────────────────────────────
+output/
 
-# VS Code
-.vscode/
+# ─────────────────────────────────────────────
+# Internal dev scripts & docs (not for public)
+# ─────────────────────────────────────────────
+count_lanes.py
+unified_frontend.md
 
+# ─────────────────────────────────────────────
 # Logs
+# ─────────────────────────────────────────────
 *.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# OS files
+# ─────────────────────────────────────────────
+# Tooling caches
+# ─────────────────────────────────────────────
+.cache/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ─────────────────────────────────────────────
+# Editor & OS
+# ─────────────────────────────────────────────
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
