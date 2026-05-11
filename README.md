@@ -1,13 +1,6 @@
-Listed directory Gambit
-Viewed README.md:1-94
-Viewed requirements.txt:1-11
-Listed directory app
-Viewed package.json:1-32
-Viewed unified_frontend.md:1-800
-
 ## GAMBIT: THE REGENT REBELLION
 
-**Gambit** is a premium, AI-driven multiplayer narrative strategy engine designed for high-stakes political thrillers and alternate history simulations. It blends author-driven deterministic plotlines with real-time AI orchestration to create a "guided-dynamic" storytelling experience.
+**Gambit** is a multiplayer narrative strategy engine designed for high-stakes political thrillers and alternate history simulations. It blends author-driven deterministic plotlines with real-time AI orchestration to create a "guided-dynamic" storytelling experience.
 
 ---
 
@@ -82,7 +75,7 @@ npm run dev
 
 ## The Game Loop
 
-1.  **The Lobby**: Up to 4 players join a session. The host selects an episode.
+1.  **The Lobby**: 4 players join a session. The host selects an episode.
 2.  **Role Reveal**: Players are assigned secret roles (e.g., *The Strategist*, *The Undecided*, *The Patriarch*).
 3.  **The Prologue**: A cinematic setup establishes the crisis context.
 4.  **The WebSocket Loop**:
