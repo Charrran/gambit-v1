@@ -183,6 +183,18 @@ def build_interrogation_payloads(
 
         if not payloads:
             return generic_payloads(definition["player_role"])
+        if len(payloads) > 4:
+            # At most four options. An option whose condition has been met is an earned
+            # moment: it keeps its place and the last always-available option gives way.
+            # (Plain payloads[:4] made every fifth, conditional option unreachable.)
+            earned_ids = {
+                f"{current_node.node_id}__{option['id'].lower()}"
+                for option in definition["options"]
+                if option.get("requires")
+            }
+            earned = [p for p in payloads if p["choice_id"] in earned_ids]
+            standing = [p for p in payloads if p["choice_id"] not in earned_ids]
+            payloads = standing[: max(0, 4 - len(earned))] + earned
         return payloads[:4]
 
     # Generic fallback payload
