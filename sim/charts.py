@@ -71,8 +71,8 @@ def bar_chart(title: str, shares: Dict[str, float], subtitle: str = "",
 def heatmap(title: str, rows: List[str], cols: List[str], matrix: Dict[str, Dict[str, float]],
             subtitle: str = "", row_caption: str = "table pushes", col_caption: str = "resolved ending") -> str:
     """matrix[row][col] = share (0..1). Diagonal cells are outlined."""
-    cell, left, top = 58, 190, 150
-    width = left + cell * len(cols) + 20
+    cell, left, top = 58, 190, 175
+    width = left + cell * len(cols) + 140
     height = top + cell * len(rows) + 20
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">',
            STYLE, f'<rect class="bg" width="{width}" height="{height}"/>',

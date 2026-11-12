@@ -196,8 +196,8 @@ def _install_llm_stubs() -> None:
 _INSTALLED: Optional[FakeGraph] = None
 
 
-def install_offline_backends() -> FakeGraph:
-    """Patch Redis/Neo4j/LLM access points. Idempotent."""
+def install_offline_backends(llm_stubs: bool = True) -> FakeGraph:
+    """Patch Redis/Neo4j (and, by default, LLM) access points. Idempotent."""
     global _INSTALLED
     if _INSTALLED is not None:
         return _INSTALLED
@@ -208,7 +208,8 @@ def install_offline_backends() -> FakeGraph:
             module.fetch_node = graph.fetch_node
         if hasattr(module, "fetch_edges"):
             module.fetch_edges = graph.fetch_edges
-    _install_llm_stubs()
+    if llm_stubs:
+        _install_llm_stubs()
     # live_intel prints a warning on every headline fallback; keep sim output clean.
     live_intel.print = lambda *a, **k: None  # type: ignore[attr-defined]
     _INSTALLED = graph

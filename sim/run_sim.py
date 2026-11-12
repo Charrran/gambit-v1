@@ -84,6 +84,51 @@ def shares(rows, key, cats):
     return {k: c.get(k, 0) / n for k in cats}
 
 
+def write_reports(out_dir, results, tables, n, tag):
+    (out_dir / "summary.json").write_text(json.dumps(results, indent=2))
+    (out_dir / "random_endings.svg").write_text(bar_chart(
+        f"Random tables — ending lane share ({tag})", results["random"]["lanes"], f"{n} games, 4 random bots"), encoding="utf-8")
+    (out_dir / "random_terminals.svg").write_text(bar_chart(
+        f"Random tables — terminal node share ({tag})", results["random"]["terminals"], f"{n} games, 4 random bots"), encoding="utf-8")
+    (out_dir / "disagreement_endings.svg").write_text(bar_chart(
+        f"Disagreement tables — ending lane share ({tag})", results["disagreement"]["lanes"],
+        f"{n} games, 4 bots pushing 4 different lanes"), encoding="utf-8")
+    coord = {l: results[f"coordinated:{l}"]["lanes"] for l in LANES}
+    solo = {l: results[f"solo:{l}"]["lanes"] for l in LANES}
+    (out_dir / "coordinated_matrix.svg").write_text(heatmap(
+        f"Coordinated tables — where 4 aligned players end up ({tag})", LANES, LANES, coord,
+        f"{n} games per row; outlined diagonal = reached the lane the table pushed"), encoding="utf-8")
+    (out_dir / "solo_matrix.svg").write_text(heatmap(
+        f"One directed player + 3 random ({tag})", LANES, LANES, solo,
+        f"{n} games per row; outlined diagonal = reached the pushed lane"), encoding="utf-8")
+
+    lines = [f"# Simulation report: {tag}", "", f"{n} games per table.", "",
+             "## Ending lane share by table", "",
+             "| table | " + " | ".join(l.replace('_', ' ') for l in LANES) + " | freeze rate |",
+             "|---|" + "---|" * (len(LANES) + 1)]
+    for table in tables:
+        r = results[table]
+        lines.append(f"| {table} | " + " | ".join(f"{r['lanes'][l] * 100:.1f}%" for l in LANES)
+                     + f" | {r['freeze_rate'] * 100:.0f}% |")
+    lines += ["", "## Terminal node share by table", "",
+              "| table | " + " | ".join(t.replace('ending_', '').replace('_', ' ') for t in TERMINALS) + " |",
+              "|---|" + "---|" * len(TERMINALS)]
+    for table in tables:
+        r = results[table]
+        lines.append(f"| {table} | " + " | ".join(f"{r['terminals'][t] * 100:.1f}%" for t in TERMINALS) + " |")
+    lines += ["", f"Disagreement tables: winner was one of the 4 pushed lanes in "
+              f"{results['disagreement']['winner_was_pushed'] * 100:.1f}% of games."]
+    (out_dir / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def regenerate(label):
+    """Rewrite charts/summary.md for an existing reports/<label>/summary.json."""
+    out_dir = ROOT / "reports" / label
+    results = json.loads((out_dir / "summary.json").read_text())
+    tables = list(results)
+    write_reports(out_dir, results, tables, results["random"]["games"], label)
+
+
 def quick(args):
     """Fast check used while iterating on fixes: prints a compact table, writes nothing."""
     with Pool(args.workers) as pool:
@@ -130,42 +175,7 @@ def main(argv=None):
                 results[table]["winner_was_pushed"] = sum(1 for r in rows if r["lane"] in r["pushed"]) / len(rows)
             print(f"{table:34s} {time.time() - t0:7.1f}s  top={max(results[table]['lanes'].items(), key=lambda kv: kv[1])}", flush=True)
 
-    (out_dir / "summary.json").write_text(json.dumps(results, indent=2))
-    n = args.games
-    tag = args.label
-    (out_dir / "random_endings.svg").write_text(bar_chart(
-        f"Random tables — ending lane share ({tag})", results["random"]["lanes"], f"{n} games, 4 random bots"), encoding="utf-8")
-    (out_dir / "random_terminals.svg").write_text(bar_chart(
-        f"Random tables — terminal node share ({tag})", results["random"]["terminals"], f"{n} games, 4 random bots"), encoding="utf-8")
-    (out_dir / "disagreement_endings.svg").write_text(bar_chart(
-        f"Disagreement tables — ending lane share ({tag})", results["disagreement"]["lanes"],
-        f"{n} games, 4 bots pushing 4 different lanes"), encoding="utf-8")
-    coord = {l: results[f"coordinated:{l}"]["lanes"] for l in LANES}
-    solo = {l: results[f"solo:{l}"]["lanes"] for l in LANES}
-    (out_dir / "coordinated_matrix.svg").write_text(heatmap(
-        f"Coordinated tables — where 4 aligned players end up ({tag})", LANES, LANES, coord,
-        f"{n} games per row; outlined diagonal = reached the lane the table pushed"), encoding="utf-8")
-    (out_dir / "solo_matrix.svg").write_text(heatmap(
-        f"One directed player + 3 random ({tag})", LANES, LANES, solo,
-        f"{n} games per row; outlined diagonal = reached the pushed lane"), encoding="utf-8")
-
-    lines = [f"# Simulation report: {tag}", "", f"{n} games per table.", "",
-             "## Ending lane share by table", "",
-             "| table | " + " | ".join(l.replace('_', ' ') for l in LANES) + " | freeze rate |",
-             "|---|" + "---|" * (len(LANES) + 1)]
-    for table in tables:
-        r = results[table]
-        lines.append(f"| {table} | " + " | ".join(f"{r['lanes'][l] * 100:.1f}%" for l in LANES)
-                     + f" | {r['freeze_rate'] * 100:.0f}% |")
-    lines += ["", "## Terminal node share by table", "",
-              "| table | " + " | ".join(t.replace('ending_', '').replace('_', ' ') for t in TERMINALS) + " |",
-              "|---|" + "---|" * len(TERMINALS)]
-    for table in tables:
-        r = results[table]
-        lines.append(f"| {table} | " + " | ".join(f"{r['terminals'][t] * 100:.1f}%" for t in TERMINALS) + " |")
-    lines += ["", f"Disagreement tables: winner was one of the 4 pushed lanes in "
-              f"{results['disagreement']['winner_was_pushed'] * 100:.1f}% of games."]
-    (out_dir / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    write_reports(out_dir, results, tables, args.games, args.label)
     print(f"done in {time.time() - t0:.1f}s -> {out_dir}")
 
 
