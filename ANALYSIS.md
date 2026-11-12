@@ -95,3 +95,17 @@ Any change to game logic is therefore picked up by the simulator automatically, 
 `prepare_scene` skips an interrogation whose trigger fails by recursing into `prepare_scene` **inside** `async with state_manager.session_lock(...)` (`scene_engine.py:361-376`). `asyncio.Lock` is not reentrant, so the inner call waits forever and the session freezes for every player, because `apply_choice` needs the same lock. The state has already moved to the next beat when this happens. In production, play resumes only when a player's socket disconnects: that cancels the stuck sender task and releases the lock, and the next `prepare_scene` continues from the advanced node.
 
 With random bots, **87% of baseline games freeze at least once** (2,000 simulated games; see `reports/before/summary.md`, column "freeze rate"). Playtest tables that did not reconnect never reached an ending, so the endings reported from playtests come from a biased subset of games. The harness emulates the reconnect: it cancels the stuck call and retries. That gives the same state outcome as production, so the "before" numbers reflect baseline game logic. The deadlock is fixed separately; see `CHANGES.md`.
+
+## 7. Second bug: the ending never reached clients
+
+`ensure_finale` put `NewsHeadline` pydantic objects into `final_result["aftermath_headlines"]` (`ending_engine.py:133` and `:193`). Redis serialisation handles them, but the in-process cache keeps the objects, so `websocket.send_json(state.final_result)` (`main.py:212`) raised `TypeError`. The sender task died and no player received `GAME_OVER`. This was found by the WebSocket equivalence test and fixed by dumping the models to dicts.
+
+## 8. Equivalence evidence (before any balance change)
+
+`tests/test_equivalence.py`:
+
+* **Graph.** The live Neo4j Aura instance and the Upstash Redis instance in `.env` no longer resolve in DNS (checked 2026-11-12), so a live snapshot was not possible. Instead, the real `seed_db.seed_rebellion_episode()` is run against a recording stand-in for `EpisodeNode`/`adb`. Every node (type, terminal flag, premise, canonical outcome) and every edge (source, target, choice id, role, intent) it would write equals `FakeGraph`.
+* **Server vs simulator.** 16 recorded choice sequences (`tests/fixtures/recorded_sequences.json`: 6 random, 6 coordinated, 2 disagreement, 2 solo; 44–51 choices each) are replayed through the real FastAPI lobby routes and the `/ws/play` WebSocket loop with four connected players. The final `state_axes`, `lane_weights`, `story_flags`, resolved lane and ending node are identical to the simulator's, and `GAME_OVER` is received by a client.
+* **Baseline outcomes.** With `GAMBIT_CHECK_BASELINE=1`, the simulator reproduces the outcomes recorded from the pre-balance logic. This passed on commit `eb143d4` plus the serialisation fix. It is opt-in because balance changes intentionally change outcomes.
+
+The deadlock fix was also checked game-by-game: 300 seeded random games produced byte-identical histories and outcomes before and after it.
