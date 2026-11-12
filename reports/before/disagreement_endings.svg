@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="326" viewBox="0 0 680 326" role="img">
+
+<style>
+  .bg { fill: #fcfcfb; }
+  .ink { fill: #0b0b0b; font: 13px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .ink2 { fill: #52514e; font: 12px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .title { fill: #0b0b0b; font: 600 15px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .bar { fill: #2a78d6; }
+  .grid { stroke: #e1e0d9; stroke-width: 1; }
+  .ref { stroke: #c0392b; stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .reftext { fill: #c0392b; font: 12px system-ui, sans-serif; }
+  .cellink-dark { fill: #ffffff; font: 11px system-ui, sans-serif; }
+  .cellink-light { fill: #0b0b0b; font: 11px system-ui, sans-serif; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .ink, .title { fill: #f0efec; }
+    .ink2 { fill: #c3c2b7; }
+    .bar { fill: #3987e5; }
+    .grid { stroke: #2c2c2a; }
+  }
+</style>
+
+<rect class="bg" width="680" height="326"/>
+<text class="title" x="16" y="24">Disagreement tables — ending lane share (before)</text>
+<text class="ink2" x="16" y="44">2000 games, 4 bots pushing 4 different lanes</text>
+<line class="grid" x1="190.0" x2="190.0" y1="56" y2="300"/>
+<text class="ink2" x="190.0" y="316" text-anchor="middle">0%</text>
+<line class="grid" x1="260.0" x2="260.0" y1="56" y2="300"/>
+<text class="ink2" x="260.0" y="316" text-anchor="middle">10%</text>
+<line class="grid" x1="330.0" x2="330.0" y1="56" y2="300"/>
+<text class="ink2" x="330.0" y="316" text-anchor="middle">20%</text>
+<line class="grid" x1="400.0" x2="400.0" y1="56" y2="300"/>
+<text class="ink2" x="400.0" y="316" text-anchor="middle">30%</text>
+<line class="grid" x1="470.0" x2="470.0" y1="56" y2="300"/>
+<text class="ink2" x="470.0" y="316" text-anchor="middle">40%</text>
+<line class="grid" x1="540.0" x2="540.0" y1="56" y2="300"/>
+<text class="ink2" x="540.0" y="316" text-anchor="middle">50%</text>
+<line class="grid" x1="610.0" x2="610.0" y1="56" y2="300"/>
+<text class="ink2" x="610.0" y="316" text-anchor="middle">60%</text>
+<text class="ink" x="182" y="77" text-anchor="end">govardhan consolidation</text>
+<rect class="bar" x="190" y="65" width="134.4" height="18" rx="3"><title>govardhan consolidation: 19.2%</title></rect>
+<text class="ink" x="330.4" y="77">19.2%</text>
+<text class="ink" x="182" y="103" text-anchor="end">raghava restoration</text>
+<rect class="bar" x="190" y="91" width="116.6" height="18" rx="3"><title>raghava restoration: 16.7%</title></rect>
+<text class="ink" x="312.6" y="103">16.7%</text>
+<text class="ink" x="182" y="129" text-anchor="end">saraswathi ascendancy</text>
+<rect class="bar" x="190" y="117" width="39.6" height="18" rx="3"><title>saraswathi ascendancy: 5.7%</title></rect>
+<text class="ink" x="235.6" y="129">5.7%</text>
+<text class="ink" x="182" y="155" text-anchor="end">venkatadri compromise</text>
+<rect class="bar" x="190" y="143" width="224.4" height="18" rx="3"><title>venkatadri compromise: 32.0%</title></rect>
+<text class="ink" x="420.4" y="155">32.0%</text>
+<text class="ink" x="182" y="181" text-anchor="end">broken house</text>
+<rect class="bar" x="190" y="169" width="127.4" height="18" rx="3"><title>broken house: 18.2%</title></rect>
+<text class="ink" x="323.4" y="181">18.2%</text>
+<text class="ink" x="182" y="207" text-anchor="end">pyrrhic govardhan</text>
+<rect class="bar" x="190" y="195" width="2.1" height="18" rx="3"><title>pyrrhic govardhan: 0.3%</title></rect>
+<text class="ink" x="198.1" y="207">0.3%</text>
+<text class="ink" x="182" y="233" text-anchor="end">patriarchs last roar</text>
+<rect class="bar" x="190" y="221" width="53.9" height="18" rx="3"><title>patriarchs last roar: 7.7%</title></rect>
+<text class="ink" x="249.9" y="233">7.7%</text>
+<text class="ink" x="182" y="259" text-anchor="end">saraswathi betrayal</text>
+<rect class="bar" x="190" y="247" width="1.8" height="18" rx="3"><title>saraswathi betrayal: 0.2%</title></rect>
+<text class="ink" x="197.8" y="259">0.2%</text>
+<text class="ink" x="182" y="285" text-anchor="end">the inheritance</text>
+<text class="ink" x="196.0" y="285">0.0%</text>
+<line class="ref" x1="400.0" x2="400.0" y1="52" y2="300"/>
+<text class="reftext" x="404.0" y="50">30% cap</text>
+</svg>
