@@ -114,7 +114,9 @@ async def ensure_finale(session_id: str):
 
         try:
             if not state.resolved_lane:
-                state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
+                state.resolved_lane = resolve_lane(
+                    state.lane_weights, state.state_axes, state.lane_pressure, state.lane_spread
+                )
 
             historian_text = await ai_engine.generate_historian_ending(
                 resolved_lane=state.resolved_lane,

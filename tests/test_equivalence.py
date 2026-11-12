@@ -2,8 +2,8 @@
 Equivalence tests: the offline simulator reproduces the real game.
 
 1. FakeGraph == the graph seed_db.py writes to Neo4j (seed_db run against a recorder).
-2. Recorded choice sequences replayed through the real FastAPI lobby routes and
-   /ws/play WebSocket loop give exactly the same final state as the simulator.
+2. Choice sequences recorded from the simulator, replayed through the real FastAPI
+   lobby routes and /ws/play WebSocket loop, give exactly the same final state.
 3. (opt-in, GAMBIT_CHECK_BASELINE=1) the simulator reproduces the outcomes recorded
    from the pre-balance logic. Expected to pass only on the pre-balance commits.
 
@@ -78,17 +78,28 @@ class SeededGraphMatchesFakeGraph(unittest.TestCase):
 
 
 class SimulatorMatchesWebSocketServer(unittest.TestCase):
+    """
+    Sequences are recorded fresh from the simulator on the *current* logic (choice
+    visibility changes with balance work, so frozen sequences cannot always be
+    replayed), then replayed through the real HTTP + WebSocket server.
+    """
+
     @classmethod
     def setUpClass(cls):
         install_offline_backends()
 
-    def test_recorded_sequences(self):
-        for rec in RECORDINGS:
-            with self.subTest(rec["name"]):
-                sim = _sim_replay(rec)
-                ws = replay_over_websocket(rec["steps"], rec["roles"])
+    def test_fresh_sequences(self):
+        from sim.record_sequences import TABLES
+        from sim.run_sim import table_policies
+
+        for table, seed in TABLES:
+            with self.subTest(f"{table}#{seed}"):
+                steps = []
+                policies, _ = table_policies(table, seed)
+                sim = asyncio.run(play_game(policies, seed=seed, session_id=f"rec-{table}-{seed}", record=steps))
+                ws = replay_over_websocket(steps, sim["roles"])
                 for key in ("resolved_lane", "ending_node", "state_axes", "lane_weights", "story_flags"):
-                    self.assertEqual(sim[key], ws[key], f"{rec['name']}: {key}")
+                    self.assertEqual(sim[key], ws[key], f"{table}#{seed}: {key}")
                 self.assertIsNotNone(ws["ws_game_over"], "GAME_OVER never reached the client")
                 self.assertEqual(ws["ws_game_over"]["resolved_lane"], sim["resolved_lane"])
                 self.assertEqual(ws["ws_game_over"]["ending_node"], sim["ending_node"])
