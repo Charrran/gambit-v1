@@ -187,6 +187,18 @@ async def start_game(session_id: str):
         raise HTTPException(status_code=400, detail=str(exc))
 
 
+@app.get("/stats/llm")
+async def stats_llm():
+    """Which LLM routes served text since startup, and how much narration is cached on the graph."""
+    from app.services.llm_router import llm_router
+
+    return {
+        "routes": llm_router.stats,
+        "cached_situations": len(graph_store._narrations),
+        "cached_narrations": sum(len(v) for v in graph_store._narrations.values()),
+    }
+
+
 @app.get("/stats/endings")
 async def stats_endings():
     """How finished games have ended, from the playthroughs recorded in Neo4j."""

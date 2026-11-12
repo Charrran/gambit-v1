@@ -64,12 +64,14 @@ python seed_db.py
 uvicorn app.main:app --reload
 ```
 
-Optional `.env` settings: `GROQ_MODEL` and `GEMINI_MODEL` override the LLM model ids (defaults in `app/core/config.py`).
+Optional `.env` settings: `LLM_TURN_ROUTES`, `LLM_TEXT_ROUTES` and `NARRATION_VARIANTS` (defaults in `app/core/config.py`). Restart the server after running `seed_db.py`: the story graph is cached in memory.
+
+Stats endpoints: `GET /stats/endings` (how real games ended), `GET /stats/lanes/{lane}/choices`, `GET /stats/llm`. See `PERFORMANCE.md` for the LLM routing, the Neo4j model and example Cypher queries.
 
 ### Tests and balance simulator
 ```bash
 # Game-logic tests (no Redis/Neo4j/LLM needed); also run in CI
-python -m unittest tests.test_equivalence tests.test_balance_regression -v
+python -m unittest tests.test_equivalence tests.test_balance_regression tests.test_graph_and_llm -v
 
 # Ending-distribution report: reports/<label>/summary.md + charts
 python -m sim.run_sim --label mycheck --games 2000

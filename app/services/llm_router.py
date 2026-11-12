@@ -123,6 +123,8 @@ class LLMRouter:
 
         data = response.json()
         if provider == "groq":
+            used = (data.get("usage") or {}).get("total_tokens", 0)
+            self.stats[f"tokens:{provider}:{model}"] = self.stats.get(f"tokens:{provider}:{model}", 0) + used
             text = data["choices"][0]["message"].get("content") or ""
         else:
             parts = (data.get("candidates") or [{}])[0].get("content", {}).get("parts") or []
@@ -132,7 +134,8 @@ class LLMRouter:
         return text
 
     async def text(self, routes_spec: str, prompt: str, system: Optional[str] = None,
-                   json_mode: bool = False, max_tokens: int = 700, timeout: float = 12.0) -> str:
+                   json_mode: bool = False, max_tokens: int = 700, timeout: float = 12.0,
+                   count_exhausted: bool = True) -> str:
         """Return the first successful completion, trying each available route once."""
         now = time.monotonic()
         for route in parse_routes(routes_spec):
@@ -148,7 +151,8 @@ class LLMRouter:
             except (httpx.HTTPError, KeyError, IndexError, ValueError) as exc:
                 self._count(f"fail:{route[0]}:{route[1]}")
                 self._cool(route, 10.0, f"{type(exc).__name__}")
-        self._count("exhausted")
+        if count_exhausted:
+            self._count("exhausted")
         raise LLMUnavailable("no LLM route available")
 
     async def structured(self, routes_spec: str, prompt: str, model: Type[T],
@@ -158,7 +162,8 @@ class LLMRouter:
         for route in parse_routes(routes_spec):
             spec = f"{route[0]}:{route[1]}"
             try:
-                raw = await self.text(spec, prompt, system, json_mode=True, max_tokens=max_tokens, timeout=timeout)
+                raw = await self.text(spec, prompt, system, json_mode=True, max_tokens=max_tokens,
+                                      timeout=timeout, count_exhausted=False)
             except LLMUnavailable as exc:
                 last_error = exc
                 continue
@@ -168,6 +173,7 @@ class LLMRouter:
             except (ValidationError, ValueError) as exc:
                 self._count(f"invalid_json:{spec}")
                 last_error = exc
+        self._count("exhausted")
         raise LLMUnavailable(str(last_error)[:200])
 
 
