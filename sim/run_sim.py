@@ -84,12 +84,33 @@ def shares(rows, key, cats):
     return {k: c.get(k, 0) / n for k in cats}
 
 
+def quick(args):
+    """Fast check used while iterating on fixes: prints a compact table, writes nothing."""
+    with Pool(args.workers) as pool:
+        rnd = run_table(pool, "random", args.games)
+        dis = run_table(pool, "disagreement", args.games // 2)
+        coord = {l: run_table(pool, f"coordinated:{l}", 150) for l in LANES}
+        solo = {l: run_table(pool, f"solo:{l}", 400) for l in LANES}
+    r = shares(rnd, "lane", LANES)
+    d = shares(dis, "lane", LANES)
+    t = shares(rnd, "ending", TERMINALS)
+    print(f"{'lane':26s} {'random':>7s} {'disagr':>7s} {'coord hit':>9s} {'solo hit':>8s}")
+    for l in LANES:
+        print(f"{l:26s} {r[l] * 100:6.1f}% {d[l] * 100:6.1f}% {shares(coord[l], 'lane', LANES)[l] * 100:8.1f}%"
+              f" {shares(solo[l], 'lane', LANES)[l] * 100:7.1f}%")
+    print("terminals:", {k.replace('ending_', ''): round(v * 100, 1) for k, v in t.items()})
+    print("disagreement winner pushed:", round(sum(1 for x in dis if x["lane"] in x["pushed"]) / len(dis) * 100, 1))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", required=True)
     ap.add_argument("--games", type=int, default=2000)
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--quick", action="store_true", help="fewer games for coordinated/solo tables; no files written")
     args = ap.parse_args(argv)
+    if args.quick:
+        return quick(args)
 
     out_dir = ROOT / "reports" / args.label
     out_dir.mkdir(parents=True, exist_ok=True)
