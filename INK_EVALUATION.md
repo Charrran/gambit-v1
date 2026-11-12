@@ -4,7 +4,7 @@
 
 ## What Gambit's story actually is today
 
-* **Linear spine.** 37 beats in a fixed order (`MASTER_BEATS`). Every choice on a beat leads to the same next beat (`seed_db.py:60`). Choices change *state*, not *position*.
+* **Linear spine.** 36 beats in a fixed order (`MASTER_BEATS`). Every choice on a beat leads to the same next beat (`seed_db.py:60`). Choices change *state*, not *position*.
 * **Branching by availability.** Choices and interrogations appear or disappear on state conditions (`requires`/`blocks`/`trigger`). Each visible choice adds integer `effects` (15 axes) and `lanes` (9 lanes).
 * **Four actors, one story.** Spotlight beats belong to one role. Polls are decided by four votes. Interrogations involve two roles, one of whom answers. The ending comes from the whole table's decisions (`resolve_lane`, with per-decision pressure since this change).
 * **Text is a starting point.** The LLM Director rewrites every option's text before players see it (`ai_engine.generate_spotlight_turn`/`generate_poll_turn`). Authored text is the fallback, and with the retired model IDs it is currently what players see.
