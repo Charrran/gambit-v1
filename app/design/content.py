@@ -202,10 +202,9 @@ def choice_relevance_score(
     dominant pressure in the state.  Higher = more relevant to show.
     """
     score = float(choice.get("priority", 5))
-    # Boost for choices whose lane effects push the currently leading lane
-    leading_lane = max(lane_weights, key=lambda k: lane_weights[k]) if lane_weights else None
-    if leading_lane:
-        score += float(choice.get("lanes", {}).get(leading_lane, 0)) * 0.5
+    # No boost toward the currently leading lane: that fed back into which choices
+    # were offered (and listed first in polls), snowballing whichever lane led early
+    # (and govardhan_consolidation by default, as the first key when all lanes are 0).
     # Boost for choices that react to high-pressure axes
     for axis, val in state_axes.items():
         if abs(val) >= 4:
