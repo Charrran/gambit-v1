@@ -1,5 +1,6 @@
 import asyncio
 import random
+import time
 from typing import Dict, Optional
 
 import redis.asyncio as redis
@@ -10,10 +11,21 @@ from app.models.schemas import GameState, PlayerProfile
 from app.services.live_intel import build_trust_matrix, fallback_headlines
 
 
+SESSION_TTL_SECONDS = 7 * 24 * 3600   # Redis keeps a session this long after its last save
+IDLE_EVICT_SECONDS = 6 * 3600         # an untouched session leaves process memory (Redis still has it)
+
+
 class GameStateManager:
     """
-    Session state manager with an in-process cache to avoid hammering Redis.
-    Redis remains the persistence layer, but hot reads stay local.
+    Session state manager. The in-process copy is the live state; Redis is the
+    durable copy, written behind the game:
+
+    * save_state() updates memory, wakes the players' sockets and returns at once.
+    * One background writer per session sends the newest snapshot to Redis. If
+      several saves pile up only the latest is written, and a failed write is
+      retried with backoff. A slow or flaky Redis therefore never delays or
+      breaks a turn; the cost is that a process crash can lose the last
+      fraction of a second of play.
     """
 
     def __init__(self):
@@ -22,6 +34,9 @@ class GameStateManager:
         self._cache: Dict[str, GameState] = {}
         self._events: Dict[str, asyncio.Event] = {}
         self._locks: Dict[str, asyncio.Lock] = {}
+        self._dirty: Dict[str, str] = {}
+        self._writers: Dict[str, asyncio.Future] = {}
+        self._touched: Dict[str, float] = {}
 
     def session_lock(self, session_id: str) -> asyncio.Lock:
         return self._locks.setdefault(session_id, asyncio.Lock())
@@ -30,11 +45,47 @@ class GameStateManager:
         return self._events.setdefault(session_id, asyncio.Event())
 
     async def _persist(self, state: GameState) -> None:
-        self._cache[state.session_id] = state
-        await self.client.set(f"game:{state.session_id}", state.model_dump_json())
-        event = self._event_for(state.session_id)
+        session_id = state.session_id
+        self._cache[session_id] = state
+        self._touched[session_id] = time.monotonic()
+        # Snapshot now: the state object keeps being mutated by later turns.
+        self._dirty[session_id] = state.model_dump_json()
+        if session_id not in self._writers:
+            writer = asyncio.ensure_future(self._write_behind(session_id))
+            self._writers[session_id] = writer
+            writer.add_done_callback(lambda _done, sid=session_id: self._writers.pop(sid, None))
+        event = self._event_for(session_id)
         event.set()
         event.clear()
+
+    async def _write_behind(self, session_id: str) -> None:
+        backoff = 0.2
+        while session_id in self._dirty:
+            payload = self._dirty.pop(session_id)
+            try:
+                await self.client.set(f"game:{session_id}", payload, ex=SESSION_TTL_SECONDS)
+                backoff = 0.2
+            except Exception as exc:
+                self._dirty.setdefault(session_id, payload)  # keep it unless a newer snapshot arrived
+                print(f"[WARN] Redis save failed for {session_id}, retrying in {backoff:.1f}s: {exc}")
+                await asyncio.sleep(backoff)
+                backoff = min(backoff * 2, 5.0)
+
+    async def flush(self, session_id: Optional[str] = None) -> None:
+        """Wait until pending snapshots (one session, or all) have reached Redis."""
+        writers = [self._writers.get(session_id)] if session_id else list(self._writers.values())
+        for writer in writers:
+            if writer is not None:
+                await asyncio.shield(writer)
+
+    def _evict_idle(self) -> None:
+        """Drop long-idle sessions from process memory; they remain loadable from Redis."""
+        cutoff = time.monotonic() - IDLE_EVICT_SECONDS
+        for session_id in [sid for sid, seen in self._touched.items() if seen < cutoff]:
+            if session_id in self._dirty or session_id in self._writers:
+                continue
+            for table in (self._cache, self._events, self._locks, self._touched):
+                table.pop(session_id, None)
 
 
     async def save_state(self, state: GameState) -> GameState:
@@ -67,6 +118,7 @@ class GameStateManager:
         return await self.get_state(session_id)
 
     async def create_lobby(self, session_id: str) -> GameState:
+        self._evict_idle()
         state = GameState(session_id=session_id)
         state.state_axes = dict(STATE_AXES)
         state.lane_weights = dict(LANE_WEIGHTS)

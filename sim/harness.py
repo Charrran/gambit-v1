@@ -68,7 +68,7 @@ class FakeRedis:
     async def get(self, key):
         return self.store.get(key)
 
-    async def set(self, key, value):
+    async def set(self, key, value, ex=None):
         self.store[key] = value
         return True
 
@@ -240,10 +240,12 @@ Policy = Callable[[object, str, str, List[Dict[str, object]]], str]
 
 
 async def _forget(session_id: str) -> None:
+    await state_manager.flush(session_id)
+    state_manager._touched.pop(session_id, None)
     state_manager._cache.pop(session_id, None)
     state_manager._locks.pop(session_id, None)
     state_manager._events.pop(session_id, None)
-    state_manager.client.store.pop(f"game:{session_id}", None)
+    getattr(state_manager.client, "store", {}).pop(f"game:{session_id}", None)
 
 
 async def play_game(
