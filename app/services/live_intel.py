@@ -127,8 +127,12 @@ def normalize_headlines(items: List[Any], state: Any) -> List[NewsHeadline]:
 
 async def refresh_live_intel(state: Any) -> Any:
     state.trust_matrix = build_trust_matrix(state.state_axes)
+    chapter = chapter_for_node(state.current_node)
+    if getattr(state, "headlines_chapter", None) == chapter:
+        # One LLM dispatch per chapter: it sits on the critical path of every decision
+        # and the free tiers are rate limited. Within a chapter the edition stands.
+        return state
     try:
-        chapter = chapter_for_node(state.current_node)
         state.news_headlines = normalize_headlines(await ai_engine.generate_news_headlines(
             current_node=state.current_node,
             chapter_title=CHAPTER_ANCHORS.get(chapter, {}).get("title", ""),
@@ -138,6 +142,7 @@ async def refresh_live_intel(state: Any) -> Any:
             story_flags=state.story_flags,
             recent_history=state.session_history[-6:],
         ), state)
+        state.headlines_chapter = chapter
     except Exception as exc:
         print(f"[WARN] Headline generation failed for {state.session_id}:{state.current_node}: {exc}")
         state.news_headlines = fallback_headlines(state)

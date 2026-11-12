@@ -1,14 +1,11 @@
-import asyncio
 import json
 from typing import Any, Dict, List
 
-import instructor
-from google import genai
-from groq import AsyncGroq
 from pydantic import BaseModel, Field
 
 from app.core.config import settings
 from app.models.schemas import NewsHeadline
+from app.services.llm_router import llm_router
 
 class GeneratedOption(BaseModel):
     choice_id: str = Field(..., description="The unique ID of the specific narrative choice.")
@@ -18,6 +15,8 @@ class GeneratedOption(BaseModel):
 class TurnNarrative(BaseModel):
     flavor_text: str = Field(..., description="A tense, 2-paragraph narrative description of the situation.")
     options: List[GeneratedOption] = Field(..., description="A list of MCQ options for the player.")
+    # False when this is authored fallback text (LLM unavailable); such turns are never cached.
+    generated: bool = True
 
 class AnchoredTurn(BaseModel):
     scene_framing: str = Field(..., description="Short cinematic scene framing.")
@@ -34,22 +33,25 @@ class EndingComparison(BaseModel):
 class NewsDispatch(BaseModel):
     headlines: List[NewsHeadline] = Field(..., description="Exactly three in-world headlines.")
 
+def _compact_state(state_snapshot: Dict[str, Any] | None) -> str:
+    """Only the axes that have moved: the zeros carry no information and cost tokens."""
+    return json.dumps({k: v for k, v in (state_snapshot or {}).items() if v}, ensure_ascii=True)
+
+
+def _compact_history(history: List[dict] | None, last: int = 4) -> str:
+    return json.dumps(
+        [{"role": h.get("role"), "choice": str(h.get("choice", ""))[:90]} for h in (history or [])[-last:]],
+        ensure_ascii=True,
+    )
+
+
 class AIEngine:
     """
-    Advanced AI Director (The Memory Bank).
-    - Groq: Rapid-fire MCQ and narrative generation (Llama 3).
-    - Gemini: Deep context processing for Canonical endings.
+    AI Director. Writes words only: scene framing, option wording, headlines,
+    aftermath and the epilogue. Every call goes through llm_router, which tries
+    the configured free-tier routes once each and never blocks the game; on
+    failure the authored text is used.
     """
-    def __init__(self):
-        # Groq Client (Fast MCQ Generation)
-        self.groq_client = instructor.from_groq(
-            AsyncGroq(api_key=settings.groq_api_key),
-            mode=instructor.Mode.JSON
-        )
-        
-        # Gemini Client (Dedicated to Deep Context Canonical Analysis via new google-genai SDK)
-        self.raw_gemini_client = genai.Client(api_key=settings.gemini_api_key)
-        self.gemini_client = instructor.from_genai(self.raw_gemini_client)
 
     async def generate_spotlight_turn(
         self,
@@ -108,8 +110,8 @@ Important display rule:
 Do not copy the authored directive wording into the player-facing text.
 Rewrite each option as a fresh, character-specific tactical line that implies the same intent.
 
-State snapshot: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
-Previous decisions: {json.dumps((compressed_history or [])[-6:], ensure_ascii=True)}
+State snapshot (non-zero axes): {_compact_state(state_snapshot)}
+Previous decisions: {_compact_history(compressed_history)}
 
 Return this exact JSON structure:
 {{
@@ -122,14 +124,8 @@ Return one choice object for every provided Choice ID and no extra choices.
 """
 
         try:
-            response = await self.groq_client.chat.completions.create(
-                model=settings.groq_model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-                response_model=AnchoredTurn,
-                max_retries=2,
+            response = await llm_router.structured(
+                settings.llm_turn_routes, user_prompt, AnchoredTurn, system=system_prompt, max_tokens=600, timeout=10.0
             )
             return self._reconcile_options(
                 TurnNarrative(flavor_text=response.scene_framing, options=response.choices),
@@ -188,8 +184,8 @@ Important display rule:
 Do not copy the authored posture wording into the player-facing text.
 Rewrite each option as a fresh public resolution or political posture that implies the same intent.
 
-Current state: {json.dumps(state_snapshot or {}, ensure_ascii=True)}
-Lane weights: {json.dumps(lane_weights or {}, ensure_ascii=True)}
+Current state (non-zero axes): {_compact_state(state_snapshot)}
+Lane standings: {_compact_state(lane_weights)}
 
 Return this exact JSON structure:
 {{
@@ -201,14 +197,9 @@ Return this exact JSON structure:
 Return one choice object for every provided Choice ID and no extra choices.
 """
         try:
-            response = await self.groq_client.chat.completions.create(
-                model=settings.groq_model,
-                messages=[
-                    {"role": "system", "content": self._groq_system_prompt()},
-                    {"role": "user", "content": user_prompt},
-                ],
-                response_model=AnchoredTurn,
-                max_retries=2,
+            response = await llm_router.structured(
+                settings.llm_turn_routes, user_prompt, AnchoredTurn,
+                system=self._groq_system_prompt(), max_tokens=600, timeout=10.0,
             )
             return self._reconcile_options(
                 TurnNarrative(flavor_text=response.scene_framing, options=response.choices),
@@ -260,33 +251,26 @@ Return:
 """
         
         try:
-            return await asyncio.to_thread(
-                self.gemini_client.chat.completions.create,
-                model=settings.gemini_model,
-                messages=[{"role": "user", "content": comparison_prompt}],
-                response_model=EndingComparison,
+            return await llm_router.structured(
+                settings.llm_text_routes,
+                comparison_prompt
+                + '\nReturn JSON with exactly these string keys: "player_summary", "canonical_summary", '
+                + '"divergence_analysis", "final_score".',
+                EndingComparison,
+                system=(
+                    "You are a political historian comparing an alternate-history playthrough to the canonical "
+                    "Gambit baseline. Use only fictional in-game names. Return only valid JSON."
+                ),
+                max_tokens=900,
+                timeout=12.0,
             )
         except Exception:
-            try:
-                return await self.groq_client.chat.completions.create(
-                    model=settings.groq_model,
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are a political historian comparing an alternate-history playthrough to the canonical Gambit baseline. Use only fictional in-game names.",
-                        },
-                        {"role": "user", "content": comparison_prompt},
-                    ],
-                    response_model=EndingComparison,
-                    max_retries=1,
-                )
-            except Exception:
-                return EndingComparison(
-                    player_summary=f"The run resolved into {resolved_lane.replace('_', ' ')}.",
-                    canonical_summary="In the canonical baseline, Govardhan Naidu consolidates the hotel camp, proves majority through procedure, and takes power while Raghava Rao's symbolic authority survives as a wound.",
-                    divergence_analysis="This run diverged in how legitimacy, family fracture, and institutional control were distributed before the final transfer of authority.",
-                    final_score=resolved_lane.replace("_", " ").title() or "Altered Verdict",
-                )
+            return EndingComparison(
+                player_summary=f"The run resolved into {resolved_lane.replace('_', ' ')}.",
+                canonical_summary="In the canonical baseline, Govardhan Naidu consolidates the hotel camp, proves majority through procedure, and takes power while Raghava Rao's symbolic authority survives as a wound.",
+                divergence_analysis="This run diverged in how legitimacy, family fracture, and institutional control were distributed before the final transfer of authority.",
+                final_score=resolved_lane.replace("_", " ").title() or "Altered Verdict",
+            )
 
     async def generate_historian_ending(
         self,
@@ -314,13 +298,7 @@ Banned phrases: "in the end", "ultimately", "would go on to", "the rest is histo
 Return plain text only. No JSON. No preamble.
 """
         try:
-            response = await asyncio.to_thread(
-                self.raw_gemini_client.models.generate_content,
-                model=settings.gemini_model,
-                contents=prompt,
-            )
-            if getattr(response, "text", None):
-                return str(response.text)
+            return (await llm_router.text(settings.llm_text_routes, prompt, max_tokens=500, timeout=12.0)).strip()
         except Exception:
             pass
 
@@ -359,25 +337,17 @@ Return exactly three in-world news items. Each body must be one short sentence.
 Make them react to the current political direction without revealing private facts the press could not know.
 Use the required in-world date only. Do not use today's date or any modern year.
 """
-        try:
-            dispatch = await asyncio.to_thread(
-                self.gemini_client.chat.completions.create,
-                model=settings.gemini_model,
-                messages=[{"role": "user", "content": prompt}],
-                response_model=NewsDispatch,
-            )
-            return dispatch.headlines[:3]
-        except Exception:
-            dispatch = await self.groq_client.chat.completions.create(
-                model=settings.groq_model,
-                messages=[
-                    {"role": "system", "content": "Return only valid JSON for fictional political news headlines."},
-                    {"role": "user", "content": prompt},
-                ],
-                response_model=NewsDispatch,
-                max_retries=1,
-            )
-            return dispatch.headlines[:3]
+        dispatch = await llm_router.structured(
+            settings.llm_text_routes,
+            prompt
+            + '\nReturn JSON: {"headlines": [{"id": "1", "dateline": "publication", "headline": "...", '
+            + '"body": "one sentence"}]} with exactly three items.',
+            NewsDispatch,
+            system="Return only valid JSON for fictional political news headlines.",
+            max_tokens=500,
+            timeout=10.0,
+        )
+        return dispatch.headlines[:3]
 
     async def generate_breakdown_aftermath(
         self,
@@ -405,13 +375,7 @@ Do not use the words: tension, silence, heavy, palpable, weight.
 Write as a novelist, not a narrator.
 """
         try:
-            response = await asyncio.to_thread(
-                self.raw_gemini_client.models.generate_content,
-                model=settings.gemini_model,
-                contents=prompt,
-            )
-            if getattr(response, "text", None):
-                return str(response.text)
+            return (await llm_router.text(settings.llm_text_routes, prompt, max_tokens=500, timeout=12.0)).strip()
         except Exception:
             pass
         return "For a few seconds the room seems to rearrange itself around what was said. No one moves quickly. The cost is already visible, not in speeches, but in where each person chooses to look next."
@@ -451,6 +415,7 @@ Write as a novelist, not a narrator.
 
     def _build_fallback_turn(self, premise: str, required_role: str, db_choices: list) -> TurnNarrative:
         return TurnNarrative(
+            generated=False,
             flavor_text=(
                 f"{required_role} stands at the center of the crisis. {premise} "
                 "The room is tense, and every choice will shape how history remembers this moment."

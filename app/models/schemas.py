@@ -78,3 +78,4 @@ class GameState(BaseModel):
     last_transition: Optional[Dict[str, Any]] = None
     trust_matrix: Dict[str, int] = Field(default_factory=dict)
     news_headlines: List[NewsHeadline] = Field(default_factory=list)
+    headlines_chapter: Optional[int] = None  # chapter the current LLM headlines were written for
