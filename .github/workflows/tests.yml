@@ -1,0 +1,20 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  game-logic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"   # matches the Dockerfile
+          cache: pip
+      - run: pip install -r requirements.txt
+      # No services or secrets needed: sim/harness.py stubs Redis, Neo4j and the LLM
+      # and runs the real game logic. The balance tests fail if endings collapse again.
+      - run: python -m unittest tests.test_equivalence tests.test_balance_regression -v
