@@ -9,5 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Start command - PORT is injected by Railway at runtime
+# Start command - PORT is injected by Railway at runtime.
+# Keep ONE worker process: session state, locks and change events live in each
+# process's memory (app/services/state.py), so a second worker would split sessions.
 CMD sh -c "echo Starting on port $PORT && uvicorn app.main:app --host 0.0.0.0 --port $PORT"

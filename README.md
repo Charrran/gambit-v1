@@ -60,9 +60,21 @@ pip install -r requirements.txt
 # Seed the narrative graph (Episode 1: The Regent Rebellion)
 python seed_db.py
 
-# Start the engine
+# Start the engine (one worker only: session state and locks are held in-process)
 uvicorn app.main:app --reload
 ```
+
+Optional `.env` settings: `GROQ_MODEL` and `GEMINI_MODEL` override the LLM model ids (defaults in `app/core/config.py`).
+
+### Tests and balance simulator
+```bash
+# Game-logic tests (no Redis/Neo4j/LLM needed); also run in CI
+python -m unittest tests.test_equivalence tests.test_balance_regression -v
+
+# Ending-distribution report: reports/<label>/summary.md + charts
+python -m sim.run_sim --label mycheck --games 2000
+```
+See `ANALYSIS.md`, `DIAGNOSIS.md` and `CHANGES.md` for how endings are chosen and why.
 
 ### 3. Frontend Installation
 ```bash

@@ -103,6 +103,26 @@ class EarlyChoicesMatter(unittest.TestCase):
         self.assertGreaterEqual(_run(go()), 0.3)
 
 
+class VisibleLeaderMatchesEnding(unittest.TestCase):
+    """Headlines/transitions/LLM hints name the leading lane from lane_standings(); it must be the real ending."""
+
+    @classmethod
+    def setUpClass(cls):
+        install_offline_backends()
+
+    def test_final_headline_names_the_resolved_lane(self):
+        async def go():
+            out = []
+            for s in range(60):
+                r = await play_game({p: random_bot(s * 10 + i) for i, p in enumerate(PLAYERS)}, seed=440000 + s)
+                out.append(r)
+            return out
+
+        for r in _run(go()):
+            lane_headline = next(h for h in r["final_result"]["aftermath_headlines"] if h["id"] == "lane")
+            self.assertEqual(lane_headline["headline"], r["resolved_lane"].replace("_", " ").title(), f"seed {r['seed']}")
+
+
 class LaneOpportunityScoring(unittest.TestCase):
     def test_forced_choice_carries_no_pressure(self):
         from app.design.content import lane_opportunity

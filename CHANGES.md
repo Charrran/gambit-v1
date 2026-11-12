@@ -54,8 +54,8 @@ Files: `content.py: lane_opportunity, resolve_lane`, `choice_resolver.py: record
 
 ## Known side effects and limits
 
-* **Panel vs ending:** the frontend's lane panel and the LLM's "leading lane" hint still show raw `lane_weights`. Near the end, the visibly largest lane can differ from the resolved ending when a large total came from options the table was mostly *offered* rather than *chose*. The frontend was out of scope; showing `lane_pressure` there would make the two consistent.
-* **`_divergence_score`** (ending classification) still uses raw lane totals. It affects only the "Canonical/Divergent" label, not which ending is chosen.
+* **Leading lane shown to players and the LLM (fixed in a follow-up):** the frontend never renders `lane_weights`, but the fallback "likely path" headline (always used on the ending screen), the transition summaries, the LLM prompts and the `lane:X` pressure tag picked the leader from raw totals, so the ending screen could name a different lane than the one reached. They now all use `content.lane_standings()`, the same scores `resolve_lane` maximises. `tests/test_balance_regression.py::VisibleLeaderMatchesEnding` covers this.
+* **`_divergence_score`** (ending classification) now also uses `lane_standings()` (fixed in the same follow-up).
 * **Bot model:** the random/directed bots pick from visible options only. Real players read LLM-rewritten option text, so human distributions will differ somewhat. The pressure rule itself is player-model independent.
 * **Old search margins:** the beam-search "margin" figures in `reports/after/diagnosis.json` (and its `final_margin_hist`/`runner_up_within_1`) are computed on raw lane totals and do not apply to the new rule. Only the `reachable` flags (actual `resolved_lane`) are meaningful after the change.
 

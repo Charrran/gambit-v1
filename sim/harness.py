@@ -312,6 +312,7 @@ async def play_game(
         "history": list(state.session_history),
         "roles": {pid: p.role for pid, p in state.active_players.items()},
         "trajectory": trajectory,
+        "final_result": state.final_result,
     }
     await _forget(session_id)
     return result

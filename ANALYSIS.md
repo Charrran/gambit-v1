@@ -30,7 +30,7 @@ The story is linear. Seeding builds one chain of nodes: `seed_db.py:60` links ev
 1. add their `effects` to `state_axes` and their `lanes` to `lane_weights`, and
 2. change which future choices are visible, through each choice's `requires`/`blocks` conditions and each interrogation's `trigger`.
 
-There are 37 beats: 23 CHARACTERIZATION (8 Raghava, 8 Govardhan, 5 Saraswathi, 2 Venkatadri), 5 POLL, and 8 INTERROGATION.
+There are 36 beats: 23 CHARACTERIZATION (8 Raghava, 8 Govardhan, 5 Saraswathi, 2 Venkatadri), 5 POLL, and 8 INTERROGATION.
 
 | Step | Function | File |
 |---|---|---|

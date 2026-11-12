@@ -123,7 +123,7 @@ Return one choice object for every provided Choice ID and no extra choices.
 
         try:
             response = await self.groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model=settings.groq_model,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
@@ -202,7 +202,7 @@ Return one choice object for every provided Choice ID and no extra choices.
 """
         try:
             response = await self.groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model=settings.groq_model,
                 messages=[
                     {"role": "system", "content": self._groq_system_prompt()},
                     {"role": "user", "content": user_prompt},
@@ -262,14 +262,14 @@ Return:
         try:
             return await asyncio.to_thread(
                 self.gemini_client.chat.completions.create,
-                model="gemini-2.0-flash",
+                model=settings.gemini_model,
                 messages=[{"role": "user", "content": comparison_prompt}],
                 response_model=EndingComparison,
             )
         except Exception:
             try:
                 return await self.groq_client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model=settings.groq_model,
                     messages=[
                         {
                             "role": "system",
@@ -316,7 +316,7 @@ Return plain text only. No JSON. No preamble.
         try:
             response = await asyncio.to_thread(
                 self.raw_gemini_client.models.generate_content,
-                model="gemini-2.0-flash",
+                model=settings.gemini_model,
                 contents=prompt,
             )
             if getattr(response, "text", None):
@@ -362,14 +362,14 @@ Use the required in-world date only. Do not use today's date or any modern year.
         try:
             dispatch = await asyncio.to_thread(
                 self.gemini_client.chat.completions.create,
-                model="gemini-2.0-flash",
+                model=settings.gemini_model,
                 messages=[{"role": "user", "content": prompt}],
                 response_model=NewsDispatch,
             )
             return dispatch.headlines[:3]
         except Exception:
             dispatch = await self.groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model=settings.groq_model,
                 messages=[
                     {"role": "system", "content": "Return only valid JSON for fictional political news headlines."},
                     {"role": "user", "content": prompt},
@@ -407,7 +407,7 @@ Write as a novelist, not a narrator.
         try:
             response = await asyncio.to_thread(
                 self.raw_gemini_client.models.generate_content,
-                model="gemini-2.0-flash",
+                model=settings.gemini_model,
                 contents=prompt,
             )
             if getattr(response, "text", None):

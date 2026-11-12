@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from app.design.content import CHAPTER_ANCHORS, chapter_for_node
+from app.design.content import CHAPTER_ANCHORS, chapter_for_node, lane_standings, leading_lane
 from app.services.ai_engine import ai_engine
 from app.models.schemas import NewsHeadline
 
@@ -67,8 +67,9 @@ def build_trust_matrix(state_axes: Dict[str, int] | None) -> Dict[str, int]:
 
 def fallback_headlines(state: Any) -> List[NewsHeadline]:
     axes = state.state_axes or {}
-    lane_weights = state.lane_weights or {}
-    leading_lane = max(lane_weights, key=lambda lane: lane_weights[lane]) if lane_weights else "broken_house"
+    # Same scores resolve_lane uses, so the "likely path" headline matches the real ending.
+    standings = lane_standings(state)
+    leading = leading_lane(standings) or max(standings, key=lambda lane: (standings[lane], lane))
     chapter = chapter_for_node(state.current_scene_node or state.current_node)
     chapter_title = CHAPTER_ANCHORS.get(chapter, {}).get("title", "The Crisis")
     in_world_date = CHAPTER_DATES.get(chapter, "August 1995")
@@ -94,7 +95,7 @@ def fallback_headlines(state: Any) -> List[NewsHeadline]:
         NewsHeadline(
             id="lane",
             dateline=f"Deccan Wire Service · {in_world_date}",
-            headline=leading_lane.replace("_", " ").title(),
+            headline=leading.replace("_", " ").title(),
             body="Internal numbers suggest this path is becoming the most likely interpretation of the crisis.",
         ),
         NewsHeadline(
@@ -133,7 +134,7 @@ async def refresh_live_intel(state: Any) -> Any:
             chapter_title=CHAPTER_ANCHORS.get(chapter, {}).get("title", ""),
             in_world_date=CHAPTER_DATES.get(chapter, "August 1995"),
             state_axes=state.state_axes,
-            lane_weights=state.lane_weights,
+            lane_weights=lane_standings(state),
             story_flags=state.story_flags,
             recent_history=state.session_history[-6:],
         ), state)

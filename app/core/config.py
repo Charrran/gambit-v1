@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     redis_url: str
     groq_api_key: str
     gemini_api_key: str
+    # LLM model ids. Providers retire models; override in .env instead of editing code.
+    groq_model: str = "openai/gpt-oss-20b"
+    gemini_model: str = "gemini-3.1-flash-lite"
 
     # Pydantic-settings configuration
     model_config = SettingsConfigDict(

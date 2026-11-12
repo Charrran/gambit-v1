@@ -18,6 +18,7 @@ from app.design.content import (
     beat_by_id,
     chapter_for_node,
     lane_opportunity,
+    lane_standings,
     resolve_lane,
     terminal_for_lane,
 )
@@ -253,6 +254,7 @@ async def apply_choice(
                 lane_changes=lane_delta,
                 chapter_anchors=CHAPTER_ANCHORS,
                 current_lane_weights=state.lane_weights,
+                lane_standings=lane_standings(state),
                 from_chapter=from_chapter,
                 to_chapter=to_chapter,
             )
