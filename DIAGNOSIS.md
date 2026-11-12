@@ -53,7 +53,7 @@ By the start of chapter 4, about one-third of the way through, the leader is alr
 
 ### 3. Poll ties go to the first-listed option, which is the leader's option
 
-In `apply_choice` (`choice_resolver.py:133`), ties go to the earliest choice in `current_choices`. The ranker in §2 puts the leading lane's option first. Over 7,500 random polls, **22.8% ended in a tie** and the first-listed option won **41.4%** of all polls, against 33% for a neutral rule. Four voters split across three options, so ties are routine and quietly add to the snowball.
+In `apply_choice` (`choice_resolver.py:141`), ties go to the earliest choice in `current_choices`. The ranker in §2 puts the leading lane's option first. Over 7,500 random polls, **22.8% ended in a tie** and the first-listed option won **41.4%** of all polls, against 33% for a neutral rule. Four voters split across three options, so ties are routine and quietly add to the snowball.
 
 ### 4. Sub-lanes are structurally dominated by their parent lane
 
