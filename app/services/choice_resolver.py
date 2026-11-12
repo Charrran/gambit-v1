@@ -15,7 +15,6 @@ from app.design.content import (
     CHAPTER_ANCHORS,
     MASTER_BEATS,
     ROLES,
-    beat_by_id,
     chapter_for_node,
     lane_opportunity,
     lane_standings,
@@ -26,6 +25,7 @@ from app.models.schemas import GameState
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
 from app.services.live_intel import refresh_live_intel
+from app.services.scene_engine import _ensure_design_state
 from app.services.state import state_manager
 from app.services.transition_engine import build_transition_summary
 
@@ -35,24 +35,6 @@ GROUP_NODE_TYPES = {"POLL"}
 # ---------------------------------------------------------------------------
 # Pure state-mutation helpers
 # ---------------------------------------------------------------------------
-
-def _ensure_design_state(state: GameState, state_axes_defaults, lane_weights_defaults) -> None:
-    if not state.state_axes:
-        state.state_axes = dict(state_axes_defaults)
-    else:
-        for key, value in state_axes_defaults.items():
-            state.state_axes.setdefault(key, value)
-    if not state.lane_weights:
-        state.lane_weights = dict(lane_weights_defaults)
-    else:
-        for key, value in lane_weights_defaults.items():
-            state.lane_weights.setdefault(key, value)
-    if not state.spotlight_counts:
-        state.spotlight_counts = {role: 0 for role in ROLES}
-    else:
-        for role in ROLES:
-            state.spotlight_counts.setdefault(role, 0)
-
 
 def apply_axis_effects(state: GameState, effects: Optional[Dict[str, int]]) -> Dict[str, int]:
     """Apply effects to state_axes and return the delta dict."""

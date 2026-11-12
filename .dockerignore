@@ -1,0 +1,18 @@
+# Keep the backend image small and free of secrets and local artefacts.
+.git
+.github
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+gambit-frontend/
+reports/
+output/
+tests/
+sim/
+*.md
+count_lanes.py

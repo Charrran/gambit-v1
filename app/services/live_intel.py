@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from typing import Any, Dict, List
 
 from app.design.content import CHAPTER_ANCHORS, chapter_for_node, lane_standings, leading_lane
@@ -125,28 +126,57 @@ def normalize_headlines(items: List[Any], state: Any) -> List[NewsHeadline]:
     return normalized or fallback_headlines(state)
 
 
+_headline_tasks: set = set()
+
+
 async def refresh_live_intel(state: Any) -> Any:
+    """
+    Update the trust matrix now. At a chapter change, show deterministic
+    headlines immediately and ask the LLM for the chapter's dispatch in the
+    background, so the decision that opens a chapter does not wait 1-3 s for it.
+    """
     state.trust_matrix = build_trust_matrix(state.state_axes)
     chapter = chapter_for_node(state.current_node)
     if getattr(state, "headlines_chapter", None) == chapter:
-        # One LLM dispatch per chapter: it sits on the critical path of every decision
-        # and the free tiers are rate limited. Within a chapter the edition stands.
+        # One LLM dispatch per chapter; within a chapter the edition stands.
         return state
-    try:
-        state.news_headlines = normalize_headlines(await ai_engine.generate_news_headlines(
-            current_node=state.current_node,
-            chapter_title=CHAPTER_ANCHORS.get(chapter, {}).get("title", ""),
-            in_world_date=CHAPTER_DATES.get(chapter, "August 1995"),
-            state_axes=state.state_axes,
-            lane_weights=lane_standings(state),
-            story_flags=state.story_flags,
-            recent_history=state.session_history[-6:],
-        ), state)
-        state.headlines_chapter = chapter
-    except Exception as exc:
-        print(f"[WARN] Headline generation failed for {state.session_id}:{state.current_node}: {exc}")
-        state.news_headlines = fallback_headlines(state)
+    state.news_headlines = fallback_headlines(state)
+    state.headlines_chapter = chapter
+    request = dict(
+        current_node=state.current_node,
+        chapter_title=CHAPTER_ANCHORS.get(chapter, {}).get("title", ""),
+        in_world_date=CHAPTER_DATES.get(chapter, "August 1995"),
+        state_axes=dict(state.state_axes),
+        lane_weights=lane_standings(state),
+        story_flags=list(state.story_flags),
+        recent_history=list(state.session_history[-6:]),
+    )
+    task = asyncio.ensure_future(_write_chapter_headlines(state.session_id, chapter, request))
+    _headline_tasks.add(task)
+    task.add_done_callback(_headline_tasks.discard)
     return state
+
+
+async def _write_chapter_headlines(session_id: str, chapter: int, request: Dict[str, Any]) -> None:
+    from app.services.state import state_manager  # local import: state.py imports this module
+
+    try:
+        items = await ai_engine.generate_news_headlines(**request)
+    except Exception as exc:
+        items = None
+        print(f"[WARN] Headline generation failed for {session_id} chapter {chapter}: {exc}")
+    if session_id not in state_manager._cache:
+        return
+    async with state_manager.session_lock(session_id):
+        state = state_manager._cache.get(session_id)
+        if state is None or state.ended or state.headlines_chapter != chapter:
+            return
+        if items is None:
+            state.headlines_chapter = None  # try again at the next decision
+            return
+        # No save and no revision bump here: clients reset the player's selection and
+        # countdown on every revision, so the dispatch rides along with the next update.
+        state.news_headlines = normalize_headlines(items, state)
 
 
 def role_key(role_name: str | None) -> str:

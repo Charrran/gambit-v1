@@ -1,8 +1,6 @@
-import os
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, field_validator
-from typing import Optional
+from pydantic import field_validator
 
 # Path calculation to the project root
 BASE_DIR = Path(__file__).resolve().parent.parent.parent

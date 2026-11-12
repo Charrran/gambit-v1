@@ -4,7 +4,7 @@ from fastapi import WebSocket
 class ConnectionManager:
     """
     Manages real-time WebSocket communication for multiplayer lobbies.
-    Supports both session-wide broadcasting and targeted spotlight dispatching.
+    Supports session-wide broadcasting.
     """
     def __init__(self):
         # session_id -> {player_id: WebSocket}
@@ -35,18 +35,6 @@ class ConnectionManager:
                     await ws.send_json(message)
                 except Exception:
                     # In production, we'd handle dead connections here
-                    pass
-
-    async def send_personal_state(self, session_id: str, player_id: str, message: Dict[str, Any]):
-        """
-        Sends the specific interactive choices (Spotlight state) to a target player.
-        """
-        if session_id in self.active_sessions:
-            ws = self.active_sessions[session_id].get(player_id)
-            if ws:
-                try:
-                    await ws.send_json(message)
-                except Exception:
                     pass
 
 # Master singleton instance

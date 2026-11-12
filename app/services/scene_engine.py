@@ -14,7 +14,6 @@ from typing import Dict, List, Optional, Tuple
 
 from app.design.content import (
     CHAPTER_ANCHORS,
-    MASTER_BEATS,
     ROLES,
     beat_by_id,
     chapter_for_node,
@@ -78,18 +77,6 @@ def _authored_choices_for_beat(beat: Optional[Dict]) -> List[Dict]:
     return [normalize_choice(c) for c in beat.get("choices", [])]
 
 
-def _tag_diversity_penalty(choice: Dict, already_selected: List[Dict]) -> float:
-    """Return a small penalty if this choice shares all tags with selected choices."""
-    tags = set(choice.get("tags", []))
-    if not tags:
-        return 0.0
-    for sel in already_selected:
-        sel_tags = set(sel.get("tags", []))
-        if sel_tags and tags and tags == sel_tags:
-            return 0.8
-    return 0.0
-
-
 def select_reactive_choices(
     candidate_choices: List[Dict],
     state_axes: Dict[str, int],
@@ -98,51 +85,21 @@ def select_reactive_choices(
     target_count: int = 3,
 ) -> List[Dict]:
     """
-    From a pool of normalized authored choices, return exactly *target_count*
-    visible choices using the following pipeline:
+    From a pool of normalized authored choices, return up to *target_count*
+    visible choices:
 
-    1. Filter out choices whose requires/blocks conditions do not match.
-    2. If fewer than target_count survive, backfill with unconditional choices.
-    3. Score the eligible set by priority + state relevance.
-    4. Pick top-scoring choices while preferring tag diversity.
+    1. Keep choices whose requires/blocks conditions match the current state.
+    2. If more than target_count remain, keep the highest relevance scores
+       (authored priority + reaction to high-pressure axes); ties keep authored order.
     """
     eligible = [c for c in candidate_choices if choice_conditions_match(c, state_axes, story_flags)]
-    unconditional = [c for c in candidate_choices if not c.get("requires") and not c.get("blocks")]
-
-    # Backfill so we always have target_count options
-    if len(eligible) < target_count:
-        for uc in unconditional:
-            if uc not in eligible:
-                eligible.append(uc)
-            if len(eligible) >= target_count:
-                break
-
     if len(eligible) <= target_count:
-        return eligible[:target_count]
-
-    # Score and pick top target_count with diversity preference
-    scored = sorted(
+        return eligible
+    return sorted(
         eligible,
         key=lambda c: choice_relevance_score(c, state_axes, lane_weights, story_flags),
         reverse=True,
-    )
-    selected: List[Dict] = []
-    for c in scored:
-        penalty = _tag_diversity_penalty(c, selected)
-        adjusted = choice_relevance_score(c, state_axes, lane_weights, story_flags) - penalty
-        if len(selected) < target_count:
-            selected.append(c)
-        elif adjusted > min(
-            choice_relevance_score(s, state_axes, lane_weights, story_flags) for s in selected
-        ):
-            # Replace lowest scorer
-            lowest_idx = min(
-                range(len(selected)),
-                key=lambda i: choice_relevance_score(selected[i], state_axes, lane_weights, story_flags),
-            )
-            selected[lowest_idx] = c
-
-    return selected[:target_count]
+    )[:target_count]
 
 
 def _reactive_payloads_for_beat(

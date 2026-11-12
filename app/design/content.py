@@ -772,8 +772,11 @@ INTERROGATIONS: Dict[str, Dict[str, Any]] = {
 # Helper lookups
 # ---------------------------------------------------------------------------
 
+_BEATS_BY_ID: Dict[str, Dict[str, Any]] = {beat["id"]: beat for beat in MASTER_BEATS}
+
+
 def beat_by_id(node_id: str) -> Optional[Dict[str, Any]]:
-    return next((beat for beat in MASTER_BEATS if beat["id"] == node_id), None)
+    return _BEATS_BY_ID.get(node_id)
 
 
 def chapter_for_node(node_id: str) -> int:

@@ -5,13 +5,13 @@ Major beats stay authored in Neo4j while player-facing choices are generated
 inside the constraints of the current scene. Session state is cached in-process
 to keep Redis usage low.
 """
+import asyncio
 import os
 import uuid
 
 import neomodel
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Response
-from fastapi.middleware.cors import CORSMiddleware
 from neomodel.async_.node import NodeMeta
 from pydantic import BaseModel
 
@@ -31,7 +31,6 @@ from app.design.content import (
     INTRO_CONTEXT,
     LANE_WEIGHTS,
     MASTER_BEATS,
-    ROLES,
     STATE_AXES,
     chapter_for_node,
 )
@@ -107,6 +106,15 @@ async def startup_event():
     except Exception as exc:
         print(f"\n[X] STARTUP FAILURE: {exc}\n")
         raise
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    # Session saves are written behind the game; make sure the last ones land.
+    try:
+        await asyncio.wait_for(state_manager.flush(), timeout=10.0)
+    except Exception as exc:
+        print(f"[WARN] Could not flush session saves on shutdown: {exc}")
 
 
 # ---------------------------------------------------------------------------
@@ -429,7 +437,6 @@ async def game_loop_websocket(websocket: WebSocket, session_id: str, player_id: 
                 print(f"[X] Sender error for {player_id}: {exc}")
 
         # Run tasks concurrently
-        import asyncio
         receiver = asyncio.create_task(receiver_task())
         sender = asyncio.create_task(sender_task())
         done, pending = await asyncio.wait(
