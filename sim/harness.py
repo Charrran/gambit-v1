@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+from collections import deque
 import random
 import sys
 from pathlib import Path
@@ -194,6 +195,7 @@ def _install_llm_stubs() -> None:
 
 
 _INSTALLED: Optional[FakeGraph] = None
+RECORDED_PLAYTHROUGHS: deque = deque(maxlen=200)
 
 
 def install_offline_backends(llm_stubs: bool = True) -> FakeGraph:
@@ -208,6 +210,19 @@ def install_offline_backends(llm_stubs: bool = True) -> FakeGraph:
             module.fetch_node = graph.fetch_node
         if hasattr(module, "fetch_edges"):
             module.fetch_edges = graph.fetch_edges
+    # Graph writes (narration cache, playthroughs) are captured in memory instead of Neo4j.
+    async def _no_write(*args, **kwargs):
+        return None
+
+    async def _capture_playthrough(state):
+        RECORDED_PLAYTHROUGHS.append({
+            "session_id": state.session_id,
+            "resolved_lane": state.resolved_lane,
+            "choice_ids": [h.get("choice_id") for h in state.session_history if h.get("choice_id")],
+        })
+
+    graph_store._write_narration = _no_write
+    graph_store.record_playthrough = _capture_playthrough
     if llm_stubs:
         _install_llm_stubs()
     # live_intel prints a warning on every headline fallback; keep sim output clean.

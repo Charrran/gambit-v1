@@ -25,7 +25,8 @@ from app.design.content import (
     pressure_tags,
 )
 from app.models.schemas import ChoiceView, GameState
-from app.services.ai_engine import ai_engine
+from app.services import graph_store
+from app.services.ai_engine import TurnNarrative, ai_engine
 from app.services.graph_store import fetch_edges, fetch_node
 from app.services.interrogation_engine import (
     build_interrogation_flavor,
@@ -371,6 +372,31 @@ def _ensure_design_state(state: GameState, state_axes_defaults, lane_weights_def
 
 
 # ---------------------------------------------------------------------------
+# Narration: graph cache first, LLM second, authored text last
+# ---------------------------------------------------------------------------
+
+async def narrate_scene(state: GameState, node_id: str, role: str, payloads: List[Dict], pressure: List[str], generate):
+    """
+    Words for a scene. A situation (beat + actor + offered choices + leading lane)
+    that already has enough LLM-written variants on the graph is served from
+    there with no LLM call. Otherwise the LLM writes one and it is stored for
+    every later table. Text never affects mechanics.
+    """
+    key = graph_store.narration_key(node_id, role, [p["choice_id"] for p in payloads], pressure)
+    cached = graph_store.narration_lookup(key, state.session_id)
+    if cached:
+        return TurnNarrative.model_validate(cached)
+    narrative = await generate()
+    if narrative.generated:
+        graph_store.narration_store(
+            node_id, key, narrative.flavor_text, [option.model_dump() for option in narrative.options]
+        )
+        return narrative
+    partial = graph_store.narration_lookup(key, state.session_id, allow_partial=True)
+    return TurnNarrative.model_validate(partial) if partial else narrative
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -482,14 +508,17 @@ async def prepare_scene(
                 current_node.node_id,
             )
             anchor = CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {})
-            narrative = await ai_engine.generate_poll_turn(
-                premise=current_node.skeleton_premise,
-                db_choices=reactive_payloads,
-                anchor=anchor,
-                state_snapshot=state.state_axes,
-                lane_weights=standings,
-                pressure_tags=current_pressure,
-                transition_summary=transition_summary,
+            narrative = await narrate_scene(
+                state, current_node.node_id, "COUNCIL", reactive_payloads, current_pressure,
+                lambda: ai_engine.generate_poll_turn(
+                    premise=current_node.skeleton_premise,
+                    db_choices=reactive_payloads,
+                    anchor=anchor,
+                    state_snapshot=state.state_axes,
+                    lane_weights=standings,
+                    pressure_tags=current_pressure,
+                    transition_summary=transition_summary,
+                ),
             )
             option_lookup = {option.choice_id: option for option in narrative.options}
             state.current_scene_role = "COUNCIL"
@@ -548,16 +577,19 @@ async def prepare_scene(
 
             player_profile = state.active_players[spotlight_player]
             anchor = CHAPTER_ANCHORS.get(chapter_for_node(state.current_node), {})
-            narrative = await ai_engine.generate_spotlight_turn(
-                premise=current_node.skeleton_premise,
-                required_role=spotlight_role,
-                db_choices=reactive_payloads,
-                player_alignments=player_profile.alignments,
-                anchor=anchor,
-                state_snapshot=state.state_axes,
-                compressed_history=state.session_history,
-                pressure_tags=current_pressure,
-                transition_summary=transition_summary,
+            narrative = await narrate_scene(
+                state, current_node.node_id, spotlight_role, reactive_payloads, current_pressure,
+                lambda: ai_engine.generate_spotlight_turn(
+                    premise=current_node.skeleton_premise,
+                    required_role=spotlight_role,
+                    db_choices=reactive_payloads,
+                    player_alignments=player_profile.alignments,
+                    anchor=anchor,
+                    state_snapshot=state.state_axes,
+                    compressed_history=state.session_history,
+                    pressure_tags=current_pressure,
+                    transition_summary=transition_summary,
+                ),
             )
             option_lookup = {option.choice_id: option for option in narrative.options}
             state.current_scene_role = spotlight_role

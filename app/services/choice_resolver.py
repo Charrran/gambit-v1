@@ -175,6 +175,7 @@ async def apply_choice(
                 "node": state.current_node,
                 "role": state.current_scene_role or chosen_edge.get("required_role") or "COUNCIL",
                 "choice": chosen_edge["action_intent"],
+                "choice_id": chosen_edge["choice_id"],
             }
         )
 

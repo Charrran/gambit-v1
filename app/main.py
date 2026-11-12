@@ -37,6 +37,7 @@ from app.design.content import (
 )
 from app.models.graph import EpisodeNode
 from app.models.schemas import HealthResponse
+from app.services import graph_store
 from app.services.choice_resolver import apply_choice
 from app.services.ending_engine import ensure_finale
 from app.services.scene_engine import prepare_scene
@@ -184,6 +185,18 @@ async def start_game(session_id: str):
         return await state_manager.start_game(session_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.get("/stats/endings")
+async def stats_endings():
+    """How finished games have ended, from the playthroughs recorded in Neo4j."""
+    return await graph_store.ending_stats()
+
+
+@app.get("/stats/lanes/{lane}/choices")
+async def stats_lane_choices(lane: str):
+    """Choices most characteristic of games that ended in this lane."""
+    return {"lane": lane, "choices": await graph_store.lane_signature_choices(lane)}
 
 
 # ---------------------------------------------------------------------------

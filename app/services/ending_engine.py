@@ -10,6 +10,7 @@ Responsibilities:
 import asyncio
 
 from app.design.content import lane_standings, resolve_lane
+from app.services import graph_store
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
 from app.services.live_intel import fallback_headlines, role_key
@@ -203,4 +204,5 @@ async def ensure_finale(session_id: str):
             }
 
         state.ended = True
+        await graph_store.record_playthrough(state)
         return await state_manager.save_state(state)
