@@ -47,7 +47,6 @@ from app.design.content import (  # noqa: E402
     normalize_choice,
     terminal_for_lane,
 )
-from app.models.schemas import NewsHeadline  # noqa: E402
 from app.services import choice_resolver, ending_engine, scene_engine  # noqa: E402
 from app.services import graph_store, live_intel  # noqa: E402
 from app.services.ai_engine import EndingComparison, ai_engine  # noqa: E402

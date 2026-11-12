@@ -12,7 +12,6 @@ import uuid
 import neomodel
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Response
-from fastapi.middleware.cors import CORSMiddleware
 from neomodel.async_.node import NodeMeta
 from pydantic import BaseModel
 
@@ -32,7 +31,6 @@ from app.design.content import (
     INTRO_CONTEXT,
     LANE_WEIGHTS,
     MASTER_BEATS,
-    ROLES,
     STATE_AXES,
     chapter_for_node,
 )

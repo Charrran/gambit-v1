@@ -124,11 +124,9 @@ async def fetch_node(node_id: str):
     return node
 
 
-async def fetch_edges(node_id: str) -> List[Dict[str, object]]:
-    """Return all LEADS_TO edges from a node, enriched with design payloads."""
-    graph = await load_episode_graph()
+def _edge_payloads(node_id: str, raw_edges: List[tuple]) -> List[Dict[str, object]]:
     edges: List[Dict[str, object]] = []
-    for props, target_node_id in graph["edges"].get(node_id, []):
+    for props, target_node_id in raw_edges:
         choice_id = props.get("choice_id") or fallback_choice_id(node_id, props)
         design_payload = choice_design_payload(choice_id)
         edges.append(
@@ -151,6 +149,15 @@ async def fetch_edges(node_id: str) -> List[Dict[str, object]]:
             }
         )
     return sorted(edges, key=lambda edge: edge["choice_id"] or "")
+
+
+async def fetch_edges(node_id: str) -> List[Dict[str, object]]:
+    """Return all LEADS_TO edges from a node, enriched with design payloads."""
+    graph = await load_episode_graph()
+    prepared = graph.setdefault("prepared", {})
+    if node_id not in prepared:
+        prepared[node_id] = _edge_payloads(node_id, graph["edges"].get(node_id, []))
+    return [dict(edge) for edge in prepared[node_id]]  # callers may annotate their copy
 
 
 # ---------------------------------------------------------------------------

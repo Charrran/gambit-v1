@@ -196,39 +196,6 @@ class GameStateManager:
 
             return await self.save_state(state)
 
-    async def clear_scene(self, state: GameState) -> GameState:
-        state.current_scene_node = None
-        state.current_scene_type = None
-        state.current_scene_flavor = None
-        state.current_scene_role = None
-        state.current_scene_player = None
-        state.current_scene_round = 0
-        state.current_scene_total_rounds = 0
-        state.current_choices = []
-        state.current_choice_payloads = []
-        state.current_interrogation_pair = None
-        state.last_aftermath = None
-        return await self.save_state(state)
-
-    async def update_player_state(
-        self,
-        session_id: str,
-        player_id: str,
-        new_alignment: str = None,
-        new_flag: str = None,
-    ) -> GameState:
-        async with self.session_lock(session_id):
-            state = await self.get_state(session_id)
-            if not state or player_id not in state.active_players:
-                raise ValueError("Session or player not found")
-
-            profile = state.active_players[player_id]
-            if new_alignment:
-                profile.alignments.append(new_alignment)
-            if new_flag and new_flag not in profile.flags:
-                profile.flags.append(new_flag)
-
-            return await self.save_state(state)
 
 
 state_manager = GameStateManager()
