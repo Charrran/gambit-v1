@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="852" height="717" viewBox="0 0 852 717" role="img">
+
+<style>
+  .bg { fill: #fcfcfb; }
+  .ink { fill: #0b0b0b; font: 13px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .ink2 { fill: #52514e; font: 12px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .title { fill: #0b0b0b; font: 600 15px system-ui, -apple-system, Segoe UI, sans-serif; }
+  .bar { fill: #2a78d6; }
+  .grid { stroke: #e1e0d9; stroke-width: 1; }
+  .ref { stroke: #c0392b; stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .reftext { fill: #c0392b; font: 12px system-ui, sans-serif; }
+  .cellink-dark { fill: #ffffff; font: 11px system-ui, sans-serif; }
+  .cellink-light { fill: #0b0b0b; font: 11px system-ui, sans-serif; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; }
+    .ink, .title { fill: #f0efec; }
+    .ink2 { fill: #c3c2b7; }
+    .bar { fill: #3987e5; }
+    .grid { stroke: #2c2c2a; }
+  }
+</style>
+
+<rect class="bg" width="852" height="717"/>
+<text class="title" x="16" y="24">One directed player + 3 random (before)</text>
+<text class="ink2" x="16" y="44">2000 games per row; outlined diagonal = reached the pushed lane</text>
+<text class="ink2" x="16" y="167">table pushes ↓ / resolved ending →</text>
+<text class="ink2" transform="translate(219.0,167) rotate(-45)">govardhan consolidation</text>
+<text class="ink2" transform="translate(277.0,167) rotate(-45)">raghava restoration</text>
+<text class="ink2" transform="translate(335.0,167) rotate(-45)">saraswathi ascendancy</text>
+<text class="ink2" transform="translate(393.0,167) rotate(-45)">venkatadri compromise</text>
+<text class="ink2" transform="translate(451.0,167) rotate(-45)">broken house</text>
+<text class="ink2" transform="translate(509.0,167) rotate(-45)">pyrrhic govardhan</text>
+<text class="ink2" transform="translate(567.0,167) rotate(-45)">patriarchs last roar</text>
+<text class="ink2" transform="translate(625.0,167) rotate(-45)">saraswathi betrayal</text>
+<text class="ink2" transform="translate(683.0,167) rotate(-45)">the inheritance</text>
+<text class="ink" x="182" y="208.0" text-anchor="end">govardhan consolidation</text>
+<rect x="191" y="176" width="56" height="56" rx="3" fill="#184f95" stroke="#c0392b" stroke-width="2.5"><title>govardhan consolidation → govardhan consolidation: 85.5%</title></rect>
+<text class="cellink-dark" x="219.0" y="208.0" text-anchor="middle">86%</text>
+<rect x="249" y="176" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → raghava restoration: 4.5%</title></rect>
+<text class="cellink-light" x="277.0" y="208.0" text-anchor="middle">4%</text>
+<rect x="307" y="176" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → saraswathi ascendancy: 1.0%</title></rect>
+<text class="cellink-light" x="335.0" y="208.0" text-anchor="middle">1%</text>
+<rect x="365" y="176" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → venkatadri compromise: 7.9%</title></rect>
+<text class="cellink-light" x="393.0" y="208.0" text-anchor="middle">8%</text>
+<rect x="423" y="176" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → broken house: 0.5%</title></rect>
+<text class="cellink-light" x="451.0" y="208.0" text-anchor="middle">1%</text>
+<rect x="481" y="176" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="176" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → patriarchs last roar: 0.6%</title></rect>
+<text class="cellink-light" x="567.0" y="208.0" text-anchor="middle">1%</text>
+<rect x="597" y="176" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → saraswathi betrayal: 0.0%</title></rect>
+<rect x="655" y="176" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>govardhan consolidation → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="266.0" text-anchor="end">raghava restoration</text>
+<rect x="191" y="234" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → govardhan consolidation: 23.4%</title></rect>
+<text class="cellink-light" x="219.0" y="266.0" text-anchor="middle">23%</text>
+<rect x="249" y="234" width="56" height="56" rx="3" fill="#3987e5" stroke="#c0392b" stroke-width="2.5"><title>raghava restoration → raghava restoration: 48.6%</title></rect>
+<text class="cellink-dark" x="277.0" y="266.0" text-anchor="middle">49%</text>
+<rect x="307" y="234" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → saraswathi ascendancy: 2.1%</title></rect>
+<text class="cellink-light" x="335.0" y="266.0" text-anchor="middle">2%</text>
+<rect x="365" y="234" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → venkatadri compromise: 23.9%</title></rect>
+<text class="cellink-light" x="393.0" y="266.0" text-anchor="middle">24%</text>
+<rect x="423" y="234" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → broken house: 0.8%</title></rect>
+<text class="cellink-light" x="451.0" y="266.0" text-anchor="middle">1%</text>
+<rect x="481" y="234" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="234" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → patriarchs last roar: 1.1%</title></rect>
+<text class="cellink-light" x="567.0" y="266.0" text-anchor="middle">1%</text>
+<rect x="597" y="234" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → saraswathi betrayal: 0.0%</title></rect>
+<rect x="655" y="234" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>raghava restoration → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="324.0" text-anchor="end">saraswathi ascendancy</text>
+<rect x="191" y="292" width="56" height="56" rx="3" fill="#5598e7" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → govardhan consolidation: 39.1%</title></rect>
+<text class="cellink-light" x="219.0" y="324.0" text-anchor="middle">39%</text>
+<rect x="249" y="292" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → raghava restoration: 15.2%</title></rect>
+<text class="cellink-light" x="277.0" y="324.0" text-anchor="middle">15%</text>
+<rect x="307" y="292" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#c0392b" stroke-width="2.5"><title>saraswathi ascendancy → saraswathi ascendancy: 16.8%</title></rect>
+<text class="cellink-light" x="335.0" y="324.0" text-anchor="middle">17%</text>
+<rect x="365" y="292" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → venkatadri compromise: 25.4%</title></rect>
+<text class="cellink-light" x="393.0" y="324.0" text-anchor="middle">25%</text>
+<rect x="423" y="292" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → broken house: 2.1%</title></rect>
+<text class="cellink-light" x="451.0" y="324.0" text-anchor="middle">2%</text>
+<rect x="481" y="292" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="292" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → patriarchs last roar: 1.4%</title></rect>
+<text class="cellink-light" x="567.0" y="324.0" text-anchor="middle">1%</text>
+<rect x="597" y="292" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → saraswathi betrayal: 0.1%</title></rect>
+<rect x="655" y="292" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>saraswathi ascendancy → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="382.0" text-anchor="end">venkatadri compromise</text>
+<rect x="191" y="350" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → govardhan consolidation: 27.5%</title></rect>
+<text class="cellink-light" x="219.0" y="382.0" text-anchor="middle">28%</text>
+<rect x="249" y="350" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → raghava restoration: 5.5%</title></rect>
+<text class="cellink-light" x="277.0" y="382.0" text-anchor="middle">6%</text>
+<rect x="307" y="350" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → saraswathi ascendancy: 0.8%</title></rect>
+<text class="cellink-light" x="335.0" y="382.0" text-anchor="middle">1%</text>
+<rect x="365" y="350" width="56" height="56" rx="3" fill="#256abf" stroke="#c0392b" stroke-width="2.5"><title>venkatadri compromise → venkatadri compromise: 64.8%</title></rect>
+<text class="cellink-dark" x="393.0" y="382.0" text-anchor="middle">65%</text>
+<rect x="423" y="350" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → broken house: 0.5%</title></rect>
+<text class="cellink-light" x="451.0" y="382.0" text-anchor="middle">0%</text>
+<rect x="481" y="350" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="350" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → patriarchs last roar: 0.8%</title></rect>
+<text class="cellink-light" x="567.0" y="382.0" text-anchor="middle">1%</text>
+<rect x="597" y="350" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → saraswathi betrayal: 0.1%</title></rect>
+<rect x="655" y="350" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>venkatadri compromise → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="440.0" text-anchor="end">broken house</text>
+<rect x="191" y="408" width="56" height="56" rx="3" fill="#3987e5" stroke="#e1e0d9" stroke-width="1"><title>broken house → govardhan consolidation: 50.8%</title></rect>
+<text class="cellink-dark" x="219.0" y="440.0" text-anchor="middle">51%</text>
+<rect x="249" y="408" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>broken house → raghava restoration: 10.6%</title></rect>
+<text class="cellink-light" x="277.0" y="440.0" text-anchor="middle">11%</text>
+<rect x="307" y="408" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>broken house → saraswathi ascendancy: 3.0%</title></rect>
+<text class="cellink-light" x="335.0" y="440.0" text-anchor="middle">3%</text>
+<rect x="365" y="408" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#e1e0d9" stroke-width="1"><title>broken house → venkatadri compromise: 13.0%</title></rect>
+<text class="cellink-light" x="393.0" y="440.0" text-anchor="middle">13%</text>
+<rect x="423" y="408" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#c0392b" stroke-width="2.5"><title>broken house → broken house: 19.4%</title></rect>
+<text class="cellink-light" x="451.0" y="440.0" text-anchor="middle">19%</text>
+<rect x="481" y="408" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>broken house → pyrrhic govardhan: 0.1%</title></rect>
+<rect x="539" y="408" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>broken house → patriarchs last roar: 3.1%</title></rect>
+<text class="cellink-light" x="567.0" y="440.0" text-anchor="middle">3%</text>
+<rect x="597" y="408" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>broken house → saraswathi betrayal: 0.1%</title></rect>
+<rect x="655" y="408" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>broken house → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="498.0" text-anchor="end">pyrrhic govardhan</text>
+<rect x="191" y="466" width="56" height="56" rx="3" fill="#256abf" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → govardhan consolidation: 68.7%</title></rect>
+<text class="cellink-dark" x="219.0" y="498.0" text-anchor="middle">69%</text>
+<rect x="249" y="466" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → raghava restoration: 11.8%</title></rect>
+<text class="cellink-light" x="277.0" y="498.0" text-anchor="middle">12%</text>
+<rect x="307" y="466" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → saraswathi ascendancy: 2.8%</title></rect>
+<text class="cellink-light" x="335.0" y="498.0" text-anchor="middle">3%</text>
+<rect x="365" y="466" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → venkatadri compromise: 10.8%</title></rect>
+<text class="cellink-light" x="393.0" y="498.0" text-anchor="middle">11%</text>
+<rect x="423" y="466" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → broken house: 3.5%</title></rect>
+<text class="cellink-light" x="451.0" y="498.0" text-anchor="middle">4%</text>
+<rect x="481" y="466" width="56" height="56" rx="3" fill="#cde2fb" stroke="#c0392b" stroke-width="2.5"><title>pyrrhic govardhan → pyrrhic govardhan: 0.2%</title></rect>
+<rect x="539" y="466" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → patriarchs last roar: 2.4%</title></rect>
+<text class="cellink-light" x="567.0" y="498.0" text-anchor="middle">2%</text>
+<rect x="597" y="466" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → saraswathi betrayal: 0.0%</title></rect>
+<rect x="655" y="466" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>pyrrhic govardhan → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="556.0" text-anchor="end">patriarchs last roar</text>
+<rect x="191" y="524" width="56" height="56" rx="3" fill="#6da7ec" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → govardhan consolidation: 32.2%</title></rect>
+<text class="cellink-light" x="219.0" y="556.0" text-anchor="middle">32%</text>
+<rect x="249" y="524" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → raghava restoration: 21.8%</title></rect>
+<text class="cellink-light" x="277.0" y="556.0" text-anchor="middle">22%</text>
+<rect x="307" y="524" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → saraswathi ascendancy: 2.8%</title></rect>
+<text class="cellink-light" x="335.0" y="556.0" text-anchor="middle">3%</text>
+<rect x="365" y="524" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → venkatadri compromise: 18.6%</title></rect>
+<text class="cellink-light" x="393.0" y="556.0" text-anchor="middle">19%</text>
+<rect x="423" y="524" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → broken house: 2.6%</title></rect>
+<text class="cellink-light" x="451.0" y="556.0" text-anchor="middle">3%</text>
+<rect x="481" y="524" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="524" width="56" height="56" rx="3" fill="#86b6ef" stroke="#c0392b" stroke-width="2.5"><title>patriarchs last roar → patriarchs last roar: 21.9%</title></rect>
+<text class="cellink-light" x="567.0" y="556.0" text-anchor="middle">22%</text>
+<rect x="597" y="524" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → saraswathi betrayal: 0.1%</title></rect>
+<rect x="655" y="524" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>patriarchs last roar → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="614.0" text-anchor="end">saraswathi betrayal</text>
+<rect x="191" y="582" width="56" height="56" rx="3" fill="#3987e5" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → govardhan consolidation: 47.2%</title></rect>
+<text class="cellink-dark" x="219.0" y="614.0" text-anchor="middle">47%</text>
+<rect x="249" y="582" width="56" height="56" rx="3" fill="#86b6ef" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → raghava restoration: 21.1%</title></rect>
+<text class="cellink-light" x="277.0" y="614.0" text-anchor="middle">21%</text>
+<rect x="307" y="582" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → saraswathi ascendancy: 3.4%</title></rect>
+<text class="cellink-light" x="335.0" y="614.0" text-anchor="middle">3%</text>
+<rect x="365" y="582" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → venkatadri compromise: 14.6%</title></rect>
+<text class="cellink-light" x="393.0" y="614.0" text-anchor="middle">15%</text>
+<rect x="423" y="582" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → broken house: 9.2%</title></rect>
+<text class="cellink-light" x="451.0" y="614.0" text-anchor="middle">9%</text>
+<rect x="481" y="582" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="582" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → patriarchs last roar: 3.6%</title></rect>
+<text class="cellink-light" x="567.0" y="614.0" text-anchor="middle">4%</text>
+<rect x="597" y="582" width="56" height="56" rx="3" fill="#cde2fb" stroke="#c0392b" stroke-width="2.5"><title>saraswathi betrayal → saraswathi betrayal: 0.8%</title></rect>
+<text class="cellink-light" x="625.0" y="614.0" text-anchor="middle">1%</text>
+<rect x="655" y="582" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>saraswathi betrayal → the inheritance: 0.0%</title></rect>
+<text class="ink" x="182" y="672.0" text-anchor="end">the inheritance</text>
+<rect x="191" y="640" width="56" height="56" rx="3" fill="#6da7ec" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → govardhan consolidation: 33.7%</title></rect>
+<text class="cellink-light" x="219.0" y="672.0" text-anchor="middle">34%</text>
+<rect x="249" y="640" width="56" height="56" rx="3" fill="#9ec5f4" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → raghava restoration: 18.8%</title></rect>
+<text class="cellink-light" x="277.0" y="672.0" text-anchor="middle">19%</text>
+<rect x="307" y="640" width="56" height="56" rx="3" fill="#b7d3f6" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → saraswathi ascendancy: 7.0%</title></rect>
+<text class="cellink-light" x="335.0" y="672.0" text-anchor="middle">7%</text>
+<rect x="365" y="640" width="56" height="56" rx="3" fill="#5598e7" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → venkatadri compromise: 38.6%</title></rect>
+<text class="cellink-light" x="393.0" y="672.0" text-anchor="middle">39%</text>
+<rect x="423" y="640" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → broken house: 0.9%</title></rect>
+<text class="cellink-light" x="451.0" y="672.0" text-anchor="middle">1%</text>
+<rect x="481" y="640" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → pyrrhic govardhan: 0.0%</title></rect>
+<rect x="539" y="640" width="56" height="56" rx="3" fill="#cde2fb" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → patriarchs last roar: 1.2%</title></rect>
+<text class="cellink-light" x="567.0" y="672.0" text-anchor="middle">1%</text>
+<rect x="597" y="640" width="56" height="56" rx="3" fill="none" stroke="#e1e0d9" stroke-width="1"><title>the inheritance → saraswathi betrayal: 0.0%</title></rect>
+<rect x="655" y="640" width="56" height="56" rx="3" fill="none" stroke="#c0392b" stroke-width="2.5"><title>the inheritance → the inheritance: 0.0%</title></rect>
+</svg>

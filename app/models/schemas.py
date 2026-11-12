@@ -67,6 +67,9 @@ class GameState(BaseModel):
     last_aftermath: Optional[str] = None
     state_axes: Dict[str, int] = Field(default_factory=dict)
     lane_weights: Dict[str, int] = Field(default_factory=dict)
+    # Ending resolution: per-lane pressure vs. the options actually offered (see content.lane_opportunity)
+    lane_pressure: Optional[Dict[str, float]] = None
+    lane_spread: Dict[str, float] = Field(default_factory=dict)
     story_flags: List[str] = Field(default_factory=list)
     spotlight_counts: Dict[str, int] = Field(default_factory=dict)
     resolved_lane: Optional[str] = None

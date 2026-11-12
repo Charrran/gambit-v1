@@ -17,6 +17,7 @@ from app.design.content import (
     ROLES,
     beat_by_id,
     chapter_for_node,
+    lane_opportunity,
     resolve_lane,
     terminal_for_lane,
 )
@@ -70,6 +71,17 @@ def apply_lane_effects(state: GameState, lanes: Optional[Dict[str, int]]) -> Dic
         state.lane_weights[key] = before + int(val)
         delta[key] = int(val)
     return delta
+
+
+def record_lane_opportunity(state: GameState, offered: List[Dict[str, Any]], chosen: Dict[str, Any]) -> None:
+    """Accumulate how strongly this decision pushed each lane relative to what was offered."""
+    if state.lane_pressure is None:
+        return  # session started on the old engine: keep raw-total resolution
+    pressure, spread = lane_opportunity(offered, chosen)
+    for lane, val in pressure.items():
+        state.lane_pressure[lane] = state.lane_pressure.get(lane, 0.0) + val
+    for lane, val in spread.items():
+        state.lane_spread[lane] = state.lane_spread.get(lane, 0.0) + val
 
 
 def add_story_flags(state: GameState, flags: Optional[List[str]]) -> None:
@@ -168,6 +180,7 @@ async def apply_choice(
         # Apply effects — capture deltas
         axis_delta = apply_axis_effects(state, chosen_edge.get("effects"))
         lane_delta = apply_lane_effects(state, chosen_edge.get("lanes"))
+        record_lane_opportunity(state, state.current_choice_payloads, chosen_edge)
         add_story_flags(state, chosen_edge.get("story_flags"))
 
         # Breakdown aftermath
@@ -219,7 +232,9 @@ async def apply_choice(
 
         # ── Advance to next node ─────────────────────────────────────────────
         if state.current_node == MASTER_BEATS[-1]["id"]:
-            state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
+            state.resolved_lane = resolve_lane(
+                state.lane_weights, state.state_axes, state.lane_pressure, state.lane_spread
+            )
             state.current_node = terminal_for_lane(state.resolved_lane)
         else:
             state.current_node = chosen_edge["target_node_id"]

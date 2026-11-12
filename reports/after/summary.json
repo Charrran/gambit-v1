@@ -1,0 +1,443 @@
+{
+  "random": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.1565,
+      "raghava_restoration": 0.1515,
+      "saraswathi_ascendancy": 0.1285,
+      "venkatadri_compromise": 0.078,
+      "broken_house": 0.212,
+      "pyrrhic_govardhan": 0.0555,
+      "patriarchs_last_roar": 0.113,
+      "saraswathi_betrayal": 0.054,
+      "the_inheritance": 0.051
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.212,
+      "ending_raghava_restoration": 0.2645,
+      "ending_saraswathi_ascendancy": 0.2335,
+      "ending_venkatadri_compromise": 0.078,
+      "ending_broken_house": 0.212
+    },
+    "freeze_rate": 0.0
+  },
+  "disagreement": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.061,
+      "raghava_restoration": 0.126,
+      "saraswathi_ascendancy": 0.067,
+      "venkatadri_compromise": 0.0645,
+      "broken_house": 0.195,
+      "pyrrhic_govardhan": 0.2045,
+      "patriarchs_last_roar": 0.0965,
+      "saraswathi_betrayal": 0.0445,
+      "the_inheritance": 0.141
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.2655,
+      "ending_raghava_restoration": 0.2225,
+      "ending_saraswathi_ascendancy": 0.2525,
+      "ending_venkatadri_compromise": 0.0645,
+      "ending_broken_house": 0.195
+    },
+    "freeze_rate": 0.0,
+    "winner_was_pushed": 0.823
+  },
+  "solo:govardhan_consolidation": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.5165,
+      "raghava_restoration": 0.0665,
+      "saraswathi_ascendancy": 0.046,
+      "venkatadri_compromise": 0.0495,
+      "broken_house": 0.113,
+      "pyrrhic_govardhan": 0.0335,
+      "patriarchs_last_roar": 0.049,
+      "saraswathi_betrayal": 0.0185,
+      "the_inheritance": 0.1075
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.55,
+      "ending_raghava_restoration": 0.1155,
+      "ending_saraswathi_ascendancy": 0.172,
+      "ending_venkatadri_compromise": 0.0495,
+      "ending_broken_house": 0.113
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:raghava_restoration": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0415,
+      "raghava_restoration": 0.577,
+      "saraswathi_ascendancy": 0.0695,
+      "venkatadri_compromise": 0.0745,
+      "broken_house": 0.0765,
+      "pyrrhic_govardhan": 0.028,
+      "patriarchs_last_roar": 0.0705,
+      "saraswathi_betrayal": 0.0255,
+      "the_inheritance": 0.037
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0695,
+      "ending_raghava_restoration": 0.6475,
+      "ending_saraswathi_ascendancy": 0.132,
+      "ending_venkatadri_compromise": 0.0745,
+      "ending_broken_house": 0.0765
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:saraswathi_ascendancy": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0655,
+      "raghava_restoration": 0.135,
+      "saraswathi_ascendancy": 0.402,
+      "venkatadri_compromise": 0.0755,
+      "broken_house": 0.127,
+      "pyrrhic_govardhan": 0.0535,
+      "patriarchs_last_roar": 0.0635,
+      "saraswathi_betrayal": 0.0385,
+      "the_inheritance": 0.0395
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.119,
+      "ending_raghava_restoration": 0.1985,
+      "ending_saraswathi_ascendancy": 0.48,
+      "ending_venkatadri_compromise": 0.0755,
+      "ending_broken_house": 0.127
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:venkatadri_compromise": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.066,
+      "raghava_restoration": 0.0505,
+      "saraswathi_ascendancy": 0.095,
+      "venkatadri_compromise": 0.4165,
+      "broken_house": 0.055,
+      "pyrrhic_govardhan": 0.0285,
+      "patriarchs_last_roar": 0.063,
+      "saraswathi_betrayal": 0.0335,
+      "the_inheritance": 0.192
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0945,
+      "ending_raghava_restoration": 0.1135,
+      "ending_saraswathi_ascendancy": 0.3205,
+      "ending_venkatadri_compromise": 0.4165,
+      "ending_broken_house": 0.055
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:broken_house": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0525,
+      "raghava_restoration": 0.0405,
+      "saraswathi_ascendancy": 0.0365,
+      "venkatadri_compromise": 0.016,
+      "broken_house": 0.6175,
+      "pyrrhic_govardhan": 0.1445,
+      "patriarchs_last_roar": 0.0365,
+      "saraswathi_betrayal": 0.017,
+      "the_inheritance": 0.039
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.197,
+      "ending_raghava_restoration": 0.077,
+      "ending_saraswathi_ascendancy": 0.0925,
+      "ending_venkatadri_compromise": 0.016,
+      "ending_broken_house": 0.6175
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:pyrrhic_govardhan": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.146,
+      "raghava_restoration": 0.0865,
+      "saraswathi_ascendancy": 0.065,
+      "venkatadri_compromise": 0.0385,
+      "broken_house": 0.2265,
+      "pyrrhic_govardhan": 0.2695,
+      "patriarchs_last_roar": 0.0625,
+      "saraswathi_betrayal": 0.031,
+      "the_inheritance": 0.0745
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.4155,
+      "ending_raghava_restoration": 0.149,
+      "ending_saraswathi_ascendancy": 0.1705,
+      "ending_venkatadri_compromise": 0.0385,
+      "ending_broken_house": 0.2265
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:patriarchs_last_roar": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0525,
+      "raghava_restoration": 0.182,
+      "saraswathi_ascendancy": 0.06,
+      "venkatadri_compromise": 0.0415,
+      "broken_house": 0.163,
+      "pyrrhic_govardhan": 0.059,
+      "patriarchs_last_roar": 0.326,
+      "saraswathi_betrayal": 0.0325,
+      "the_inheritance": 0.0835
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.1115,
+      "ending_raghava_restoration": 0.508,
+      "ending_saraswathi_ascendancy": 0.176,
+      "ending_venkatadri_compromise": 0.0415,
+      "ending_broken_house": 0.163
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:saraswathi_betrayal": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.054,
+      "raghava_restoration": 0.105,
+      "saraswathi_ascendancy": 0.0625,
+      "venkatadri_compromise": 0.021,
+      "broken_house": 0.2945,
+      "pyrrhic_govardhan": 0.144,
+      "patriarchs_last_roar": 0.061,
+      "saraswathi_betrayal": 0.225,
+      "the_inheritance": 0.033
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.198,
+      "ending_raghava_restoration": 0.166,
+      "ending_saraswathi_ascendancy": 0.3205,
+      "ending_venkatadri_compromise": 0.021,
+      "ending_broken_house": 0.2945
+    },
+    "freeze_rate": 0.0
+  },
+  "solo:the_inheritance": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.052,
+      "raghava_restoration": 0.16,
+      "saraswathi_ascendancy": 0.182,
+      "venkatadri_compromise": 0.127,
+      "broken_house": 0.0825,
+      "pyrrhic_govardhan": 0.034,
+      "patriarchs_last_roar": 0.058,
+      "saraswathi_betrayal": 0.036,
+      "the_inheritance": 0.2685
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.086,
+      "ending_raghava_restoration": 0.218,
+      "ending_saraswathi_ascendancy": 0.4865,
+      "ending_venkatadri_compromise": 0.127,
+      "ending_broken_house": 0.0825
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:govardhan_consolidation": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 1.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 1.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:raghava_restoration": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 1.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 1.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:saraswathi_ascendancy": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 1.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 1.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:venkatadri_compromise": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 1.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 1.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:broken_house": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 1.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 1.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:pyrrhic_govardhan": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 1.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 1.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:patriarchs_last_roar": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 1.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 1.0,
+      "ending_saraswathi_ascendancy": 0.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:saraswathi_betrayal": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 1.0,
+      "the_inheritance": 0.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 1.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  },
+  "coordinated:the_inheritance": {
+    "games": 2000,
+    "lanes": {
+      "govardhan_consolidation": 0.0,
+      "raghava_restoration": 0.0,
+      "saraswathi_ascendancy": 0.0,
+      "venkatadri_compromise": 0.0,
+      "broken_house": 0.0,
+      "pyrrhic_govardhan": 0.0,
+      "patriarchs_last_roar": 0.0,
+      "saraswathi_betrayal": 0.0,
+      "the_inheritance": 1.0
+    },
+    "terminals": {
+      "ending_govardhan_consolidation": 0.0,
+      "ending_raghava_restoration": 0.0,
+      "ending_saraswathi_ascendancy": 1.0,
+      "ending_venkatadri_compromise": 0.0,
+      "ending_broken_house": 0.0
+    },
+    "freeze_rate": 0.0
+  }
+}

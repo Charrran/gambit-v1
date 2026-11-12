@@ -1,0 +1,5537 @@
+[
+ {
+  "name": "random#0",
+  "roles": {
+   "p0": "Saraswathi",
+   "p1": "Raghava Rao",
+   "p2": "Govardhan Naidu",
+   "p3": "Venkatadri"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_distance"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_negotiate"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_private"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_legal"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_captivity"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_middle"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_use_family"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__d"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_optics"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_bless_crowd"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_weaponize"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_force"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_final_address"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "venkatadri_compromise",
+   "ending_node": "ending_venkatadri_compromise",
+   "state_axes": {
+    "institutional_control": 12,
+    "public_mandate": 16,
+    "family_cohesion": -5,
+    "leader_stability": 2,
+    "court_politics": 6,
+    "elite_loyalty": 4,
+    "betrayal_heat": 3,
+    "media_spin": 5,
+    "governor_patience": -1,
+    "hotel_control": 1,
+    "delhi_interest": 0,
+    "saraswathi_influence": 3,
+    "venkatadri_loyalty": -2,
+    "govardhan_ruthlessness": 1,
+    "raghava_paranoia": 1
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 14,
+    "raghava_restoration": 6,
+    "saraswathi_ascendancy": 3,
+    "venkatadri_compromise": 17,
+    "broken_house": 1,
+    "pyrrhic_govardhan": 1,
+    "patriarchs_last_roar": 7,
+    "saraswathi_betrayal": 4,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "venkatadri_independent_actor",
+    "interrogation_saraswathi_vs_venkatadri_b",
+    "interrogation_raghava_vs_venkatadri_b",
+    "breakdown",
+    "raghava_human_moment",
+    "interrogation_venkatadri_vs_govardhan_d",
+    "interrogation_venkatadri_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_raghava_c",
+    "venkatadri_reluctant_endorsement",
+    "interrogation_govardhan_vs_venkatadri_a"
+   ]
+  }
+ },
+ {
+  "name": "random#1",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Raghava Rao",
+   "p2": "Saraswathi",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_family_channel"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_warn"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_listen"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_persuade"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_captivity"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__d"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_middle"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_mercy"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_soften"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__a"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_governor_appeal"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_suppress_saraswathi"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_leave"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_dignity"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_bargain"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_public"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__d"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_inheritance_claim"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_burn_house"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "venkatadri_compromise",
+   "ending_node": "ending_venkatadri_compromise",
+   "state_axes": {
+    "institutional_control": 4,
+    "public_mandate": 7,
+    "family_cohesion": 0,
+    "leader_stability": 0,
+    "court_politics": 13,
+    "elite_loyalty": 6,
+    "betrayal_heat": 12,
+    "media_spin": 4,
+    "governor_patience": 3,
+    "hotel_control": 0,
+    "delhi_interest": 0,
+    "saraswathi_influence": 10,
+    "venkatadri_loyalty": 1,
+    "govardhan_ruthlessness": 2,
+    "raghava_paranoia": 0
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 4,
+    "raghava_restoration": 8,
+    "saraswathi_ascendancy": 9,
+    "venkatadri_compromise": 13,
+    "broken_house": 5,
+    "pyrrhic_govardhan": 6,
+    "patriarchs_last_roar": 5,
+    "saraswathi_betrayal": 6,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "venkatadri_suspended",
+    "interrogation_saraswathi_vs_venkatadri_d",
+    "interrogation_venkatadri_vs_govardhan_a",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "interrogation_saraswathi_vs_raghava_d",
+    "interrogation_govardhan_vs_venkatadri_c"
+   ]
+  }
+ },
+ {
+  "name": "random#2",
+  "roles": {
+   "p0": "Govardhan Naidu",
+   "p1": "Saraswathi",
+   "p2": "Venkatadri",
+   "p3": "Raghava Rao"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_test"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_distance"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_threaten"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_saraswathi_shield"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_own_faction"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_break_family"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_seal"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__d"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_condemn_govardhan"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_use_family"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__a"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_anti_saraswathi"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_anti_saraswathi"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__a"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_stand"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_family_fracture"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__c"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_exhaustion_move"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_final_address"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__b"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_true_restoration"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_ruthless_purge"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_institutional_transfer"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "govardhan_consolidation",
+   "ending_node": "ending_govardhan_consolidation",
+   "state_axes": {
+    "institutional_control": 23,
+    "public_mandate": 15,
+    "family_cohesion": -13,
+    "leader_stability": 4,
+    "court_politics": 12,
+    "elite_loyalty": 5,
+    "betrayal_heat": 14,
+    "media_spin": 7,
+    "governor_patience": -1,
+    "hotel_control": 1,
+    "delhi_interest": 0,
+    "saraswathi_influence": 5,
+    "venkatadri_loyalty": -1,
+    "govardhan_ruthlessness": 7,
+    "raghava_paranoia": -3
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 18,
+    "raghava_restoration": 13,
+    "saraswathi_ascendancy": 5,
+    "venkatadri_compromise": 5,
+    "broken_house": 5,
+    "pyrrhic_govardhan": 6,
+    "patriarchs_last_roar": 9,
+    "saraswathi_betrayal": 7,
+    "the_inheritance": 1
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "venkatadri_suspended",
+    "interrogation_saraswathi_vs_venkatadri_d",
+    "interrogation_raghava_vs_venkatadri_b",
+    "interrogation_venkatadri_vs_govardhan_a",
+    "interrogation_raghava_vs_govardhan_a",
+    "interrogation_venkatadri_vs_saraswathi_c",
+    "interrogation_saraswathi_vs_raghava_b",
+    "venkatadri_reluctant_endorsement",
+    "interrogation_govardhan_vs_venkatadri_a"
+   ]
+  }
+ },
+ {
+  "name": "random#3",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Raghava Rao",
+   "p2": "Saraswathi",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_test"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_observe"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_negotiate"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_listen"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_cool"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_saraswathi_alliance"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_legal"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_legal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_middle"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_bless"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_anti_saraswathi"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_anti_saraswathi"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_governor_appeal"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_stand"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_outrage"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_bargain"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__a"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_opportunist"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_delhi"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_true_restoration"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_family_inheritance"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "venkatadri_compromise",
+   "ending_node": "ending_venkatadri_compromise",
+   "state_axes": {
+    "institutional_control": -3,
+    "public_mandate": 6,
+    "family_cohesion": 8,
+    "leader_stability": 4,
+    "court_politics": 10,
+    "elite_loyalty": 2,
+    "betrayal_heat": -2,
+    "media_spin": 2,
+    "governor_patience": 3,
+    "hotel_control": 2,
+    "delhi_interest": 0,
+    "saraswathi_influence": 5,
+    "venkatadri_loyalty": -4,
+    "govardhan_ruthlessness": 2,
+    "raghava_paranoia": 0
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 4,
+    "raghava_restoration": 11,
+    "saraswathi_ascendancy": 7,
+    "venkatadri_compromise": 15,
+    "broken_house": 5,
+    "pyrrhic_govardhan": 0,
+    "patriarchs_last_roar": 3,
+    "saraswathi_betrayal": 2,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_venkatadri_a",
+    "venkatadri_volatile",
+    "interrogation_raghava_vs_venkatadri_c",
+    "interrogation_venkatadri_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_raghava_a"
+   ]
+  }
+ },
+ {
+  "name": "random#4",
+  "roles": {
+   "p0": "Saraswathi",
+   "p1": "Raghava Rao",
+   "p2": "Venkatadri",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_observe"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_cool"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__c"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_saraswathi_alliance"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_legal"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_parallel_power"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_intimidate"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_intimidate"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_demand_price"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_mercy"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_use_family"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__a"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_retaliate"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_suppress_saraswathi"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__b"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_collapse"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_dignity"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_force"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_public"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__b"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_inheritance_claim"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_burn_house"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_true_ascendancy"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "govardhan_consolidation",
+   "ending_node": "ending_govardhan_consolidation",
+   "state_axes": {
+    "institutional_control": 13,
+    "public_mandate": 12,
+    "family_cohesion": -5,
+    "leader_stability": -4,
+    "court_politics": 17,
+    "elite_loyalty": 1,
+    "betrayal_heat": 11,
+    "media_spin": 3,
+    "governor_patience": -1,
+    "hotel_control": 6,
+    "delhi_interest": 0,
+    "saraswathi_influence": 14,
+    "venkatadri_loyalty": -2,
+    "govardhan_ruthlessness": 3,
+    "raghava_paranoia": -3
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 19,
+    "raghava_restoration": 7,
+    "saraswathi_ascendancy": 10,
+    "venkatadri_compromise": 9,
+    "broken_house": 5,
+    "pyrrhic_govardhan": 3,
+    "patriarchs_last_roar": 10,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "govardhan_saraswathi_parallel",
+    "interrogation_govardhan_vs_saraswathi_c",
+    "interrogation_saraswathi_vs_venkatadri_c",
+    "venkatadri_volatile",
+    "interrogation_raghava_vs_venkatadri_c",
+    "interrogation_venkatadri_vs_govardhan_a",
+    "interrogation_raghava_vs_govardhan_b",
+    "interrogation_saraswathi_vs_raghava_b",
+    "interrogation_govardhan_vs_venkatadri_c"
+   ]
+  }
+ },
+ {
+  "name": "random#5",
+  "roles": {
+   "p0": "Raghava Rao",
+   "p1": "Govardhan Naidu",
+   "p2": "Venkatadri",
+   "p3": "Saraswathi"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_calm"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_threaten"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_intimidate_waverers"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_persuade"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_captivity"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_intimidate"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_intimidate"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_seal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_seal"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__d"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_party"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_lock_numbers"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__b"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_last_walk"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_collapse"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_dignity"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_force"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_final_address"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__d"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_true_consolidation"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_true_ascendancy"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_institutional_transfer"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "govardhan_consolidation",
+   "ending_node": "ending_govardhan_consolidation",
+   "state_axes": {
+    "institutional_control": 23,
+    "public_mandate": 16,
+    "family_cohesion": 1,
+    "leader_stability": -5,
+    "court_politics": 4,
+    "elite_loyalty": 3,
+    "betrayal_heat": 17,
+    "media_spin": 7,
+    "governor_patience": 0,
+    "hotel_control": 5,
+    "delhi_interest": 0,
+    "saraswathi_influence": 11,
+    "venkatadri_loyalty": -4,
+    "govardhan_ruthlessness": 7,
+    "raghava_paranoia": 1
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 25,
+    "raghava_restoration": 6,
+    "saraswathi_ascendancy": 5,
+    "venkatadri_compromise": 6,
+    "broken_house": 6,
+    "pyrrhic_govardhan": 6,
+    "patriarchs_last_roar": 9,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "venkatadri_suspended",
+    "interrogation_saraswathi_vs_venkatadri_d",
+    "venkatadri_volatile",
+    "interrogation_raghava_vs_venkatadri_c",
+    "venkatadri_endorses_govardhan",
+    "interrogation_venkatadri_vs_govardhan_b",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "interrogation_venkatadri_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_raghava_c",
+    "breakdown",
+    "govardhan_crack",
+    "interrogation_govardhan_vs_venkatadri_d"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:govardhan_consolidation#1",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Raghava Rao",
+   "p2": "Saraswathi",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_reassure"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_calm"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_threaten"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_private"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_seal"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_party"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_lock_numbers"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_clean"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__b"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_retaliate"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_leave"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_outrage"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__c"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_exhaustion_move"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_true_consolidation"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_family_inheritance"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_institutional_transfer"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "govardhan_consolidation",
+   "ending_node": "ending_govardhan_consolidation",
+   "state_axes": {
+    "institutional_control": 31,
+    "public_mandate": 4,
+    "family_cohesion": 7,
+    "leader_stability": 1,
+    "court_politics": 0,
+    "elite_loyalty": 9,
+    "betrayal_heat": 13,
+    "media_spin": 2,
+    "governor_patience": 1,
+    "hotel_control": 4,
+    "delhi_interest": 0,
+    "saraswathi_influence": 6,
+    "venkatadri_loyalty": -3,
+    "govardhan_ruthlessness": 5,
+    "raghava_paranoia": 1
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 31,
+    "raghava_restoration": 6,
+    "saraswathi_ascendancy": 1,
+    "venkatadri_compromise": 4,
+    "broken_house": 3,
+    "pyrrhic_govardhan": 0,
+    "patriarchs_last_roar": 1,
+    "saraswathi_betrayal": 2,
+    "the_inheritance": 4
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_venkatadri_c",
+    "venkatadri_endorses_govardhan",
+    "interrogation_venkatadri_vs_govardhan_b",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "interrogation_venkatadri_vs_saraswathi_c",
+    "interrogation_saraswathi_vs_raghava_c",
+    "venkatadri_reluctant_endorsement",
+    "interrogation_govardhan_vs_venkatadri_a"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:raghava_restoration#2",
+  "roles": {
+   "p0": "Govardhan Naidu",
+   "p1": "Saraswathi",
+   "p2": "Venkatadri",
+   "p3": "Raghava Rao"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_reassure"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_test"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_calm"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_negotiate"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_listen"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_cool"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_persuade"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_legal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_family"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_legal"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_bless_crowd"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_dignity"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_bargain"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_institution"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__b"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_delhi"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_delhi"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_delhi"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_delhi"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_true_restoration"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_family_inheritance"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "raghava_restoration",
+   "ending_node": "ending_raghava_restoration",
+   "state_axes": {
+    "institutional_control": -2,
+    "public_mandate": 6,
+    "family_cohesion": 8,
+    "leader_stability": 10,
+    "court_politics": 3,
+    "elite_loyalty": 4,
+    "betrayal_heat": -7,
+    "media_spin": 2,
+    "governor_patience": 1,
+    "hotel_control": 1,
+    "delhi_interest": 2,
+    "saraswathi_influence": 3,
+    "venkatadri_loyalty": 1,
+    "govardhan_ruthlessness": 1,
+    "raghava_paranoia": -3
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 2,
+    "raghava_restoration": 20,
+    "saraswathi_ascendancy": 0,
+    "venkatadri_compromise": 10,
+    "broken_house": 0,
+    "pyrrhic_govardhan": 1,
+    "patriarchs_last_roar": 0,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 3
+   },
+   "story_flags": [
+    "interrogation_saraswathi_vs_raghava_b"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:saraswathi_ascendancy#3",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Raghava Rao",
+   "p2": "Saraswathi",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_family_channel"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_calm"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_saraswathi_shield"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_own_faction"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_saraswathi_alliance"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_legal"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_parallel_power"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_family"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_bless"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_retaliate"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_optics"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_leave"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_claim_moment"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__c"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_manage"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__a"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_inheritance_claim"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_true_ascendancy"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "saraswathi_ascendancy",
+   "ending_node": "ending_saraswathi_ascendancy",
+   "state_axes": {
+    "institutional_control": 5,
+    "public_mandate": 5,
+    "family_cohesion": 10,
+    "leader_stability": -2,
+    "court_politics": 22,
+    "elite_loyalty": 1,
+    "betrayal_heat": 2,
+    "media_spin": 0,
+    "governor_patience": -1,
+    "hotel_control": 2,
+    "delhi_interest": 0,
+    "saraswathi_influence": 26,
+    "venkatadri_loyalty": 2,
+    "govardhan_ruthlessness": 1,
+    "raghava_paranoia": -1
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 5,
+    "raghava_restoration": 7,
+    "saraswathi_ascendancy": 18,
+    "venkatadri_compromise": 9,
+    "broken_house": 3,
+    "pyrrhic_govardhan": 4,
+    "patriarchs_last_roar": 0,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 4
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_venkatadri_c",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "interrogation_venkatadri_vs_saraswathi_c",
+    "interrogation_saraswathi_vs_raghava_a"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:broken_house#4",
+  "roles": {
+   "p0": "Saraswathi",
+   "p1": "Raghava Rao",
+   "p2": "Venkatadri",
+   "p3": "Govardhan Naidu"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_family_channel"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_warn"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_isolate_govardhan"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_middle"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_unravel"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_use_family"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_retaliate"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_optics"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_collapse"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_family_fracture"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__d"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_force"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_public"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_burn_house"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "broken_house",
+   "ending_node": "ending_broken_house",
+   "state_axes": {
+    "institutional_control": 12,
+    "public_mandate": 10,
+    "family_cohesion": -20,
+    "leader_stability": -8,
+    "court_politics": 3,
+    "elite_loyalty": 1,
+    "betrayal_heat": 35,
+    "media_spin": 9,
+    "governor_patience": -1,
+    "hotel_control": 0,
+    "delhi_interest": 0,
+    "saraswathi_influence": 2,
+    "venkatadri_loyalty": 2,
+    "govardhan_ruthlessness": 2,
+    "raghava_paranoia": 5
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 10,
+    "raghava_restoration": 1,
+    "saraswathi_ascendancy": 1,
+    "venkatadri_compromise": 4,
+    "broken_house": 21,
+    "pyrrhic_govardhan": 6,
+    "patriarchs_last_roar": 10,
+    "saraswathi_betrayal": 4,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_venkatadri_a",
+    "interrogation_raghava_vs_venkatadri_a",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "breakdown",
+    "historian_complete_register",
+    "interrogation_venkatadri_vs_saraswathi_d",
+    "interrogation_saraswathi_vs_raghava_c"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:patriarchs_last_roar#5",
+  "roles": {
+   "p0": "Raghava Rao",
+   "p1": "Govardhan Naidu",
+   "p2": "Venkatadri",
+   "p3": "Saraswathi"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_family_channel"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_warn"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_family"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_unravel"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__d"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_remove_footwear"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_weaponize"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_manage"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_final_address"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_burn_house"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_popular_reversal"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "patriarchs_last_roar",
+   "ending_node": "ending_raghava_restoration",
+   "state_axes": {
+    "institutional_control": 2,
+    "public_mandate": 22,
+    "family_cohesion": -2,
+    "leader_stability": -7,
+    "court_politics": 4,
+    "elite_loyalty": 1,
+    "betrayal_heat": 17,
+    "media_spin": 7,
+    "governor_patience": 1,
+    "hotel_control": 0,
+    "delhi_interest": 0,
+    "saraswathi_influence": 3,
+    "venkatadri_loyalty": 2,
+    "govardhan_ruthlessness": 2,
+    "raghava_paranoia": 6
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 3,
+    "raghava_restoration": 6,
+    "saraswathi_ascendancy": 2,
+    "venkatadri_compromise": 5,
+    "broken_house": 9,
+    "pyrrhic_govardhan": 4,
+    "patriarchs_last_roar": 15,
+    "saraswathi_betrayal": 3,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "saraswathi_reverses_govardhan",
+    "interrogation_govardhan_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_venkatadri_a",
+    "breakdown",
+    "betrayal_turns_inward",
+    "interrogation_raghava_vs_govardhan_d",
+    "interrogation_venkatadri_vs_saraswathi_a",
+    "interrogation_saraswathi_vs_raghava_c"
+   ]
+  }
+ },
+ {
+  "name": "coordinated:venkatadri_compromise#6",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Saraswathi",
+   "p2": "Govardhan Naidu",
+   "p3": "Raghava Rao"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_family_channel"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_observe"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_negotiate"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_private"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_record"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_venkatadri_plea"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_legal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_demand_price"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_bless"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_leave"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_weaponize"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_bargain"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__c"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_family_inheritance"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "venkatadri_compromise",
+   "ending_node": "ending_venkatadri_compromise",
+   "state_axes": {
+    "institutional_control": -1,
+    "public_mandate": 4,
+    "family_cohesion": 10,
+    "leader_stability": 0,
+    "court_politics": 14,
+    "elite_loyalty": 2,
+    "betrayal_heat": -8,
+    "media_spin": 3,
+    "governor_patience": -1,
+    "hotel_control": 1,
+    "delhi_interest": 0,
+    "saraswathi_influence": 5,
+    "venkatadri_loyalty": 2,
+    "govardhan_ruthlessness": 1,
+    "raghava_paranoia": -1
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 1,
+    "raghava_restoration": 2,
+    "saraswathi_ascendancy": 4,
+    "venkatadri_compromise": 26,
+    "broken_house": 0,
+    "pyrrhic_govardhan": 1,
+    "patriarchs_last_roar": 1,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 4
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "venkatadri_independent_actor",
+    "interrogation_saraswathi_vs_venkatadri_b",
+    "interrogation_saraswathi_vs_raghava_c"
+   ]
+  }
+ },
+ {
+  "name": "disagreement#11",
+  "roles": {
+   "p0": "Raghava Rao",
+   "p1": "Govardhan Naidu",
+   "p2": "Saraswathi",
+   "p3": "Venkatadri"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_calm"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_threaten"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_captivity"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_family"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_mercy"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_lock_numbers"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_clean"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_anti_saraswathi"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_governor"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_retaliate"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_numbers"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__c"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_bless_crowd"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_weaponize"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_exhaustion_move"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__a"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_inheritance_claim"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_yield"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_true_consolidation"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_true_ascendancy"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_institutional_transfer"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_popular_reversal"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "govardhan_consolidation",
+   "ending_node": "ending_govardhan_consolidation",
+   "state_axes": {
+    "institutional_control": 22,
+    "public_mandate": 11,
+    "family_cohesion": 7,
+    "leader_stability": -4,
+    "court_politics": 10,
+    "elite_loyalty": 7,
+    "betrayal_heat": 11,
+    "media_spin": 4,
+    "governor_patience": 0,
+    "hotel_control": 0,
+    "delhi_interest": 0,
+    "saraswathi_influence": 12,
+    "venkatadri_loyalty": 3,
+    "govardhan_ruthlessness": 4,
+    "raghava_paranoia": 0
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 20,
+    "raghava_restoration": 7,
+    "saraswathi_ascendancy": 11,
+    "venkatadri_compromise": 3,
+    "broken_house": 4,
+    "pyrrhic_govardhan": 1,
+    "patriarchs_last_roar": 2,
+    "saraswathi_betrayal": 1,
+    "the_inheritance": 2
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "interrogation_saraswathi_vs_venkatadri_c",
+    "last_point_of_change",
+    "interrogation_raghava_vs_govardhan_c",
+    "interrogation_saraswathi_vs_raghava_a"
+   ]
+  }
+ },
+ {
+  "name": "disagreement#12",
+  "roles": {
+   "p0": "Raghava Rao",
+   "p1": "Saraswathi",
+   "p2": "Govardhan Naidu",
+   "p3": "Venkatadri"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_reassure"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_observe"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_quiet"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_listen"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_persuade"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_openness"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_party"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_lock_numbers"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__c"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_optics"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__a"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_bless_crowd"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_family_fracture"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__d"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_manage"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_institution"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__d"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_betrayal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__b"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_true_restoration"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_complete_fracture"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "raghava_restoration",
+   "ending_node": "ending_raghava_restoration",
+   "state_axes": {
+    "institutional_control": 9,
+    "public_mandate": 12,
+    "family_cohesion": -9,
+    "leader_stability": 8,
+    "court_politics": 9,
+    "elite_loyalty": 4,
+    "betrayal_heat": 17,
+    "media_spin": 5,
+    "governor_patience": -1,
+    "hotel_control": 1,
+    "delhi_interest": 0,
+    "saraswathi_influence": 2,
+    "venkatadri_loyalty": -1,
+    "govardhan_ruthlessness": 3,
+    "raghava_paranoia": 0
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 7,
+    "raghava_restoration": 15,
+    "saraswathi_ascendancy": 4,
+    "venkatadri_compromise": 5,
+    "broken_house": 10,
+    "pyrrhic_govardhan": 7,
+    "patriarchs_last_roar": 1,
+    "saraswathi_betrayal": 9,
+    "the_inheritance": 0
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "interrogation_raghava_vs_venkatadri_b",
+    "venkatadri_suspended",
+    "interrogation_venkatadri_vs_govardhan_c",
+    "interrogation_raghava_vs_govardhan_a",
+    "breakdown",
+    "historian_complete_register",
+    "interrogation_venkatadri_vs_saraswathi_d",
+    "interrogation_saraswathi_vs_raghava_d",
+    "interrogation_govardhan_vs_venkatadri_b"
+   ]
+  }
+ },
+ {
+  "name": "solo:the_inheritance#13",
+  "roles": {
+   "p0": "Venkatadri",
+   "p1": "Raghava Rao",
+   "p2": "Govardhan Naidu",
+   "p3": "Saraswathi"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_elevate"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_test"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_observe"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_negotiate"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_private"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__b"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_mediation"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_split_strategy"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_saraswathi_alliance"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_venkatadri_plea"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_captivity"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__d"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_party"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_history"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_compromise"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_reconcile"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__b"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_legal"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__a"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_leave"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_dignity"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_bargain"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_public"
+   },
+   {
+    "node": "gambit_ch08_interrogation_saraswathi_raghava",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch08_interrogation_saraswathi_raghava__a"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_opportunist"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__c"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_compromise"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_true_restoration"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_family_compromise"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_family_compromise"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "venkatadri_compromise",
+   "ending_node": "ending_venkatadri_compromise",
+   "state_axes": {
+    "institutional_control": 7,
+    "public_mandate": 6,
+    "family_cohesion": 2,
+    "leader_stability": 5,
+    "court_politics": 14,
+    "elite_loyalty": 3,
+    "betrayal_heat": -1,
+    "media_spin": 2,
+    "governor_patience": 2,
+    "hotel_control": 1,
+    "delhi_interest": 0,
+    "saraswathi_influence": 9,
+    "venkatadri_loyalty": -6,
+    "govardhan_ruthlessness": 2,
+    "raghava_paranoia": 0
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 9,
+    "raghava_restoration": 9,
+    "saraswathi_ascendancy": 9,
+    "venkatadri_compromise": 17,
+    "broken_house": 2,
+    "pyrrhic_govardhan": 1,
+    "patriarchs_last_roar": 2,
+    "saraswathi_betrayal": 3,
+    "the_inheritance": 0
+   },
+   "story_flags": [
+    "interrogation_govardhan_vs_saraswathi_b",
+    "venkatadri_suspended",
+    "interrogation_saraswathi_vs_venkatadri_d",
+    "venkatadri_endorses_govardhan",
+    "interrogation_venkatadri_vs_govardhan_b",
+    "interrogation_raghava_vs_govardhan_a",
+    "interrogation_saraswathi_vs_raghava_a",
+    "interrogation_govardhan_vs_venkatadri_c"
+   ]
+  }
+ },
+ {
+  "name": "solo:saraswathi_betrayal#14",
+  "roles": {
+   "p0": "Govardhan Naidu",
+   "p1": "Venkatadri",
+   "p2": "Saraswathi",
+   "p3": "Raghava Rao"
+  },
+  "steps": [
+   {
+    "node": "gambit_ch01_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch01_raghava_challenge"
+   },
+   {
+    "node": "gambit_ch01_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch01_govardhan_camp"
+   },
+   {
+    "node": "gambit_ch01_venkatadri",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch01_venkatadri_back_govardhan_quietly"
+   },
+   {
+    "node": "gambit_ch02_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_govardhan_procedural_lock"
+   },
+   {
+    "node": "gambit_ch02_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_raghava_dismiss"
+   },
+   {
+    "node": "gambit_ch02_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_saraswathi_radicalize"
+   },
+   {
+    "node": "gambit_ch02_interrogation_gov_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "gambit_ch02_interrogation_gov_saraswathi__c"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch02_poll_secure_location"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch02_poll_final_warning"
+   },
+   {
+    "node": "gambit_ch02_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch02_poll_burn_bridges"
+   },
+   {
+    "node": "gambit_ch03_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_govardhan_media"
+   },
+   {
+    "node": "gambit_ch03_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_raghava_shame"
+   },
+   {
+    "node": "gambit_ch03_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_saraswathi_legal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch03_poll_media"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch03_poll_seal"
+   },
+   {
+    "node": "gambit_ch03_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch03_poll_majority"
+   },
+   {
+    "node": "gambit_ch04_interrogation_saraswathi_venkatadri",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch04_interrogation_saraswathi_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_venkatadri",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch04_venkatadri_party"
+   },
+   {
+    "node": "gambit_ch04_interrogation_raghava_venkatadri",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch04_interrogation_raghava_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch04_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch04_raghava_unravel"
+   },
+   {
+    "node": "gambit_ch04_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch04_govardhan_soften"
+   },
+   {
+    "node": "gambit_ch05_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_govardhan_aggressive"
+   },
+   {
+    "node": "gambit_ch05_interrogation_venkatadri_govardhan",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch05_interrogation_venkatadri_govardhan__a"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch05_poll_remove"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch05_poll_venkatadri_ultimatum"
+   },
+   {
+    "node": "gambit_ch05_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch05_poll_reconcile"
+   },
+   {
+    "node": "gambit_ch06_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch06_raghava_emotional"
+   },
+   {
+    "node": "gambit_ch06_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch06_govardhan_speed"
+   },
+   {
+    "node": "gambit_ch06_interrogation_raghava_govardhan",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "gambit_ch06_interrogation_raghava_govardhan__d"
+   },
+   {
+    "node": "gambit_ch07_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch07_raghava_remove_footwear"
+   },
+   {
+    "node": "gambit_ch07_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch07_saraswathi_outrage"
+   },
+   {
+    "node": "gambit_ch07_interrogation_venkatadri_saraswathi",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "gambit_ch07_interrogation_venkatadri_saraswathi__a"
+   },
+   {
+    "node": "gambit_ch08_govardhan",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_govardhan_exhaustion_move"
+   },
+   {
+    "node": "gambit_ch08_raghava",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_raghava_bargain"
+   },
+   {
+    "node": "gambit_ch08_saraswathi",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_saraswathi_loyal"
+   },
+   {
+    "node": "gambit_ch08_interrogation_govardhan_venkatadri",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "gambit_ch08_interrogation_govardhan_venkatadri__a"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch08_poll_boycott"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch08_poll_headcount"
+   },
+   {
+    "node": "gambit_ch08_poll",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch08_poll_final_rupture"
+   },
+   {
+    "node": "gambit_ch09_raghava_test",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_raghava_burn_house"
+   },
+   {
+    "node": "gambit_ch09_govardhan_test",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_govardhan_halt"
+   },
+   {
+    "node": "gambit_ch09_saraswathi_test",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_saraswathi_pure_betrayal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p0",
+    "role": "Govardhan Naidu",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p1",
+    "role": "Venkatadri",
+    "choice_id": "ch09_poll_complete_fracture"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p2",
+    "role": "Saraswathi",
+    "choice_id": "ch09_poll_popular_reversal"
+   },
+   {
+    "node": "gambit_ch09_verdict",
+    "player": "p3",
+    "role": "Raghava Rao",
+    "choice_id": "ch09_poll_complete_fracture"
+   }
+  ],
+  "outcome": {
+   "resolved_lane": "patriarchs_last_roar",
+   "ending_node": "ending_raghava_restoration",
+   "state_axes": {
+    "institutional_control": 16,
+    "public_mandate": 14,
+    "family_cohesion": -6,
+    "leader_stability": -7,
+    "court_politics": 1,
+    "elite_loyalty": 8,
+    "betrayal_heat": 22,
+    "media_spin": 7,
+    "governor_patience": -1,
+    "hotel_control": 0,
+    "delhi_interest": 0,
+    "saraswathi_influence": 1,
+    "venkatadri_loyalty": -3,
+    "govardhan_ruthlessness": 3,
+    "raghava_paranoia": 4
+   },
+   "lane_weights": {
+    "govardhan_consolidation": 13,
+    "raghava_restoration": 2,
+    "saraswathi_ascendancy": 1,
+    "venkatadri_compromise": 6,
+    "broken_house": 7,
+    "pyrrhic_govardhan": 7,
+    "patriarchs_last_roar": 13,
+    "saraswathi_betrayal": 4,
+    "the_inheritance": 1
+   },
+   "story_flags": [
+    "govardhan_saraswathi_parallel",
+    "interrogation_govardhan_vs_saraswathi_c",
+    "interrogation_saraswathi_vs_venkatadri_a",
+    "interrogation_raghava_vs_venkatadri_a",
+    "interrogation_venkatadri_vs_govardhan_a",
+    "breakdown",
+    "betrayal_turns_inward",
+    "interrogation_raghava_vs_govardhan_d",
+    "interrogation_venkatadri_vs_saraswathi_a",
+    "venkatadri_reluctant_endorsement",
+    "interrogation_govardhan_vs_venkatadri_a"
+   ]
+  }
+ }
+]

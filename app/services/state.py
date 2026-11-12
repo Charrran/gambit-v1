@@ -119,6 +119,8 @@ class GameStateManager:
             state.session_history = []
             state.state_axes = dict(STATE_AXES)
             state.lane_weights = dict(LANE_WEIGHTS)
+            state.lane_pressure = {}
+            state.lane_spread = {}
             state.story_flags = []
             state.spotlight_counts = {role: 0 for role in ROLES}
             state.resolved_lane = None

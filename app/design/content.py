@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 
 ROLES = ["Raghava Rao", "Govardhan Naidu", "Saraswathi", "Venkatadri"]
@@ -202,10 +202,9 @@ def choice_relevance_score(
     dominant pressure in the state.  Higher = more relevant to show.
     """
     score = float(choice.get("priority", 5))
-    # Boost for choices whose lane effects push the currently leading lane
-    leading_lane = max(lane_weights, key=lambda k: lane_weights[k]) if lane_weights else None
-    if leading_lane:
-        score += float(choice.get("lanes", {}).get(leading_lane, 0)) * 0.5
+    # No boost toward the currently leading lane: that fed back into which choices
+    # were offered (and listed first in polls), snowballing whichever lane led early
+    # (and govardhan_consolidation by default, as the first key when all lanes are 0).
     # Boost for choices that react to high-pressure axes
     for axis, val in state_axes.items():
         if abs(val) >= 4:
@@ -803,22 +802,75 @@ def option_available(option: Dict[str, Any], state_axes: Dict[str, int]) -> bool
     return all(op_matches(int(state_axes.get(rule["axis"], 0)), rule["op"], int(rule["value"])) for rule in option.get("requires", []))
 
 
-def resolve_lane(lane_weights: Dict[str, int], state_axes: Dict[str, int]) -> str:
-    weights = dict(LANE_WEIGHTS)
-    weights.update(lane_weights or {})
+def lane_opportunity(offered: List[Dict[str, Any]], chosen: Dict[str, Any]) -> Tuple[Dict[str, float], Dict[str, float]]:
+    """
+    Score one resolved decision against the options that were actually on the table.
+
+    Returns (pressure, spread) per lane:
+      pressure = chosen option's lane points - mean lane points of the offered options
+      spread   = variance of lane points across the offered options
+    An indifferent pick has expected pressure 0 for every lane, so lanes that simply
+    appear on more choices no longer win by default.
+    """
+    options = [o.get("lanes") or {} for o in offered] or [chosen.get("lanes") or {}]
+    picked = chosen.get("lanes") or {}
+    pressure: Dict[str, float] = {}
+    spread: Dict[str, float] = {}
+    for lane in LANE_WEIGHTS:
+        values = [float(o.get(lane, 0)) for o in options]
+        mean = sum(values) / len(values)
+        var = sum((v - mean) ** 2 for v in values) / len(values)
+        if var > 0:
+            pressure[lane] = float(picked.get(lane, 0)) - mean
+            spread[lane] = var
+    return pressure, spread
+
+
+# Axis-threshold bonuses below are authored in lane points (+3 / +2); this converts
+# them into the standardised pressure scale used when pressure data is available.
+BONUS_TO_PRESSURE = 1.0 / 3.0
+
+
+def resolve_lane(
+    lane_weights: Dict[str, int],
+    state_axes: Dict[str, int],
+    lane_pressure: Optional[Dict[str, float]] = None,
+    lane_spread: Optional[Dict[str, float]] = None,
+) -> str:
+    """
+    Pick the ending lane.
+
+    With pressure data (all games started on this version): each lane scores
+    sum(pressure) / sqrt(sum(spread)) -- how deliberately the table chose that lane,
+    given the opportunities it actually had -- plus the authored axis bonuses.
+    Without it (sessions saved by the old engine) the raw lane totals are used.
+    """
+    bonus = {lane: 0 for lane in LANE_WEIGHTS}
     if state_axes.get("family_cohesion", 0) <= -6 or state_axes.get("betrayal_heat", 0) >= 9:
-        weights["broken_house"] += 3
+        bonus["broken_house"] += 3
     if state_axes.get("public_mandate", 0) >= 8 and state_axes.get("leader_stability", 0) <= -2:
-        weights["patriarchs_last_roar"] += 3
+        bonus["patriarchs_last_roar"] += 3
     if state_axes.get("public_mandate", 0) >= 8 and state_axes.get("family_cohesion", 0) >= -2:
-        weights["raghava_restoration"] += 3
+        bonus["raghava_restoration"] += 3
     if state_axes.get("saraswathi_influence", 0) >= 7 and state_axes.get("court_politics", 0) >= 5:
-        weights["saraswathi_ascendancy"] += 3
+        bonus["saraswathi_ascendancy"] += 3
     if state_axes.get("institutional_control", 0) >= 8 and state_axes.get("elite_loyalty", 0) >= 4:
-        weights["govardhan_consolidation"] += 3
+        bonus["govardhan_consolidation"] += 3
     if abs(state_axes.get("venkatadri_loyalty", 0)) <= 1 and state_axes.get("family_cohesion", 0) <= -2:
-        weights["venkatadri_compromise"] += 2
-    return max(weights, key=lambda lane: (weights[lane], lane))
+        bonus["venkatadri_compromise"] += 2
+
+    if lane_pressure is None:
+        weights = dict(LANE_WEIGHTS)
+        weights.update(lane_weights or {})
+        scores = {lane: weights.get(lane, 0) + bonus.get(lane, 0) for lane in weights}
+    else:
+        spread = lane_spread or {}
+        scores = {}
+        for lane in LANE_WEIGHTS:
+            total_spread = float(spread.get(lane, 0.0))
+            z = float(lane_pressure.get(lane, 0.0)) / total_spread ** 0.5 if total_spread > 0 else 0.0
+            scores[lane] = z + bonus[lane] * BONUS_TO_PRESSURE
+    return max(scores, key=lambda lane: (scores[lane], lane))
 
 
 def terminal_for_lane(lane: str) -> str:

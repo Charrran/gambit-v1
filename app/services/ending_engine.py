@@ -114,7 +114,9 @@ async def ensure_finale(session_id: str):
 
         try:
             if not state.resolved_lane:
-                state.resolved_lane = resolve_lane(state.lane_weights, state.state_axes)
+                state.resolved_lane = resolve_lane(
+                    state.lane_weights, state.state_axes, state.lane_pressure, state.lane_spread
+                )
 
             historian_text = await ai_engine.generate_historian_ending(
                 resolved_lane=state.resolved_lane,
@@ -130,7 +132,7 @@ async def ensure_finale(session_id: str):
             )
             divergence = _divergence_score(state)
             title = comparison.final_score or state.resolved_lane.replace("_", " ").title()
-            headlines = fallback_headlines(state)
+            headlines = [h.model_dump() for h in fallback_headlines(state)]
             state.final_result = {
                 "type": "GAME_OVER",
                 "phase": "EPILOGUE",
@@ -190,7 +192,7 @@ async def ensure_finale(session_id: str):
                     "verdict": "The session departed from the expected record in the distribution of loyalty and authority.",
                 },
                 "verdicts": _role_verdicts(state),
-                "aftermath_headlines": fallback_headlines(state),
+                "aftermath_headlines": [h.model_dump() for h in fallback_headlines(state)],
                 "key_moments": _key_moments(state),
             }
 
