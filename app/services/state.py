@@ -119,6 +119,7 @@ class GameStateManager:
             state.session_history = []
             state.state_axes = dict(STATE_AXES)
             state.lane_weights = dict(LANE_WEIGHTS)
+            state.headlines_chapter = None
             state.lane_pressure = {}
             state.lane_spread = {}
             state.story_flags = []

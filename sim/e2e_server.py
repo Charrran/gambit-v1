@@ -2,7 +2,6 @@
 Start the real Gambit server (uvicorn + app.main) for an end-to-end run.
 
     python -m sim.e2e_server [--port 8765] [--offline-llm] [--os-trust-store]
-                             [--groq-model openai/gpt-oss-20b] [--gemini-model gemini-flash-latest]
 
 Redis and Neo4j are replaced in-process by sim.harness fakes (the hosted instances
 in .env are no longer reachable); the LLM Director uses the real Groq/Gemini keys
@@ -23,10 +22,6 @@ ap.add_argument("--offline-llm", action="store_true")
 ap.add_argument("--os-trust-store", action="store_true",
                 help="also trust the Windows certificate store (needed when antivirus/proxy TLS inspection "
                      "re-signs api.groq.com, e.g. AVG Web Shield; certifi alone then fails every LLM call)")
-ap.add_argument("--groq-model", default=None,
-                help="override the Groq model id hardcoded in ai_engine (llama-3.1-8b-instant is retired)")
-ap.add_argument("--gemini-model", default=None,
-                help="override the Gemini model id hardcoded in ai_engine (gemini-2.0-flash is retired)")
 args = ap.parse_args()
 
 if args.os_trust_store:
@@ -54,25 +49,6 @@ from sim.harness import install_offline_backends  # noqa: E402  (sets offline Re
 
 install_offline_backends(llm_stubs=args.offline_llm)
 
-
-def _override_model(owner, attr, model):
-    original = getattr(owner, attr)
-
-    def call(*a, **kw):
-        kw["model"] = model
-        return original(*a, **kw)
-
-    setattr(owner, attr, call)
-
-
-if not args.offline_llm:
-    from app.services.ai_engine import ai_engine
-
-    if args.groq_model:
-        _override_model(ai_engine.groq_client.chat.completions, "create", args.groq_model)
-    if args.gemini_model:
-        _override_model(ai_engine.gemini_client.chat.completions, "create", args.gemini_model)
-        _override_model(ai_engine.raw_gemini_client.models, "generate_content", args.gemini_model)
 
 import uvicorn  # noqa: E402
 

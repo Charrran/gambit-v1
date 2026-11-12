@@ -19,9 +19,13 @@ class Settings(BaseSettings):
     redis_url: str
     groq_api_key: str
     gemini_api_key: str
-    # LLM model ids. Providers retire models; override in .env instead of editing code.
-    groq_model: str = "openai/gpt-oss-20b"
-    gemini_model: str = "gemini-3.1-flash-lite"
+    # LLM routes, tried in order, once each ("provider:model", comma separated).
+    # Per-turn text is the frequent, latency-critical call: fastest and cheapest model first.
+    llm_turn_routes: str = "groq:qwen/qwen3.8-27b,gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-20b"
+    # Headlines, aftermath and the epilogue are rare: spend Gemini's larger allowance first.
+    llm_text_routes: str = "gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-20b,groq:qwen/qwen3.8-27b"
+    # Narration variants kept per scene situation in the Neo4j cache before the LLM is no longer called.
+    narration_variants: int = 2
 
     # Pydantic-settings configuration
     model_config = SettingsConfigDict(

@@ -37,6 +37,7 @@ from app.design.content import (
 )
 from app.models.graph import EpisodeNode
 from app.models.schemas import HealthResponse
+from app.services import graph_store
 from app.services.choice_resolver import apply_choice
 from app.services.ending_engine import ensure_finale
 from app.services.scene_engine import prepare_scene
@@ -184,6 +185,30 @@ async def start_game(session_id: str):
         return await state_manager.start_game(session_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.get("/stats/llm")
+async def stats_llm():
+    """Which LLM routes served text since startup, and how much narration is cached on the graph."""
+    from app.services.llm_router import llm_router
+
+    return {
+        "routes": llm_router.stats,
+        "cached_situations": len(graph_store._narrations),
+        "cached_narrations": sum(len(v) for v in graph_store._narrations.values()),
+    }
+
+
+@app.get("/stats/endings")
+async def stats_endings():
+    """How finished games have ended, from the playthroughs recorded in Neo4j."""
+    return await graph_store.ending_stats()
+
+
+@app.get("/stats/lanes/{lane}/choices")
+async def stats_lane_choices(lane: str):
+    """Choices most characteristic of games that ended in this lane."""
+    return {"lane": lane, "choices": await graph_store.lane_signature_choices(lane)}
 
 
 # ---------------------------------------------------------------------------

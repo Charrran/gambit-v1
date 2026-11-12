@@ -7,7 +7,10 @@ Responsibilities:
 - Call ai_engine for historian ending and canonical comparison
 - Build final_result payload with graceful fallback
 """
+import asyncio
+
 from app.design.content import lane_standings, resolve_lane
+from app.services import graph_store
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
 from app.services.live_intel import fallback_headlines, role_key
@@ -119,17 +122,20 @@ async def ensure_finale(session_id: str):
                     state.lane_weights, state.state_axes, state.lane_pressure, state.lane_spread
                 )
 
-            historian_text = await ai_engine.generate_historian_ending(
-                resolved_lane=state.resolved_lane,
-                final_state_snapshot=state.state_axes,
-                all_flags=state.story_flags,
-                pivotal_decisions=state.session_history,
-            )
-            comparison = await ai_engine.generate_canonical_comparison(
-                session_history=state.session_history,
-                global_capital=state.global_capital,
-                resolved_lane=state.resolved_lane,
-                final_state_snapshot=state.state_axes,
+            # The two epilogue texts are independent: write them concurrently.
+            historian_text, comparison = await asyncio.gather(
+                ai_engine.generate_historian_ending(
+                    resolved_lane=state.resolved_lane,
+                    final_state_snapshot=state.state_axes,
+                    all_flags=state.story_flags,
+                    pivotal_decisions=state.session_history,
+                ),
+                ai_engine.generate_canonical_comparison(
+                    session_history=state.session_history,
+                    global_capital=state.global_capital,
+                    resolved_lane=state.resolved_lane,
+                    final_state_snapshot=state.state_axes,
+                ),
             )
             divergence = _divergence_score(state)
             title = comparison.final_score or state.resolved_lane.replace("_", " ").title()
@@ -198,4 +204,5 @@ async def ensure_finale(session_id: str):
             }
 
         state.ended = True
+        await graph_store.record_playthrough(state)
         return await state_manager.save_state(state)
