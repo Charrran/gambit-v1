@@ -19,6 +19,7 @@ from app.design.content import (
     beat_by_id,
     chapter_for_node,
     choice_conditions_match,
+    lane_standings,
     choice_relevance_score,
     normalize_choice,
     pressure_tags,
@@ -434,9 +435,10 @@ async def prepare_scene(
         state.active_event = None
 
         # Build current pressure tags for Groq framing
+        standings = lane_standings(state)
         current_pressure = pressure_tags(
             state.state_axes,
-            state.lane_weights,
+            standings,
             state.story_flags,
         )
         transition_summary = (state.last_transition or {}).get("summary", "")
@@ -485,7 +487,7 @@ async def prepare_scene(
                 db_choices=reactive_payloads,
                 anchor=anchor,
                 state_snapshot=state.state_axes,
-                lane_weights=state.lane_weights,
+                lane_weights=standings,
                 pressure_tags=current_pressure,
                 transition_summary=transition_summary,
             )

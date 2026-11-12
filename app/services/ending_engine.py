@@ -7,7 +7,7 @@ Responsibilities:
 - Call ai_engine for historian ending and canonical comparison
 - Build final_result payload with graceful fallback
 """
-from app.design.content import resolve_lane
+from app.design.content import lane_standings, resolve_lane
 from app.services.ai_engine import ai_engine
 from app.services.graph_store import fetch_node
 from app.services.live_intel import fallback_headlines, role_key
@@ -26,7 +26,7 @@ def _classification(divergence: int) -> str:
 
 def _divergence_score(state) -> int:
     axes = state.state_axes or {}
-    lanes = state.lane_weights or {}
+    lanes = lane_standings(state)
     score = 30
     score += min(25, abs(axes.get("family_cohesion", 0)) * 4)
     score += min(20, axes.get("betrayal_heat", 0) * 3)
@@ -34,7 +34,8 @@ def _divergence_score(state) -> int:
     if state.resolved_lane and state.resolved_lane != "govardhan_consolidation":
         score += 15
     if lanes:
-        score += min(10, max(lanes.values()))
+        # Ending-score scale: ~3 points per unit of decisive lead, capped as before.
+        score += min(10, max(0, round(max(lanes.values()) * 3)))
     return max(0, min(100, score))
 
 

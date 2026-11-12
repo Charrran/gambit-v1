@@ -270,8 +270,9 @@ def pressure_tags(
     if axes.get("delhi_interest", 0) >= 2:
         tags.append("delhi_watching")
 
-    leading = max(lanes, key=lambda k: lanes[k]) if lanes else None
-    if leading and lanes.get(leading, 0) >= 4:
+    # `lane_weights` here are lane_standings() (ending scores); 1.5 = a clear, deliberate lead.
+    leading = leading_lane(lanes)
+    if leading and lanes.get(leading, 0) >= 1.5:
         tags.append(f"lane:{leading}")
 
     return tags
@@ -831,14 +832,14 @@ def lane_opportunity(offered: List[Dict[str, Any]], chosen: Dict[str, Any]) -> T
 BONUS_TO_PRESSURE = 1.0 / 3.0
 
 
-def resolve_lane(
+def lane_scores(
     lane_weights: Dict[str, int],
     state_axes: Dict[str, int],
     lane_pressure: Optional[Dict[str, float]] = None,
     lane_spread: Optional[Dict[str, float]] = None,
-) -> str:
+) -> Dict[str, float]:
     """
-    Pick the ending lane.
+    Per-lane ending scores; resolve_lane picks the highest.
 
     With pressure data (all games started on this version): each lane scores
     sum(pressure) / sqrt(sum(spread)) -- how deliberately the table chose that lane,
@@ -870,7 +871,36 @@ def resolve_lane(
             total_spread = float(spread.get(lane, 0.0))
             z = float(lane_pressure.get(lane, 0.0)) / total_spread ** 0.5 if total_spread > 0 else 0.0
             scores[lane] = z + bonus[lane] * BONUS_TO_PRESSURE
+    return scores
+
+
+def resolve_lane(
+    lane_weights: Dict[str, int],
+    state_axes: Dict[str, int],
+    lane_pressure: Optional[Dict[str, float]] = None,
+    lane_spread: Optional[Dict[str, float]] = None,
+) -> str:
+    """Pick the ending lane: the highest lane_scores() entry (ties go to the later lane name)."""
+    scores = lane_scores(lane_weights, state_axes, lane_pressure, lane_spread)
     return max(scores, key=lambda lane: (scores[lane], lane))
+
+
+def lane_standings(state: Any) -> Dict[str, float]:
+    """
+    Current ending scores for a GameState, rounded for display and prompts.
+    Anything that tells players or the LLM which lane is "leading" must use this,
+    not raw lane_weights, so it agrees with how the ending is actually chosen.
+    """
+    scores = lane_scores(state.lane_weights or {}, state.state_axes or {},
+                         getattr(state, "lane_pressure", None), getattr(state, "lane_spread", None))
+    return {lane: round(val, 2) for lane, val in scores.items()}
+
+
+def leading_lane(standings: Dict[str, float]) -> Optional[str]:
+    """The lane resolve_lane would pick right now, or None while nothing leads."""
+    if not standings or max(standings.values()) <= 0:
+        return None
+    return max(standings, key=lambda lane: (standings[lane], lane))
 
 
 def terminal_for_lane(lane: str) -> str:

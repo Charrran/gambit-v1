@@ -69,6 +69,7 @@ def build_transition_summary(
     current_lane_weights: Optional[Dict[str, int]] = None,
     from_chapter: Optional[int] = None,
     to_chapter: Optional[int] = None,
+    lane_standings: Optional[Dict[str, float]] = None,
 ) -> Dict[str, Any]:
     """
     Build a structured transition dict for consumption by the frontend and the
@@ -83,7 +84,12 @@ def build_transition_summary(
 
     chosen_text = chosen_edge.get("action_intent", "An unnamed choice was made.")
     state_change_sentence = _describe_state_changes(state_changes)
-    leading = _leading_lanes(lane_changes, lane_weights)
+    if lane_standings is not None:
+        # Ending scores (content.lane_standings): the same ranking resolve_lane uses.
+        ranked = sorted(lane_standings, key=lambda k: (lane_standings[k], k), reverse=True)
+        leading = [lane for lane in ranked[:2] if lane_standings[lane] > 0]
+    else:
+        leading = _leading_lanes(lane_changes, lane_weights)
     pressure_sentence = _pressure_sentence(leading)
 
     # Build 2–4 sentence narrative summary
