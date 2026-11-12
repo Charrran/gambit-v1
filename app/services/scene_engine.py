@@ -9,6 +9,7 @@ Responsibilities:
 - Orchestrate INTERROGATION (with trigger skip), POLL, and CHARACTERIZATION scene setup
 - Return updated state (saved) after scene preparation
 """
+from contextlib import nullcontext
 from typing import Dict, List, Optional, Tuple
 
 from app.design.content import (
@@ -377,6 +378,7 @@ async def prepare_scene(
     state_axes_defaults: dict,
     lane_weights_defaults: dict,
     master_beats: list,
+    _lock_held: bool = False,
 ) -> GameState:
     """
     Prepare the current scene for a session.
@@ -387,7 +389,9 @@ async def prepare_scene(
     Interrogation nodes whose trigger conditions are unmet are skipped
     automatically and the engine advances to the next beat.
     """
-    async with state_manager.session_lock(session_id):
+    # The session lock is not reentrant: the interrogation-skip path below
+    # recurses while already holding it, so it must not re-acquire it.
+    async with (nullcontext() if _lock_held else state_manager.session_lock(session_id)):
         state = await state_manager.get_state(session_id)
         if not state or state.status != "ACTIVE" or state.ended:
             return state
@@ -413,7 +417,9 @@ async def prepare_scene(
                 state.current_scene_node = None
                 # Save and recurse for next node
                 await state_manager.save_state(state)
-                return await prepare_scene(session_id, state_axes_defaults, lane_weights_defaults, master_beats)
+                return await prepare_scene(
+                    session_id, state_axes_defaults, lane_weights_defaults, master_beats, _lock_held=True
+                )
 
         all_edges = await fetch_edges(state.current_node)
         eligible_edges = [edge for edge in all_edges if edge_is_available(edge, state)]
