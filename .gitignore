@@ -44,6 +44,7 @@ output/
 # ─────────────────────────────────────────────
 count_lanes.py
 unified_frontend.md
+PERFORMANCE.md
 
 # ─────────────────────────────────────────────
 # Logs
